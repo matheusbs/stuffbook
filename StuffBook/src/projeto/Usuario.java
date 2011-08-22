@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-	
-	private String nome, endereco, login, senha;
+
+	private String nome, login, senha;
+	private Endereco endereco;
 	protected List<Item> itens;
-	
-	public Usuario(String nome, String endereco, String login, String senha){
+
+	public Usuario(String nome, String endereco, String login, String senha) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.login = login;
@@ -55,12 +56,12 @@ public class Usuario {
 	public List<Item> getItens() {
 		return itens;
 	}
-	
-	public void adicionaItem(Item parada){
+
+	public void adicionaItem(Item parada) {
 		itens.add(parada);
 	}
-	
-	public void removeItem(Item parada){
+
+	public void removeItem(Item parada) {
 		itens.remove(parada);
 	}
 
