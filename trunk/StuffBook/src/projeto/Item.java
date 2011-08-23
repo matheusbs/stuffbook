@@ -8,19 +8,24 @@ public class Item {
 	
 	private String nome, descricao, categoria;
 	private Status status;
-	private Usuario dono;
+	private Usuario dono, donoTemporario;
 	
-	public Item(Usuario dono, String nome, String descricao, String categoria){
+	public Item(Usuario dono, Usuario donoTemporario, String nome, String descricao, String categoria){
 		this.dono = dono;
+		this.donoTemporario = dono;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
 		this.status = Status.INDISPONIVEL;
 	}
 	
-	/*public Usuario getDono(){
+	public Usuario getDono(){
 		return dono;
-	}*/
+	}
+	
+	public void setDonoTemporario(Usuario novoDonoTemporario){
+		this.donoTemporario = novoDonoTemporario;
+	}
 	
 	public String getNome(){
 		return nome;
