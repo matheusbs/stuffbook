@@ -9,8 +9,8 @@ public class Usuario {
 
 	private String nome, login, senha;
 	private Endereco endereco;
-	protected List<Item> itens, itensCedidos, itensNotifications;
-	protected List<Usuario> amigos, amigosNotifications;
+	protected List<Item> itens, itensCedidos, emprestimos;
+	protected List<Usuario> amigos, pedidosDeAmizade;
 
 	public Usuario(String nome, Endereco endereco, String login, String senha) {
 		this.nome = nome;
@@ -19,9 +19,9 @@ public class Usuario {
 		this.senha = senha;
 		itens = new ArrayList<Item>();
 		itensCedidos = new ArrayList<Item>();
-		itensNotifications = new ArrayList<Item>();
+		emprestimos = new ArrayList<Item>();
 		amigos = new ArrayList<Usuario>();
-		amigosNotifications = new ArrayList<Usuario>();
+		pedidosDeAmizade = new ArrayList<Usuario>();
 	}
 
 	public String getNome() {
@@ -67,9 +67,23 @@ public class Usuario {
 	public List<Item> getItens() {
 		return itens;
 	}
+	
+	public void adicionaAmigo(String login){}
+	
+	public void removeAmigo(String login){}
+	
+	public void aceitaAmigo(){}
+	
+	public Usuario procuraAmigo(String login) throws Exception{
+		for (Usuario amigo : amigos){
+			if (amigo.getLogin().equals(login))
+				return amigo;
+		}
+		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
+	}
 
-	public void adicionaItem(Item parada) {
-		itens.add(parada);
+	public void adicionaItem(Item coisa) {
+		itens.add(coisa);
 	}
 
 	public void removeItem(Item coisa) throws Exception {
@@ -93,17 +107,15 @@ public class Usuario {
 		}
 	}
 	
-	public void pedeItemEmprestado(Usuario amigo, Item coisa){
-		for (Usuario amigo2 : amigos){
-			if (amigo2.equals(amigo)){
-				for (Item coisa2 : amigo2.itens){
-					if (coisa2.equals(coisa)){
-						itensNotifications.add(coisa2);
-						coisa2.setDonoTemporario(amigo2);
-					}
-				}
+	public void pedeItemEmprestado(String login, Item coisa) throws Exception{
+		Usuario amigo = procuraAmigo(login);
+		for (Item coisa2 : amigo.itens){
+			if (coisa2.equals(coisa)){
+				emprestimos.add(coisa2);
+				coisa2.setDonoTemporario(amigo);
 			}
 		}
+		throw new Exception("ITEM NÃO ENCONTRADO.");
 	}
 
 }
