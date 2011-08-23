@@ -1,16 +1,36 @@
+/**
+ * @author Matheus Batista Silva
+ * @author Rodolfo Moraes Martins
+ * @author Paulo André Braga Souto
+ */
 package projeto;
 
 public class Item {
-	
-	public static enum Status{
+
+	public static enum Status {
 		DISPONIVEL, INDISPONIVEL, EMPRESTADO;
 	}
-	
+
 	private String nome, descricao, categoria;
 	private Status status;
 	private Usuario dono, donoTemporario;
-	
-	public Item(Usuario dono, Usuario donoTemporario, String nome, String descricao, String categoria){
+
+	/**
+	 * Metodo Construtor
+	 * 
+	 * @param dono
+	 *            O dono do item
+	 * @param donoTemporario
+	 *            A pessoa que pegou o item emprestado
+	 * @param nome
+	 *            O nome do item
+	 * @param descricao
+	 *            A descrição do item
+	 * @param categoria
+	 *            A categoria do item
+	 */
+	public Item(Usuario dono, Usuario donoTemporario, String nome,
+			String descricao, String categoria) {
 		this.dono = dono;
 		this.donoTemporario = dono;
 		this.nome = nome;
@@ -18,28 +38,58 @@ public class Item {
 		this.categoria = categoria;
 		this.status = Status.INDISPONIVEL;
 	}
-	
-	public Usuario getDono(){
+
+	/**
+	 * Metodo acessador
+	 * 
+	 * @return dono
+	 */
+	public Usuario getDono() {
 		return dono;
 	}
-	
-	public void setDonoTemporario(Usuario novoDonoTemporario){
+
+	/**
+	 * Metodo que muda o dono temporário do item
+	 * 
+	 * @param novoDonoTemporario
+	 */
+	public void setDonoTemporario(Usuario novoDonoTemporario) {
 		this.donoTemporario = novoDonoTemporario;
 	}
-	
-	public String getNome(){
+
+	/**
+	 * Metodo acessador
+	 * 
+	 * @return nome
+	 */
+	public String getNome() {
 		return nome;
 	}
-	
-	public String getDescricao(){
+
+	/**
+	 * Metodo acessador
+	 * 
+	 * @return descicao
+	 */
+	public String getDescricao() {
 		return descricao;
 	}
-	
-	public String getCategoria(){
+
+	/**
+	 * Metodo acessador
+	 * 
+	 * @return categoria
+	 */
+	public String getCategoria() {
 		return categoria;
 	}
-	
-	public String getStatus(){
+
+	/**
+	 * Metodo acessador
+	 * 
+	 * @return O status do item
+	 */
+	public String getStatus() {
 		if (status.equals(status.DISPONIVEL))
 			return "Item disponível.";
 		if (status.equals(status.EMPRESTADO))
@@ -47,24 +97,44 @@ public class Item {
 		return "Item indisponível.";
 	}
 
-	public void setNome(String novoNome){
+	/**
+	 * Metodo que muda a nome do item
+	 * 
+	 * @param novoNome
+	 */
+	public void setNome(String novoNome) {
 		if (!(nome.equals(novoNome)))
 			this.nome = novoNome;
 	}
-	
-	public void setDescricao(String novaDescricao){
+
+	/**
+	 * Metodo que muda a descrição do item
+	 * 
+	 * @param novaDescricao
+	 */
+	public void setDescricao(String novaDescricao) {
 		if (!(descricao.equals(novaDescricao)))
 			this.descricao = novaDescricao;
 	}
-	
-	public void setCategoria(String novaCategoria){
+
+	/**
+	 * Metodo que muda a categoria do item
+	 * 
+	 * @param novaCategoria
+	 */
+	public void setCategoria(String novaCategoria) {
 		if (!(categoria.equals(novaCategoria)))
 			this.categoria = novaCategoria;
 	}
-	
-	public void setStatus(Status novoStatus){
-		if (!(status==novoStatus))
+
+	/**
+	 * Metodo que muda o status do item
+	 * 
+	 * @param novoStatus
+	 */
+	public void setStatus(Status novoStatus) {
+		if (!(status == novoStatus))
 			this.status = novoStatus;
 	}
-		
+
 }

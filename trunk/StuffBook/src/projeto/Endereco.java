@@ -1,3 +1,8 @@
+/**
+ * @author Matheus Batista Silva
+ * @author Rodolfo Moraes Martins
+ * @author Paulo André Braga Souto
+ */
 package projeto;
 
 public class Endereco {
