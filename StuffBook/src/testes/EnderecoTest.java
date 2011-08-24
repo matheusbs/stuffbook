@@ -1,8 +1,10 @@
-package projeto;
+package testes;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import projeto.Endereco;
 
 public class EnderecoTest {
 	private Endereco e1, e2, e3, e4, e5;
