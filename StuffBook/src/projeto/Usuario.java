@@ -138,7 +138,7 @@ public class Usuario {
 		return itens;
 	}
 
-	//METODOS QUE VÃO ENTRAR NA CLASSE SISTEMA////////////////////////////
+	//METODOS QUE ENTRARAM NA CLASSE SISTEMA////////////////////////////
 	/*public void adicionaAmigo(String login) throws Exception {
 		Usuario novoAmigo = procuraAmigo(login);
 		if (!(novoAmigo.pedidosDeAmizade.contains(this)))
