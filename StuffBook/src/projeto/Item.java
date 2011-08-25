@@ -47,6 +47,10 @@ public class Item {
 	public Usuario getDono() {
 		return dono;
 	}
+	
+	public Usuario getDonoTemporario(){
+		return donoTemporario;
+	}
 
 	/**
 	 * Metodo que muda o dono temporário do item
