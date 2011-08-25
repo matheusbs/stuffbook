@@ -8,7 +8,7 @@ public class Sistema {
 	protected List<Usuario> usuarios = new ArrayList<Usuario>();
 	
 	public void solicitaAmizade(Usuario usuario1, Usuario usuario2) throws Exception {
-		if (!(usuario2.pedidosDeAmizade.contains(usuario2)))
+		if (!(usuario2.pedidosDeAmizade.contains(usuario1)))
 			usuario2.pedidosDeAmizade.add(usuario1);
 		throw new Exception("A SOLICITAÇÃO DE AMIZADE JÁ FOI ENVIADA.");	
 	}
@@ -19,7 +19,7 @@ public class Sistema {
 				if (aceitar==true){
 					usuario1.pedidosDeAmizade.remove(usuario2);
 					usuario1.amigos.add(usuario2);
-					usuario2.amigos.add(usuario);
+					usuario2.amigos.add(usuario1);
 				}
 				if (aceitar==false){
 					usuario1.pedidosDeAmizade.remove(usuario2);
