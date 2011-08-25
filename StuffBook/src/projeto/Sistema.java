@@ -13,7 +13,7 @@ public class Sistema {
 		throw new Exception("A SOLICITAÇÃO DE AMIZADE JÁ FOI ENVIADA.");	
 	}
 	
-	public void aceitaAmigo(Usuario usuario1, Usuario usuario2, boolean aceitar) throws Exception {
+	public void criaAmizade(Usuario usuario1, Usuario usuario2, boolean aceitar) throws Exception {
 		for (Usuario usuario : usuario1.pedidosDeAmizade){
 			if (usuario.equals(usuario2)){
 				if (aceitar==true){
