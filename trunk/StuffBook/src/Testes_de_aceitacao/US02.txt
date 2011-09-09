@@ -1,0 +1,48 @@
+# User Story 02 - Cadastro de itens
+
+zerarSistema
+
+# entradas válidas
+
+criarUsuario login="mark" nome="Mark Zuckerberg" endereco="Palo Alto, California"
+criarUsuario login="steve" nome="Steven Paul Jobs" endereco="Palo Alto, California"
+
+sessaoMark=abrirSessao login="mark"
+item1=cadastrarItem idSessao=${sessaoMark} nome="The Social Network" descricao="Filme sobre a fundação da rede social Facebook" categoria="Filme"
+expect "The Social Network" getAtributoItem idItem=${item1} atributo="nome"
+expect "Filme sobre a fundação da rede social Facebook" getAtributoItem idItem=${item1} atributo="descricao"
+expect "Filme" getAtributoItem idItem=${item1} atributo="categoria"
+
+sessaoSteve=abrirSessao login="steve"
+item2=cadastrarItem idSessao=${sessaoSteve} nome="Guia do mochileiro das galáxias" descricao="Série de ficção científica criada por Douglas Adams" categoria="Livro"
+expect "Guia do mochileiro das galáxias" getAtributoItem idItem=${item2} atributo="nome"
+expect "Série de ficção científica criada por Douglas Adams" getAtributoItem idItem=${item2} atributo="descricao"
+expect "Livro" getAtributoItem idItem=${item2} atributo="categoria"
+
+item3=cadastrarItem idSessao=${sessaoSteve} nome="Final Fantasy XIII" descricao="Décimo terceiro jogo da série produzida pela Square Enix" categoria="Jogo"
+expect "Final Fantasy XIII" getAtributoItem idItem=${item3} atributo="nome"
+expect "Décimo terceiro jogo da série produzida pela Square Enix" getAtributoItem idItem=${item3} atributo="descricao"
+expect "Jogo" getAtributoItem idItem=${item3} atributo="categoria"
+
+# entradas inválidas
+
+expectError "Sessao inválida" cadastrarItem idSessao= nome="xpto" descricao="xpto" categoria="Jogo"
+expectError "Sessao inválida" cadastrarItem idSessao="" nome="xpto" descricao="xpto" categoria="Jogo"
+expectError "Sessao inexistente" cadastrarItem idSessao="xpto" nome="xpto" descricao="xpto" categoria="Jogo"
+
+expectError "Nome inválido" cadastrarItem idSessao=${sessaoMark} nome= descricao="xpto" categoria="Jogo"
+expectError "Nome inválido" cadastrarItem idSessao=${sessaoMark} nome="" descricao="xpto" categoria="Jogo"
+
+expectError "Categoria inválida" cadastrarItem idSessao=${sessaoMark} nome="xpto" descricao="xpto" categoria=
+expectError "Categoria inválida" cadastrarItem idSessao=${sessaoMark} nome="xpto" descricao="xpto" categoria=""
+expectError "Categoria inexistente" cadastrarItem idSessao=${sessaoMark} nome="xpto" descricao="xpto" categoria="xpto"
+
+expectError "Identificador do item é inválido" getAtributoItem idItem= atributo="nome"
+expectError "Identificador do item é inválido" getAtributoItem idItem="" atributo="nome"
+expectError "Item inexistente" getAtributoItem idItem="xpto" atributo="nome"
+expectError "Atributo inválido" getAtributoItem idItem=${item3} atributo=
+expectError "Atributo inválido" getAtributoItem idItem=${item3} atributo=""
+expectError "Atributo inexistente" getAtributoItem idItem=${item3} atributo="xpto"
+
+encerrarSistema
+quit
