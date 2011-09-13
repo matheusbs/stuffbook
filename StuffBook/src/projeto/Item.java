@@ -11,7 +11,7 @@ public class Item {
 		DISPONIVEL, INDISPONIVEL, EMPRESTADO;
 	}
 
-	private String nome, descricao, categoria;
+	private String nome, descricao, categoria, idItem;
 	private Status status;
 	private Usuario dono, donoTemporario;
 
@@ -29,10 +29,8 @@ public class Item {
 	 * @param categoria
 	 *            A categoria do item
 	 */
-	public Item(Usuario dono, Usuario donoTemporario, String nome,
-			String descricao, String categoria) {
-		this.dono = dono;
-		this.donoTemporario = dono;
+	public Item(String idItem, String nome, String descricao, String categoria) {
+		this.idItem = idItem;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
@@ -47,8 +45,8 @@ public class Item {
 	public Usuario getDono() {
 		return dono;
 	}
-	
-	public Usuario getDonoTemporario(){
+
+	public Usuario getDonoTemporario() {
 		return donoTemporario;
 	}
 

@@ -2,7 +2,7 @@ package testes;
 
 import projeto.Sistema;
 
-public class SistemaFacade {
+public class UsuarioFacade {
 
 	Sistema sis = new Sistema();
 

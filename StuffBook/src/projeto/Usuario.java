@@ -115,40 +115,27 @@ public class Usuario {
 		return itens;
 	}
 
-	//METODOS QUE ENTRARAM NA CLASSE SISTEMA////////////////////////////
-	/*public void adicionaAmigo(String login) throws Exception {
-		Usuario novoAmigo = procuraAmigo(login);
-		if (!(novoAmigo.pedidosDeAmizade.contains(this)))
-			novoAmigo.pedidosDeAmizade.add(this);
-		throw new Exception("A SOLICITAÇÃO DE AMIZADE JÁ FOI ENVIADA.");	
-	}
-
-	public void removeAmigo(String login) throws Exception {
-		for (Usuario amigo : amigos) {
-			if (amigo.getLogin().equals(login)){
-				amigos.remove(amigo);
-				amigo.amigos.remove(this);
-			}
-		}
-		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
-	}
-
-	public void aceitaAmigo(String login, boolean aceitar) throws Exception {
-		Usuario novoAmigo = procuraAmigo(login);
-		for (Usuario usuario : pedidosDeAmizade){
-			if (usuario.equals(novoAmigo)){
-				if (aceitar==true){
-					pedidosDeAmizade.remove(usuario);
-					amigos.add(usuario);
-					usuario.amigos.add(this);
-				}
-				if (aceitar==false){
-					pedidosDeAmizade.remove(usuario);
-				}
-			}
-		}
-	}*/
-	//////////////////////////////////////////////////////////////////////
+	// METODOS QUE ENTRARAM NA CLASSE SISTEMA////////////////////////////
+	/*
+	 * public void adicionaAmigo(String login) throws Exception { Usuario
+	 * novoAmigo = procuraAmigo(login); if
+	 * (!(novoAmigo.pedidosDeAmizade.contains(this)))
+	 * novoAmigo.pedidosDeAmizade.add(this); throw new
+	 * Exception("A SOLICITAÇÃO DE AMIZADE JÁ FOI ENVIADA."); }
+	 * 
+	 * public void removeAmigo(String login) throws Exception { for (Usuario
+	 * amigo : amigos) { if (amigo.getLogin().equals(login)){
+	 * amigos.remove(amigo); amigo.amigos.remove(this); } } throw new
+	 * Exception("USUÁRIO NÃO ENCONTRADO."); }
+	 * 
+	 * public void aceitaAmigo(String login, boolean aceitar) throws Exception {
+	 * Usuario novoAmigo = procuraAmigo(login); for (Usuario usuario :
+	 * pedidosDeAmizade){ if (usuario.equals(novoAmigo)){ if (aceitar==true){
+	 * pedidosDeAmizade.remove(usuario); amigos.add(usuario);
+	 * usuario.amigos.add(this); } if (aceitar==false){
+	 * pedidosDeAmizade.remove(usuario); } } } }
+	 */
+	// ////////////////////////////////////////////////////////////////////
 
 	public Usuario procuraAmigo(String login) throws Exception {
 		for (Usuario amigo : amigos) {
@@ -157,14 +144,20 @@ public class Usuario {
 		}
 		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
 	}
-	
 
 	/**
 	 * 
 	 * @param objeto
 	 */
-	public void adicionaItem(Item objeto) {
-		itens.add(objeto);
+	public String cadastrarItem(String idSessao, String nome, String descricao,
+			String categoria) {
+		String idItem = null;
+		itens.add(new Item(idItem, nome, descricao, categoria));
+		return idItem;
+	}
+
+	public String getAtributoItem(String idItem, String atributo) {
+		return atributo;
 	}
 
 	/**
@@ -179,8 +172,8 @@ public class Usuario {
 		}
 		throw new Exception("OBJETO NÃO ENCONTRADO.");
 	}
-	
-	/** 
+
+	/**
 	 * @param login
 	 * @param objeto
 	 * @throws Exception
@@ -188,11 +181,11 @@ public class Usuario {
 	public void pedeItemEmprestado(String login, Item objeto) throws Exception {
 		Usuario amigo = procuraAmigo(login);
 		for (Item objetoAux : amigo.itens) {
-			if (objetoAux.equals(objeto)){ 
+			if (objetoAux.equals(objeto)) {
 				objeto.setDonoTemporario(this);
 				amigo.itens.remove(objeto);
 				amigo.pedidosDeItens.add(objetoAux);
-			}	
+			}
 		}
 		throw new Exception("ITEM NÃO ENCONTRADO.");
 	}
@@ -203,13 +196,13 @@ public class Usuario {
 	 * @param emprestar
 	 * @throws Exception
 	 */
-	public void emprestaItem(Item objeto, Calendar dataEmprestimo, Calendar dataDevolucao,
-			boolean emprestar) throws Exception {
+	public void emprestaItem(Item objeto, Calendar dataEmprestimo,
+			Calendar dataDevolucao, boolean emprestar) throws Exception {
 		if (emprestar == true) {
 			objeto.setStatus(Status.EMPRESTADO);
 			pedidosDeItens.remove(objeto);
 			itens.add(objeto);
-			Emprestimo emprestimo = new Emprestimo(objeto, dataEmprestimo, 
+			Emprestimo emprestimo = new Emprestimo(objeto, dataEmprestimo,
 					dataDevolucao, Situacao.EM_DIA, (int) Math.random());
 			emprestimosCedidos.add(emprestimo);
 			objeto.getDonoTemporario().emprestimosFeitos.add(emprestimo);
@@ -220,22 +213,23 @@ public class Usuario {
 			itens.add(objeto);
 		}
 	}
-	
-	public void devolveItem(Emprestimo emprestimo){
-		for (Emprestimo emprestimoAux : emprestimosFeitos){
-			if (emprestimoAux.equals(emprestimo)){
+
+	public void devolveItem(Emprestimo emprestimo) {
+		for (Emprestimo emprestimoAux : emprestimosFeitos) {
+			if (emprestimoAux.equals(emprestimo)) {
 				emprestimoAux.setStatus(Situacao.FINALIZADO);
-				emprestimoAux.getItem().setDonoTemporario(emprestimoAux.getItem().getDono());
+				emprestimoAux.getItem().setDonoTemporario(
+						emprestimoAux.getItem().getDono());
 			}
 		}
-		for (Emprestimo emprestimoAux : emprestimo.getItem().getDono().emprestimosCedidos){
+		for (Emprestimo emprestimoAux : emprestimo.getItem().getDono().emprestimosCedidos) {
 			if (emprestimoAux.equals(emprestimo))
 				emprestimoAux.setStatus(Situacao.FINALIZADO);
 		}
-		
+
 	}
-	
-	public boolean equals(Object objeto){
+
+	public boolean equals(Object objeto) {
 		if (!(objeto instanceof Usuario))
 			return false;
 		Usuario outro = (Usuario) objeto;
