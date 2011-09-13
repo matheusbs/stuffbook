@@ -31,7 +31,7 @@ public class Usuario {
 	 * @param senha
 	 *            A senha do usuario
 	 */
-	public Usuario(String nome, String endereco, String login) {
+	public Usuario(String login, String nome, String endereco) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.login = login;
