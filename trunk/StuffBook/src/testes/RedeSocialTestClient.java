@@ -11,7 +11,7 @@ public class RedeSocialTestClient {
 		List<String> files = new ArrayList<String>();
 
 		// Adicione os arquivos com as User Stories a lista de testes
-		files.add("testes/US01.txt");
+		files.add("src/testes/US01.txt");
 
 		// Instancie a fachada do sistema
 		RedeSocialFacade redeSocialFacade = new RedeSocialFacade();

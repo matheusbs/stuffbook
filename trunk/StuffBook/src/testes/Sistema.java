@@ -3,10 +3,10 @@ package testes;
 import java.util.ArrayList;
 
 public class Sistema {
-	
+
 	ArrayList<Usuario> usuarios;
-	
-	public Sistema(){
+
+	public Sistema() {
 		usuarios = new ArrayList<Usuario>();
 	}
 
@@ -16,14 +16,14 @@ public class Sistema {
 	}
 
 	public String getAtributoUsuario(String login, String atributo) {
-		if(atributo.equalsIgnoreCase("nome")){
-			for(Usuario u : usuarios){
-				if(u.login.equalsIgnoreCase(login)){
+		if (atributo.equalsIgnoreCase("nome")) {
+			for (Usuario u : usuarios) {
+				if (u.login.equalsIgnoreCase(login)) {
 					return u.nome;
 				}
 			}
 		}
-		
+
 		return "Usuario nao encontrado";
 	}
 
