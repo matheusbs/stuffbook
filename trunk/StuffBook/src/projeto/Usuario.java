@@ -14,8 +14,7 @@ import projeto.Item.Status;
 
 public class Usuario {
 
-	private String nome, login, senha;
-	private Endereco endereco;
+	private String nome, login, endereco;
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
 	protected List<Usuario> amigos, pedidosDeAmizade;
@@ -32,11 +31,10 @@ public class Usuario {
 	 * @param senha
 	 *            A senha do usuario
 	 */
-	public Usuario(String nome, Endereco endereco, String login, String senha) {
+	public Usuario(String nome, String endereco, String login) {
 		this.nome = nome;
 		this.endereco = endereco;
 		this.login = login;
-		this.senha = senha;
 		itens = new ArrayList<Item>();
 		pedidosDeItens = new ArrayList<Item>();
 		emprestimosCedidos = new ArrayList<Emprestimo>();
@@ -71,7 +69,7 @@ public class Usuario {
 	 * 
 	 * @return endereco
 	 */
-	public Endereco getEndereco() {
+	public String getEndereco() {
 		return endereco;
 	}
 
@@ -81,7 +79,7 @@ public class Usuario {
 	 * @param novoEndereco
 	 * @throws Exception
 	 */
-	public void setEndereco(Endereco novoEndereco) throws Exception {
+	public void setEndereco(String novoEndereco) throws Exception {
 		if (!(endereco.equals(novoEndereco)))
 			this.endereco = novoEndereco;
 		throw new Exception("O NOVO ENDEREÇO NÃO PODE SER IGUAL AO ANTERIOR.");
@@ -106,27 +104,6 @@ public class Usuario {
 		if (!(login.equals(novoLogin)))
 			this.login = novoLogin;
 		throw new Exception("O NOVO LOGIN NÃO PODE SER IGUAL AO ANTERIOR.");
-	}
-
-	/**
-	 * Metodo acessador
-	 * 
-	 * @return senha
-	 */
-	public String getSenha() {
-		return senha;
-	}
-
-	/**
-	 * Metodo que muda a senha do usuario
-	 * 
-	 * @param novaSenha
-	 * @throws Exception
-	 */
-	public void setSenha(String novaSenha) throws Exception {
-		if (!(senha.equals(novaSenha)))
-			this.senha = novaSenha;
-		throw new Exception("A NOVA SENHA NÃO PODE SER IGUAL A ANTERIOR.");
 	}
 
 	/**
