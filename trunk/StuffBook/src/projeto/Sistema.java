@@ -7,46 +7,52 @@ public class Sistema {
 	
 	protected List<Usuario> usuarios = new ArrayList<Usuario>();
 	
-	public void criarUsuario(String nome, String endereco, String login) throws Exception{
-		if (nome.equalsIgnoreCase("") || nome.equals(null))
+	public void criarUsuario(String login, String nome, String endereco) throws Exception{
+		if ("".equalsIgnoreCase(nome) || nome==null)
 			throw new Exception("Nome inválido");
-		if (login.equalsIgnoreCase("") || login.equals(null))
+		if ("".equalsIgnoreCase(login) || login==null)
 			throw new Exception("Login inválido");
-		Usuario novoUsuario = new Usuario(nome, endereco, login );;
-		if (usuarios.contains(novoUsuario))
-			throw new Exception("Já existe um usuário com este login");
-		usuarios.add(novoUsuario);
+		for (Usuario usuario : usuarios){
+			if (usuario.getLogin().equals(login))
+				throw new Exception("Já existe um usuário com este login");
+		}
+		usuarios.add(new Usuario(login, nome, endereco));
 	}
 	
-	public String getAtributoUsuario(String login, String atributo) throws Exception{
-		String msg = "";
-		if (atributo.equalsIgnoreCase("") || atributo.equals(null))
-			msg = "Atributo inválido";
-		if ((!(atributo.equalsIgnoreCase("nome"))) || (!(atributo.equalsIgnoreCase("endereco"))))
-			msg = "Atributo inexistente";
-		if (login.equalsIgnoreCase("") || login.equals(null))
-			msg = "Login inválido";
-		if (atributo.equalsIgnoreCase("nome")){
-			for (Usuario usuario : usuarios){
-				if (usuario.getLogin().equalsIgnoreCase(login))
+	public String getAtributoUsuario(String login, String atributo) throws Exception {
+		if(login == null || "".equals(login))
+			throw new Exception("Login inválido");
+		if(atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if((!atributo.equalsIgnoreCase("nome")) && (!atributo.equalsIgnoreCase("endereco")))
+			throw new Exception("Atributo inexistente");
+		for(Usuario usuario : usuarios){
+			if(usuario.getLogin().equalsIgnoreCase(login)){
+				if(atributo.equalsIgnoreCase("nome"))
 					return usuario.getNome();
-			}
-			msg = "Usuário inexistente";
-		}
-		if (atributo.equalsIgnoreCase("endereco")){
-			for (Usuario usuario : usuarios){
-				if (usuario.getLogin().equalsIgnoreCase(login))
+				if(atributo.equalsIgnoreCase("endereco"))
 					return usuario.getEndereco();
 			}
-			msg = "Usuário inexistente";
 		}
-		throw new Exception(msg);
+		throw new Exception("Usuário inexistente");
 	}
 	
-	//public Usuario abrirSessao(String login){
-		
-	//}
+	public String abrirSessao(String login) throws Exception{
+		if(login==null || "".equals(login))
+			throw new Exception("Login inválido");
+		for(Usuario usuario : usuarios){
+			if(usuario.getLogin().equalsIgnoreCase(login)){
+				return "sessao" + login.replaceFirst(login.substring(0,1),
+						login.substring(0, 1).toUpperCase());
+			}
+		}
+		throw new Exception("Usuário inexistente");
+	}
 	
+	public void encerrarSistema() throws Throwable{
+		this.finalize();
+	}
+
 	public void solicitaAmizade(Usuario usuario1, Usuario usuario2) throws Exception {
 		if (!(usuario2.pedidosDeAmizade.contains(usuario1)))
 			usuario2.pedidosDeAmizade.add(usuario1);

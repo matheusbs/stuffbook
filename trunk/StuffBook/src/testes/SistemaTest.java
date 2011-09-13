@@ -2,9 +2,10 @@ package testes;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import easyaccept.EasyAcceptFacade;
 
-public class RedeSocialTestClient {
+public class SistemaTest {
 
 	public static void main(String[] args) throws Exception {
 
@@ -12,9 +13,10 @@ public class RedeSocialTestClient {
 
 		// Adicione os arquivos com as User Stories a lista de testes
 		files.add("src/testes/US01.txt");
+		files.add("src/testes/US02.txt");
 
 		// Instancie a fachada do sistema
-		RedeSocialFacade redeSocialFacade = new RedeSocialFacade();
+		SistemaFacade redeSocialFacade = new SistemaFacade();
 
 		// Instancie a fachada do EasyAccept
 		EasyAcceptFacade eaFacade = new EasyAcceptFacade(redeSocialFacade,
