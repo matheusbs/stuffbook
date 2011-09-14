@@ -2,10 +2,21 @@ package projeto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import projeto.Item.Categoria;
 
 public class Sistema {
 
 	protected List<Usuario> usuarios = new ArrayList<Usuario>();
+	protected List<String> idUsuarios = new ArrayList<String>();
+	protected List<Item> itens = new ArrayList<Item>();
+
+	public int gerarID() {
+		Random randomGenerator = new Random();
+		int id = randomGenerator.nextInt(10000);
+		return id;
+	}
 
 	public void criarUsuario(String login, String nome, String endereco)
 			throws Exception {
@@ -17,6 +28,7 @@ public class Sistema {
 			if (usuario.getLogin().equals(login))
 				throw new Exception("Já existe um usuário com este login");
 		}
+
 		usuarios.add(new Usuario(login, nome, endereco));
 	}
 
@@ -45,12 +57,64 @@ public class Sistema {
 			throw new Exception("Login inválido");
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
-				return "sessao"
-						+ login.replaceFirst(login.substring(0, 1), login
-								.substring(0, 1).toUpperCase());
+				String idUsuario = login + gerarID();
+				idUsuarios.add(idUsuario);
+				return idUsuario;
 			}
 		}
 		throw new Exception("Usuário inexistente");
+	}
+
+	/**
+	 * 
+	 * @param objeto
+	 * @throws Exception
+	 */
+	public String cadastrarItem(String idUsuario, String nome,
+			String descricao, String categoria) throws Exception {
+		if ("".equalsIgnoreCase(idUsuario) || idUsuario == null)
+			throw new Exception("Sessão inválida");
+		if ("".equalsIgnoreCase(nome) || nome == null)
+			throw new Exception("Nome inválido");
+		if ("".equalsIgnoreCase(categoria) || categoria == null)
+			throw new Exception("Categoria inválida");
+		if (!"filme".equalsIgnoreCase(categoria)
+				&& !"jogo".equalsIgnoreCase(categoria)
+				&& !"livro".equalsIgnoreCase(categoria)) {
+			throw new Exception("Categoria inexistente");
+		}
+		for (String id : idUsuarios) {
+			if ((id.equals(idUsuario))) {
+				String idItem = "" + gerarID();
+				itens.add(new Item(idUsuario, idItem, nome, descricao,
+						categoria));
+				return idItem;
+			}
+		}
+		throw new Exception("Sessão inexistente");
+	}
+
+	public String getAtributoItem(String idItem, String atributo)
+			throws Exception {
+		if ("".equalsIgnoreCase(idItem) || idItem == null)
+			throw new Exception("Identificador do item é inválido");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("categoria"))
+				&& (!atributo.equalsIgnoreCase("descricao")))
+			throw new Exception("Atributo inexistente");
+		for (Item item : itens) {
+			if (item.getIdItem().equalsIgnoreCase(idItem)) {
+				if (atributo.equalsIgnoreCase("nome"))
+					return item.getNome();
+				if (atributo.equalsIgnoreCase("categoria"))
+					return item.getCategoria();
+				if (atributo.equalsIgnoreCase("descricao"))
+					return item.getDescricao();
+			}
+		}
+		throw new Exception("Item inexistente");
 	}
 
 	public void encerrarSistema() throws Throwable {
