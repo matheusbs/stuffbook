@@ -166,7 +166,8 @@ public class Usuario {
 		if (atributo == null || "".equals(atributo))
 			throw new Exception("Atributo inválido");
 		if ((!atributo.equalsIgnoreCase("nome"))
-				&& (!atributo.equalsIgnoreCase("categoria")))
+				&& (!atributo.equalsIgnoreCase("categoria")) &&
+				(!atributo.equalsIgnoreCase("descricao")))
 			throw new Exception("Atributo inexistente");
 		for (Item item : itens) {
 			if (item.getID().equalsIgnoreCase(idItem)) {
@@ -174,6 +175,8 @@ public class Usuario {
 					return item.getNome();
 				if (atributo.equalsIgnoreCase("categoria"))
 					return item.getCategoria();
+				if (atributo.equalsIgnoreCase("descricao"))
+					return item.getDescricao();
 			}
 		}
 		throw new Exception("Item inexistente");
