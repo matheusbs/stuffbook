@@ -26,12 +26,13 @@ public class UsuarioFacade {
 		return sis.abrirSessao(login);
 	}
 
-	public String cadastrarItem(String idItem, String nome, String descricao, String categoria) throws Exception {
-		return user.cadastrarItem(idItem, nome, descricao, categoria);
+	public String cadastrarItem(String idUsuario, String nome, String descricao,
+			String categoria) throws Exception {
+		return sis.cadastrarItem(idUsuario, nome, descricao, categoria);
 	}
-	
-	public String getAtributoItem(String idItem, String atributo) throws Exception{
-		return user.getAtributoItem(idItem, atributo);
+
+	public String getAtributoItem(String idItem, String atributo) throws Exception {
+		return sis.getAtributoItem(idItem, atributo);
 	}
 
 	public void encerrarSistema() {
