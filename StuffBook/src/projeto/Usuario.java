@@ -14,7 +14,7 @@ import projeto.Item.Status;
 
 public class Usuario {
 
-	private String nome, login, endereco;
+	private String nome, idItem, endereco;
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
 	protected List<Usuario> amigos, pedidosDeAmizade;
@@ -34,7 +34,7 @@ public class Usuario {
 	public Usuario(String login, String nome, String endereco) {
 		this.nome = nome;
 		this.endereco = endereco;
-		this.login = login;
+		this.idItem = login;
 		itens = new ArrayList<Item>();
 		pedidosDeItens = new ArrayList<Item>();
 		emprestimosCedidos = new ArrayList<Emprestimo>();
@@ -91,7 +91,7 @@ public class Usuario {
 	 * @return login
 	 */
 	public String getLogin() {
-		return login;
+		return idItem;
 	}
 
 	/**
@@ -101,8 +101,8 @@ public class Usuario {
 	 * @throws Exception
 	 */
 	public void setLogin(String novoLogin) throws Exception {
-		if (!(login.equals(novoLogin)))
-			this.login = novoLogin;
+		if (!(idItem.equals(novoLogin)))
+			this.idItem = novoLogin;
 		throw new Exception("O NOVO LOGIN NÃO PODE SER IGUAL AO ANTERIOR.");
 	}
 
@@ -148,16 +148,35 @@ public class Usuario {
 	/**
 	 * 
 	 * @param objeto
+	 * @throws Exception 
 	 */
-	public String cadastrarItem(String idSessao, String nome, String descricao,
-			String categoria) {
-		String idItem = null;
-		itens.add(new Item(idItem, nome, descricao, categoria));
-		return idItem;
+	public String cadastrarItem(String id, String nome, String descricao,
+			String categoria) throws Exception {
+		if ("".equalsIgnoreCase(nome) || nome == null)
+			throw new Exception("Nome inválido");
+		if ("".equalsIgnoreCase(categoria) || categoria == null)
+			throw new Exception("Categoria inválida");
+		itens.add(new Item(id, nome, descricao, categoria));
+		return id;
 	}
 
-	public String getAtributoItem(String idItem, String atributo) {
-		return atributo;
+	public String getAtributoItem(String idItem, String atributo) throws Exception {
+		if (idItem == null || "".equals(idItem))
+			throw new Exception("Identificador do item é inválido");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("categoria")))
+			throw new Exception("Atributo inexistente");
+		for (Item item : itens) {
+			if (item.getID().equalsIgnoreCase(idItem)) {
+				if (atributo.equalsIgnoreCase("nome"))
+					return item.getNome();
+				if (atributo.equalsIgnoreCase("categoria"))
+					return item.getCategoria();
+			}
+		}
+		throw new Exception("Item inexistente");
 	}
 
 	/**
