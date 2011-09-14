@@ -11,7 +11,12 @@ public class Item {
 		DISPONIVEL, INDISPONIVEL, EMPRESTADO;
 	}
 
-	private String nome, descricao, categoria, id;
+	public static enum Categoria {
+		LIVRO, FILME, JOGO;
+	}
+
+	private String idItem;
+	private String nome, descricao, categoria, idUsuario;
 	private Status status;
 	private Usuario dono, donoTemporario;
 
@@ -28,9 +33,13 @@ public class Item {
 	 *            A descrição do item
 	 * @param categoria
 	 *            A categoria do item
+	 * @throws Exception
 	 */
-	public Item(String id, String nome, String descricao, String categoria) {
-		this.id = id;
+	public Item(String idUsuario, String idItem, String nome, String descricao,
+			String categoria){
+
+		this.idUsuario = idUsuario;
+		this.idItem = idItem;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
@@ -85,9 +94,13 @@ public class Item {
 	public String getCategoria() {
 		return categoria;
 	}
-	
-	public String getID(){
-		return id;
+
+	public String getIdUsuario() {
+		return idUsuario;
+	}
+
+	public String getIdItem() {
+		return idItem;
 	}
 
 	/**

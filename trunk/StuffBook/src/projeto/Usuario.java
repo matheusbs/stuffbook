@@ -14,10 +14,13 @@ import projeto.Item.Status;
 
 public class Usuario {
 
-	private String nome, idItem, endereco;
+	private String nome, endereco, login;
+	int idItem;
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
 	protected List<Usuario> amigos, pedidosDeAmizade;
+
+	Sistema sistema = new Sistema();
 
 	/**
 	 * Contrutor de usuario
@@ -34,7 +37,7 @@ public class Usuario {
 	public Usuario(String login, String nome, String endereco) {
 		this.nome = nome;
 		this.endereco = endereco;
-		this.idItem = login;
+		this.login = login;
 		itens = new ArrayList<Item>();
 		pedidosDeItens = new ArrayList<Item>();
 		emprestimosCedidos = new ArrayList<Emprestimo>();
@@ -91,19 +94,7 @@ public class Usuario {
 	 * @return login
 	 */
 	public String getLogin() {
-		return idItem;
-	}
-
-	/**
-	 * Metodo que muda o login do usuario
-	 * 
-	 * @param novoLogin
-	 * @throws Exception
-	 */
-	public void setLogin(String novoLogin) throws Exception {
-		if (!(idItem.equals(novoLogin)))
-			this.idItem = novoLogin;
-		throw new Exception("O NOVO LOGIN NÃO PODE SER IGUAL AO ANTERIOR.");
+		return this.login;
 	}
 
 	/**
@@ -144,43 +135,50 @@ public class Usuario {
 		}
 		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
 	}
-
-	/**
-	 * 
-	 * @param objeto
-	 * @throws Exception 
-	 */
-	public String cadastrarItem(String id, String nome, String descricao,
-			String categoria) throws Exception {
-		if ("".equalsIgnoreCase(nome) || nome == null)
-			throw new Exception("Nome inválido");
-		if ("".equalsIgnoreCase(categoria) || categoria == null)
-			throw new Exception("Categoria inválida");
-		itens.add(new Item(id, nome, descricao, categoria));
-		return id;
-	}
-
-	public String getAtributoItem(String idItem, String atributo) throws Exception {
-		if (idItem == null || "".equals(idItem))
-			throw new Exception("Identificador do item é inválido");
-		if (atributo == null || "".equals(atributo))
-			throw new Exception("Atributo inválido");
-		if ((!atributo.equalsIgnoreCase("nome"))
-				&& (!atributo.equalsIgnoreCase("categoria")) &&
-				(!atributo.equalsIgnoreCase("descricao")))
-			throw new Exception("Atributo inexistente");
-		for (Item item : itens) {
-			if (item.getID().equalsIgnoreCase(idItem)) {
-				if (atributo.equalsIgnoreCase("nome"))
-					return item.getNome();
-				if (atributo.equalsIgnoreCase("categoria"))
-					return item.getCategoria();
-				if (atributo.equalsIgnoreCase("descricao"))
-					return item.getDescricao();
-			}
-		}
-		throw new Exception("Item inexistente");
-	}
+//
+//	/**
+//	 * 
+//	 * @param objeto
+//	 * @throws Exception
+//	 */
+//	public int cadastrarItem(String idUsuario, String nome, String descricao,
+//			String categoria) throws Exception {
+//		for (String id : sistema.idUsuarios) {
+//			if ((id.equals(idUsuario)))
+//				idItem = sistema.gerarID();
+//			itens.add(new Item(idUsuario, idItem, nome, descricao, categoria));
+//			return idItem;
+//		}
+//		if ("".equalsIgnoreCase(idUsuario) || idUsuario == null)
+//			throw new Exception("Sessão inválida");
+//		if ("".equalsIgnoreCase(nome) || nome == null)
+//			throw new Exception("Nome inválido");
+//		if ("".equalsIgnoreCase(categoria) || categoria == null)
+//			throw new Exception("Categoria inválida");
+//		throw new Exception("Sessão Inexistente");
+//	}
+//
+//	public String getAtributoItem(int idItem, String atributo) throws Exception {
+//		if ("".equals(idItem))
+//			throw new Exception("Identificador do item é inválido");
+//		if (atributo == null || "".equals(atributo))
+//			throw new Exception("Atributo inválido");
+//		if ((!atributo.equalsIgnoreCase("nome"))
+//				&& (!atributo.equalsIgnoreCase("categoria"))
+//				&& (!atributo.equalsIgnoreCase("descricao")))
+//			throw new Exception("Atributo inexistente");
+//		for (Item item : itens) {
+//			if (item.getIdItem() == idItem) {
+//				if (atributo.equalsIgnoreCase("nome"))
+//					return item.getNome();
+//				if (atributo.equalsIgnoreCase("categoria"))
+//					return item.getCategoria();
+//				if (atributo.equalsIgnoreCase("descricao"))
+//					return item.getDescricao();
+//			}
+//		}
+//		throw new Exception("Item inexistente");
+//	}
 
 	/**
 	 * 
