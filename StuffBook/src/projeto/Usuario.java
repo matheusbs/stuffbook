@@ -17,7 +17,8 @@ public class Usuario {
 	int idItem;
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
-	protected List<Usuario> amigos, pedidosDeAmizade;
+	protected List<Usuario> amigos, RequisicoesDeAmizade;
+
 	private String nome, endereco, login, idSessao;
 
 	Sistema sistema = new Sistema();
@@ -44,7 +45,7 @@ public class Usuario {
 		emprestimosCedidos = new ArrayList<Emprestimo>();
 		emprestimosFeitos = new ArrayList<Emprestimo>();
 		amigos = new ArrayList<Usuario>();
-		pedidosDeAmizade = new ArrayList<Usuario>();
+		RequisicoesDeAmizade = new ArrayList<Usuario>();
 	}
 
 	public String getIdSessao() {
@@ -53,6 +54,14 @@ public class Usuario {
 
 	public void setIdSessao(String IdSessao) {
 		this.idSessao = IdSessao;
+	}
+
+	public List<Usuario> getRequisicoesDeAmizade() {
+		return RequisicoesDeAmizade;
+	}
+
+	public List<Usuario> getAmigos() {
+		return amigos;
 	}
 
 	/**
@@ -114,28 +123,6 @@ public class Usuario {
 	public List<Item> getItens() {
 		return itens;
 	}
-
-	// METODOS QUE ENTRARAM NA CLASSE SISTEMA////////////////////////////
-	/*
-	 * public void adicionaAmigo(String login) throws Exception { Usuario
-	 * novoAmigo = procuraAmigo(login); if
-	 * (!(novoAmigo.pedidosDeAmizade.contains(this)))
-	 * novoAmigo.pedidosDeAmizade.add(this); throw new
-	 * Exception("A SOLICITAÇÃO DE AMIZADE JÁ FOI ENVIADA."); }
-	 * 
-	 * public void removeAmigo(String login) throws Exception { for (Usuario
-	 * amigo : amigos) { if (amigo.getLogin().equals(login)){
-	 * amigos.remove(amigo); amigo.amigos.remove(this); } } throw new
-	 * Exception("USUÁRIO NÃO ENCONTRADO."); }
-	 * 
-	 * public void aceitaAmigo(String login, boolean aceitar) throws Exception {
-	 * Usuario novoAmigo = procuraAmigo(login); for (Usuario usuario :
-	 * pedidosDeAmizade){ if (usuario.equals(novoAmigo)){ if (aceitar==true){
-	 * pedidosDeAmizade.remove(usuario); amigos.add(usuario);
-	 * usuario.amigos.add(this); } if (aceitar==false){
-	 * pedidosDeAmizade.remove(usuario); } } } }
-	 */
-	// ////////////////////////////////////////////////////////////////////
 
 	public Usuario procuraAmigo(String login) throws Exception {
 		for (Usuario amigo : amigos) {
