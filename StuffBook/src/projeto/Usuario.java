@@ -14,11 +14,11 @@ import projeto.Item.Status;
 
 public class Usuario {
 
-	private String nome, endereco, login;
 	int idItem;
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
 	protected List<Usuario> amigos, pedidosDeAmizade;
+	private String nome, endereco, login, idSessao;
 
 	Sistema sistema = new Sistema();
 
@@ -34,7 +34,8 @@ public class Usuario {
 	 * @param senha
 	 *            A senha do usuario
 	 */
-	public Usuario(String login, String nome, String endereco) {
+	public Usuario(String login, String nome, String endereco, String idSessao) {
+		this.idSessao = idSessao;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.login = login;
@@ -44,6 +45,14 @@ public class Usuario {
 		emprestimosFeitos = new ArrayList<Emprestimo>();
 		amigos = new ArrayList<Usuario>();
 		pedidosDeAmizade = new ArrayList<Usuario>();
+	}
+
+	public String getIdSessao() {
+		return idSessao;
+	}
+
+	public void setIdSessao(String IdSessao) {
+		this.idSessao = IdSessao;
 	}
 
 	/**
@@ -135,50 +144,6 @@ public class Usuario {
 		}
 		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
 	}
-//
-//	/**
-//	 * 
-//	 * @param objeto
-//	 * @throws Exception
-//	 */
-//	public int cadastrarItem(String idUsuario, String nome, String descricao,
-//			String categoria) throws Exception {
-//		for (String id : sistema.idUsuarios) {
-//			if ((id.equals(idUsuario)))
-//				idItem = sistema.gerarID();
-//			itens.add(new Item(idUsuario, idItem, nome, descricao, categoria));
-//			return idItem;
-//		}
-//		if ("".equalsIgnoreCase(idUsuario) || idUsuario == null)
-//			throw new Exception("Sessão inválida");
-//		if ("".equalsIgnoreCase(nome) || nome == null)
-//			throw new Exception("Nome inválido");
-//		if ("".equalsIgnoreCase(categoria) || categoria == null)
-//			throw new Exception("Categoria inválida");
-//		throw new Exception("Sessão Inexistente");
-//	}
-//
-//	public String getAtributoItem(int idItem, String atributo) throws Exception {
-//		if ("".equals(idItem))
-//			throw new Exception("Identificador do item é inválido");
-//		if (atributo == null || "".equals(atributo))
-//			throw new Exception("Atributo inválido");
-//		if ((!atributo.equalsIgnoreCase("nome"))
-//				&& (!atributo.equalsIgnoreCase("categoria"))
-//				&& (!atributo.equalsIgnoreCase("descricao")))
-//			throw new Exception("Atributo inexistente");
-//		for (Item item : itens) {
-//			if (item.getIdItem() == idItem) {
-//				if (atributo.equalsIgnoreCase("nome"))
-//					return item.getNome();
-//				if (atributo.equalsIgnoreCase("categoria"))
-//					return item.getCategoria();
-//				if (atributo.equalsIgnoreCase("descricao"))
-//					return item.getDescricao();
-//			}
-//		}
-//		throw new Exception("Item inexistente");
-//	}
 
 	/**
 	 * 
@@ -247,6 +212,10 @@ public class Usuario {
 				emprestimoAux.setStatus(Situacao.FINALIZADO);
 		}
 
+	}
+
+	public String toString() {
+		return getNome() + " - " + getEndereco();
 	}
 
 	public boolean equals(Object objeto) {

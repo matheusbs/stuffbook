@@ -6,7 +6,6 @@ import projeto.Usuario;
 public class UsuarioFacade {
 
 	Sistema sis = new Sistema();
-	Usuario user = new Usuario("rambo69", "paulo andre", "bangkok");
 
 	public void zerarSistema() {
 		sis = new Sistema();
