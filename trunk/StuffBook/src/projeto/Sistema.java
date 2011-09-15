@@ -1,7 +1,9 @@
 package projeto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import projeto.Item.Categoria;
@@ -10,7 +12,10 @@ public class Sistema {
 
 	protected List<Usuario> usuarios = new ArrayList<Usuario>();
 	protected List<String> idUsuarios = new ArrayList<String>();
+	protected Map<Usuario, String> ids = new HashMap<Usuario, String>();
 	protected List<Item> itens = new ArrayList<Item>();
+
+	String abrirSessaoDefault = "sessaoDefault";
 
 	public int gerarID() {
 		Random randomGenerator = new Random();
@@ -29,7 +34,7 @@ public class Sistema {
 				throw new Exception("Já existe um usuário com este login");
 		}
 
-		usuarios.add(new Usuario(login, nome, endereco));
+		usuarios.add(new Usuario(login, nome, endereco, abrirSessaoDefault));
 	}
 
 	public String getAtributoUsuario(String login, String atributo)
@@ -58,6 +63,8 @@ public class Sistema {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				String idUsuario = login + gerarID();
+				usuario.setIdSessao(idUsuario);
+				ids.put(usuario, idUsuario);
 				idUsuarios.add(idUsuario);
 				return idUsuario;
 			}
@@ -155,12 +162,43 @@ public class Sistema {
 		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
 	}
 
-	public Usuario procuraUsuario(String login) throws Exception {
+	public String localizarUsuario(String idSessao, String chave,
+			String atributo) throws Exception {
+		String aux = "";
+		if (idSessao == null || "".equalsIgnoreCase(idSessao))
+			throw new Exception("Sessão inválida");
+		if (!(ids.values().contains(idSessao)))
+			throw new Exception("Sessão inexistente");
+		if (chave == null || "".equalsIgnoreCase(chave))
+			throw new Exception("Palavra-chave inválida");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("endereco")))
+			throw new Exception("Atributo inexistente");
+		List<Usuario> listaTemp = new ArrayList<Usuario>();
 		for (Usuario usuario : usuarios) {
-			if (usuario.getLogin().equals(login))
-				return usuario;
+			if (!usuario.getIdSessao().equals(idSessao)) {
+				if (atributo.equalsIgnoreCase("nome")) {
+					if (usuario.getNome().contains(chave)) {
+						listaTemp.add(usuario);
+					}
+				}
+				if (atributo.equalsIgnoreCase("endereco")) {
+					if (usuario.getEndereco().contains(chave)) {
+						listaTemp.add(usuario);
+					}
+				}
+			}
 		}
-		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
+		if (listaTemp.size() == 0) {
+			aux = "Nenhum usuário encontrado";
+		} else {
+			for (Usuario user : listaTemp) {
+				aux += user.toString() + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+		}
+		return aux;
 	}
-
 }

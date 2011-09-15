@@ -24,8 +24,9 @@ public class SistemaFacade {
 		return sis.abrirSessao(login);
 	}
 
-	public String cadastrarItem(String nome, String descricao, String categoria) {
-		return categoria;
+	public String localizarUsuario(String idSessao, String chave,
+			String atributo) throws Exception {
+		return sis.localizarUsuario(idSessao, chave, atributo);
 	}
 
 	public void encerrarSistema() {
