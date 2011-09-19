@@ -6,6 +6,7 @@
 package projeto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -17,7 +18,8 @@ public class Usuario {
 	int idItem;
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
-	protected List<Usuario> amigos, RequisicoesDeAmizade;
+	protected List<Usuario> amigos;
+	protected List<String> RequisicoesDeAmizade;
 
 	private String nome, endereco, login, idSessao;
 
@@ -45,7 +47,7 @@ public class Usuario {
 		emprestimosCedidos = new ArrayList<Emprestimo>();
 		emprestimosFeitos = new ArrayList<Emprestimo>();
 		amigos = new ArrayList<Usuario>();
-		RequisicoesDeAmizade = new ArrayList<Usuario>();
+		RequisicoesDeAmizade = new ArrayList<String>();
 	}
 
 	public String getIdSessao() {
@@ -56,8 +58,11 @@ public class Usuario {
 		this.idSessao = IdSessao;
 	}
 
-	public List<Usuario> getRequisicoesDeAmizade() {
-		return RequisicoesDeAmizade;
+	public String getRequisicoesDeAmizade() {
+		if (RequisicoesDeAmizade.size() == 0) {
+			return "Não há requisições";
+		}
+		return RequisicoesDeAmizade.toString();
 	}
 
 	public List<Usuario> getAmigos() {
