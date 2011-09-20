@@ -13,7 +13,10 @@ public class SistemaTest {
 
 		// Adicione os arquivos com as User Stories a lista de testes
 		files.add("src/testes/US01.txt");
+		files.add("src/testes/US02.txt");
+		files.add("src/testes/US04.txt");
 		files.add("src/testes/US03.txt");
+		files.add("src/testes/US05.txt");
 
 		// Instancie a fachada do sistema
 		SistemaFacade redeSocialFacade = new SistemaFacade();

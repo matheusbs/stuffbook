@@ -52,6 +52,10 @@ public class UsuarioFacade {
 		return sis.ehAmigo(idSessao, login);
 	}
 
+	public String getItens(String idSessao) throws Exception {
+		return sis.getItens(idSessao);
+	}
+
 	public void encerrarSistema() {
 	}
 }
