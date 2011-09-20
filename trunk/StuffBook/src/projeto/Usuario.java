@@ -126,15 +126,6 @@ public class Usuario {
 		return this.login;
 	}
 
-	/**
-	 * Metodo acessador
-	 * 
-	 * @return lista de itens
-	 */
-	public List<Item> getItens() {
-		return itens;
-	}
-
 	public void removeRequisicaodeAmigo(String login) {
 		RequisicoesDeAmizade.remove(login);
 	}
