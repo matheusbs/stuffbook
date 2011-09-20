@@ -10,14 +10,14 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import projeto.Emprestimo.Situacao;
+import projeto.Emprestimos.Situacao;
 import projeto.Item.Status;
 
 public class Usuario {
 
 	int idItem;
 	protected List<Item> itens, pedidosDeItens;
-	protected List<Emprestimo> emprestimosCedidos, emprestimosFeitos;
+	protected List<Emprestimos> emprestimosCedidos, emprestimosFeitos;
 	protected List<Usuario> amigos;
 	protected List<String> RequisicoesDeAmizade;
 
@@ -44,8 +44,8 @@ public class Usuario {
 		this.login = login;
 		itens = new ArrayList<Item>();
 		pedidosDeItens = new ArrayList<Item>();
-		emprestimosCedidos = new ArrayList<Emprestimo>();
-		emprestimosFeitos = new ArrayList<Emprestimo>();
+		emprestimosCedidos = new ArrayList<Emprestimos>();
+		emprestimosFeitos = new ArrayList<Emprestimos>();
 		amigos = new ArrayList<Usuario>();
 		RequisicoesDeAmizade = new ArrayList<String>();
 	}
@@ -180,7 +180,7 @@ public class Usuario {
 			objeto.setStatus(Status.EMPRESTADO);
 			pedidosDeItens.remove(objeto);
 			itens.add(objeto);
-			Emprestimo emprestimo = new Emprestimo(objeto, dataEmprestimo,
+			Emprestimos emprestimo = new Emprestimos(objeto, dataEmprestimo,
 					dataDevolucao, Situacao.EM_DIA, (int) Math.random());
 			emprestimosCedidos.add(emprestimo);
 			objeto.getDonoTemporario().emprestimosFeitos.add(emprestimo);
@@ -192,15 +192,15 @@ public class Usuario {
 		}
 	}
 
-	public void devolveItem(Emprestimo emprestimo) {
-		for (Emprestimo emprestimoAux : emprestimosFeitos) {
+	public void devolveItem(Emprestimos emprestimo) {
+		for (Emprestimos emprestimoAux : emprestimosFeitos) {
 			if (emprestimoAux.equals(emprestimo)) {
 				emprestimoAux.setStatus(Situacao.FINALIZADO);
 				emprestimoAux.getItem().setDonoTemporario(
 						emprestimoAux.getItem().getDono());
 			}
 		}
-		for (Emprestimo emprestimoAux : emprestimo.getItem().getDono().emprestimosCedidos) {
+		for (Emprestimos emprestimoAux : emprestimo.getItem().getDono().emprestimosCedidos) {
 			if (emprestimoAux.equals(emprestimo))
 				emprestimoAux.setStatus(Situacao.FINALIZADO);
 		}

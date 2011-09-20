@@ -164,6 +164,10 @@ public class Sistema {
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sessão inexistente");
 		}
+		if (!ehAmigo(idSessao, login)) {
+			throw new Exception(
+					"O usuário não tem permissão para visualizar estes itens");
+		}
 		Usuario user = procuraUsuarioLogin(login);
 		return getItens(user.getIdSessao());
 	}
@@ -209,10 +213,6 @@ public class Sistema {
 		}
 		if (listTemp.size() == 0) {
 			return "O usuário não possui amigos";
-		}
-		if (!procuraUsuarioLogin(login).amigos
-				.contains(procuraUsuarioIdSessao(idSessao))) {
-			return "O usuário não tem permissão para visualizar estes itens";
 		} else {
 			for (Usuario nomeAmigo : listTemp) {
 				aux += nomeAmigo.getLogin() + "; ";
@@ -305,15 +305,29 @@ public class Sistema {
 		procuraUsuarioLogin(login).amigos.add(procuraUsuarioIdSessao(idSessao));
 	}
 
-	public void desfazerAmizade(Usuario usuario1, Usuario usuario2)
-			throws Exception {
-		for (Usuario amigo : usuario1.amigos) {
-			if (amigo.equals(usuario2)) {
-				usuario1.amigos.remove(usuario2);
-				usuario2.amigos.remove(usuario1);
-			}
+	public void desfazerAmizade(String idSessao, String login) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
 		}
-		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		}
+		if (ehAmigo(idSessao, login)) {
+			throw new Exception("Os usuários já são amigos");
+		}
+		if ((procuraUsuarioLogin(login).amigos.contains(procuraUsuarioIdSessao(
+				idSessao).getLogin()))) {
+			throw new Exception("Amizade inexistente");
+		}
+		procuraUsuarioIdSessao(idSessao).amigos
+				.remove(procuraUsuarioLogin(login));
+		procuraUsuarioLogin(login).amigos
+				.remove(procuraUsuarioIdSessao(idSessao));
 	}
 
 	public String localizarUsuario(String idSessao, String chave,
