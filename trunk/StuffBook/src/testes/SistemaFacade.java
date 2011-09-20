@@ -72,6 +72,10 @@ public class SistemaFacade {
 		return sis.getAmigos(idSessao, login);
 	}
 
+	public void desfazerAmizade(String idSessao, String login) throws Exception {
+		sis.desfazerAmizade(idSessao, login);
+	}
+
 	public void encerrarSistema() {
 	}
 }
