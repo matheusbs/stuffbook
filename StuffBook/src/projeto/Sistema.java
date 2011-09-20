@@ -128,32 +128,84 @@ public class Sistema {
 		this.finalize();
 	}
 
-	public void requisitarAmizade(Usuario usuario1, Usuario usuario2)
-			throws Exception {
-		if (!(usuario2.RequisicoesDeAmizade.contains(usuario1)))
-			usuario2.RequisicoesDeAmizade.add(usuario1);
-		throw new Exception("A SOLICITAÇÃO DE AMIZADE JÁ FOI ENVIADA.");
+	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		return procuraUsuarioIdSessao(idSessao).getRequisicoesDeAmizade();
 	}
 
-	public boolean ehAmigo(String idSessao, String login) {
+	public void requisitarAmizade(String idSessao, String login)
+			throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (ehAmigo(idSessao, login)) {
+			throw new Exception("Os usuários já são amigos");
+		}
+		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
+				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
+			throw new Exception("Requisição já solicitada");
+		}
+		procuraUsuarioLogin(login).RequisicoesDeAmizade
+				.add(procuraUsuarioIdSessao(idSessao).getLogin());
+
+	}
+
+	public boolean ehAmigo(String idSessao, String login) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		}
 		boolean var = false;
+		try {
+			if (procuraUsuarioIdSessao(idSessao).amigos
+					.contains(procuraUsuarioLogin(login))) {
+				var = true;
+			}
+		} catch (Exception erro) {
+		}
 		return var;
 	}
 
-	public void aprovarAmizade(Usuario usuario1, Usuario usuario2,
-			boolean aceitar) throws Exception {
-		for (Usuario usuario : usuario1.RequisicoesDeAmizade) {
-			if (usuario.equals(usuario2)) {
-				if (aceitar == true) {
-					usuario1.RequisicoesDeAmizade.remove(usuario2);
-					usuario1.amigos.add(usuario2);
-					usuario2.amigos.add(usuario1);
-				}
-				if (aceitar == false) {
-					usuario1.RequisicoesDeAmizade.remove(usuario2);
-				}
-			}
+	public void aprovarAmizade(String idSessao, String login) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
 		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		}
+		if (ehAmigo(idSessao, login)) {
+			throw new Exception("Os usuários já são amigos");
+		}
+		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
+				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
+			throw new Exception("Requisição de amizade inexistente");
+		}
+		procuraUsuarioIdSessao(idSessao).removeRequisicaodeAmigo(login);
+		procuraUsuarioIdSessao(idSessao).amigos.add(procuraUsuarioLogin(login));
+		procuraUsuarioLogin(login).amigos.add(procuraUsuarioIdSessao(idSessao));
 	}
 
 	public void desfazerAmizade(Usuario usuario1, Usuario usuario2)
@@ -205,5 +257,21 @@ public class Sistema {
 			aux = aux.substring(0, aux.length() - 2);
 		}
 		return aux;
+	}
+
+	public Usuario procuraUsuarioIdSessao(String idSessao) throws Exception {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getIdSessao().equals(idSessao))
+				return usuario;
+		}
+		throw new Exception("Usuário inexistente");
+	}
+
+	public Usuario procuraUsuarioLogin(String login) throws Exception {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getLogin().equals(login))
+				return usuario;
+		}
+		throw new Exception("Usuário inexistente");
 	}
 }
