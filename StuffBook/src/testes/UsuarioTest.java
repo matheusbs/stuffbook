@@ -14,6 +14,7 @@ public class UsuarioTest {
 		// Adicione os arquivos com as User Stories a lista de testes
 		files.add("src/testes/US02.txt");
 		files.add("src/testes/US04.txt");
+		files.add("src/testes/US05.txt");
 
 		// Instancie a fachada do Usuario
 		UsuarioFacade usuarioFacade = new UsuarioFacade();
