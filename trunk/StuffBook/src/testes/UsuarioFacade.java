@@ -35,9 +35,22 @@ public class UsuarioFacade {
 		return sis.getAtributoItem(idItem, atributo);
 	}
 
-//	public String getRequisicoesDeAmizade() {
-//		return sis.
-//	}
+	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
+		return sis.getRequisicoesDeAmizade(idSessao);
+	}
+
+	public void requisitarAmizade(String idSessao, String login)
+			throws Exception {
+		sis.requisitarAmizade(idSessao, login);
+	}
+
+	public void aprovarAmizade(String idSessao, String login) throws Exception {
+		sis.aprovarAmizade(idSessao, login);
+	}
+
+	public boolean ehAmigo(String idSessao, String login) throws Exception {
+		return sis.ehAmigo(idSessao, login);
+	}
 
 	public void encerrarSistema() {
 	}

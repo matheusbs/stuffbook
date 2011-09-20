@@ -62,7 +62,13 @@ public class Usuario {
 		if (RequisicoesDeAmizade.size() == 0) {
 			return "Não há requisições";
 		}
-		return RequisicoesDeAmizade.toString();
+		String requisicoesDeAmizade = "";
+		for (String requisicoes : RequisicoesDeAmizade) {
+			requisicoesDeAmizade += requisicoes + "; ";
+		}
+		requisicoesDeAmizade = requisicoesDeAmizade.substring(0,
+				requisicoesDeAmizade.length() - 2);
+		return requisicoesDeAmizade;
 	}
 
 	public List<Usuario> getAmigos() {
@@ -127,6 +133,10 @@ public class Usuario {
 	 */
 	public List<Item> getItens() {
 		return itens;
+	}
+
+	public void removeRequisicaodeAmigo(String login) {
+		RequisicoesDeAmizade.remove(login);
 	}
 
 	public Usuario procuraAmigo(String login) throws Exception {
