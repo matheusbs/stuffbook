@@ -124,6 +124,104 @@ public class Sistema {
 		throw new Exception("Item inexistente");
 	}
 
+	/**
+	 * Metodo acessador
+	 * 
+	 * @return lista de itens
+	 */
+	public String getItens(String idSessao) throws Exception {
+		List<String> listTemp = new ArrayList<String>();
+		String aux = "";
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		for (Item item : itens) {
+			if (item.getIdUsuario().equals(idSessao)) {
+				listTemp.add(item.getNome());
+			}
+		}
+		if (listTemp.size() == 0) {
+			return "O usuário não possui itens cadastrados";
+		} else {
+			for (String nomeItem : listTemp) {
+				aux += nomeItem + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+		}
+		return aux;
+	}
+
+	public String getItens(String idSessao, String login) throws Exception {
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		Usuario user = procuraUsuarioLogin(login);
+		return getItens(user.getIdSessao());
+	}
+
+	public String getAmigos(String idSessao) throws Exception {
+		List<Usuario> listTemp = new ArrayList<Usuario>();
+		String aux = "";
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		for (Usuario amigo : procuraUsuarioIdSessao(idSessao).getAmigos()) {
+			listTemp.add(amigo);
+		}
+		if (listTemp.size() == 0) {
+			return "O usuário não possui amigos";
+		} else {
+			for (Usuario nomeAmigo : listTemp) {
+				aux += nomeAmigo.getLogin() + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+		}
+		return aux;
+	}
+
+	public String getAmigos(String idSessao, String login) throws Exception {
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		List<Usuario> listTemp = new ArrayList<Usuario>();
+		String aux = "";
+
+		for (Usuario amigo : procuraUsuarioLogin(login).getAmigos()) {
+			listTemp.add(amigo);
+		}
+		if (listTemp.size() == 0) {
+			return "O usuário não possui amigos";
+		}
+		if (!procuraUsuarioLogin(login).amigos
+				.contains(procuraUsuarioIdSessao(idSessao))) {
+			return "O usuário não tem permissão para visualizar estes itens";
+		} else {
+			for (Usuario nomeAmigo : listTemp) {
+				aux += nomeAmigo.getLogin() + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+			return aux;
+		}
+	}
+
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
 	}
@@ -158,7 +256,6 @@ public class Sistema {
 		}
 		procuraUsuarioLogin(login).RequisicoesDeAmizade
 				.add(procuraUsuarioIdSessao(idSessao).getLogin());
-
 	}
 
 	public boolean ehAmigo(String idSessao, String login) throws Exception {
