@@ -15,11 +15,11 @@ public class Emprestimo {
 	private int duracao;
 	private String id;
 
-	public Emprestimo(Item item, Usuario emprestador, Usuario beneficiado, int duracao, String id) {
+	public Emprestimo(Item item, Usuario emprestador, Usuario beneficiado, int duracao) {
 		this.item = item;
 		this.emprestador = emprestador;
 		this.beneficiado = beneficiado;
-		this.id = id;
+		this.duracao = duracao;
 	}
 
 	public Item getItem() {
@@ -40,10 +40,6 @@ public class Emprestimo {
 	
 	public int getDuracao(){
 		return duracao;
-	}
-	
-	public String getIdEmprestimo(){
-		return id;
 	}
 
 	public String getStatus() {
