@@ -387,22 +387,32 @@ public class Sistema {
 
 	public String getEmprestimos(String idSessao, String tipo) throws Exception{
 		Usuario user = procuraUsuarioIdSessao(idSessao);
+		List<String> listTemp = new ArrayList<String>();
+		String aux = "";
 		for (Emprestimo emprestimo : user.emprestimos){
 			if (tipo.equals("emprestador")){
 				if (emprestimo.getEmprestador().equals(user))
-					return emprestimo.toString();
+					listTemp.add(emprestimo.toString());
 			}
 			if (tipo.equals("beneficiado")){
 				if(emprestimo.getBeneficiado().equals(user))
-					return emprestimo.toString();
+					listTemp.add(emprestimo.toString());
 			}
 			if (tipo.equals("todos")){
 				if (emprestimo.getBeneficiado().equals(user) ||
 						emprestimo.getEmprestador().equals(user))
-					return emprestimo.toString();
+					listTemp.add(emprestimo.toString());
 			}
 		}
-		return "Não há empréstimos deste tipo";
+		if (listTemp.size() == 0) {
+			return "Não há empréstimos deste tipo";
+		} else {
+			for (String nomeItem : listTemp) {
+				aux += nomeItem + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+		}
+		return aux;
 	}
 	
 	public String requisitarEmprestimo(String idSessao, String idItem, int duracao) throws Exception{
@@ -413,7 +423,7 @@ public class Sistema {
 				dono = procuraUsuarioIdSessao(coisa.getIdUsuario());
 				if (user.getAmigos().contains(dono)){
 					String idEmprestimo = "" + gerarID();
-					Emprestimo novoEmprestimo = new Emprestimo(coisa, dono, user, duracao, idEmprestimo);
+					Emprestimo novoEmprestimo = new Emprestimo(coisa, dono, user, duracao);
 					idsEmprestimos.put(idEmprestimo, novoEmprestimo);
 					return idEmprestimo;
 				}
@@ -423,6 +433,8 @@ public class Sistema {
 	}
 	
 	public void aprovarEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+		if (!(idsEmprestimos.keySet().contains(idEmprestimo)))
+			throw new Exception("Identificador da requisição de empréstimo é inválido");
 		Usuario user = procuraUsuarioIdSessao(idSessao);
 		Emprestimo emp = idsEmprestimos.get(idEmprestimo);
 		emp.setStatus(Situacao.ANDAMENTO);
