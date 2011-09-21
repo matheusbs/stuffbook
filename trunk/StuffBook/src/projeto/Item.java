@@ -49,28 +49,6 @@ public class Item {
 	/**
 	 * Metodo acessador
 	 * 
-	 * @return dono
-	 */
-	public Usuario getDono() {
-		return dono;
-	}
-
-	public Usuario getDonoTemporario() {
-		return donoTemporario;
-	}
-
-	/**
-	 * Metodo que muda o dono temporário do item
-	 * 
-	 * @param novoDonoTemporario
-	 */
-	public void setDonoTemporario(Usuario novoDonoTemporario) {
-		this.donoTemporario = novoDonoTemporario;
-	}
-
-	/**
-	 * Metodo acessador
-	 * 
 	 * @return nome
 	 */
 	public String getNome() {

@@ -5,22 +5,21 @@ import java.util.Calendar;
 
 public class Emprestimo {
 
-	public static enum Situacao {
-		EM_DIA, ATRASADO, FINALIZADO
+	public enum Situacao {
+		ANDAMENTO, ATRASADO, FINALIZADO
 	}
 
 	private Item item;
-	private Calendar dataDoEmprestimo, dataDaDevolucao;
+	private Usuario emprestador, beneficiado;
 	private Situacao status;
-	private int codigo;
+	private int duracao;
+	private String id;
 
-	public Emprestimo(Item item, Calendar dataDoEmprestimo,
-			Calendar dataDaDevolucao, Situacao status, int codigo) {
+	public Emprestimo(Item item, Usuario emprestador, Usuario beneficiado, int duracao, String id) {
 		this.item = item;
-		this.dataDoEmprestimo = dataDoEmprestimo;
-		this.dataDaDevolucao = dataDaDevolucao;
-		this.status = status;
-		this.codigo = codigo;
+		this.emprestador = emprestador;
+		this.beneficiado = beneficiado;
+		this.id = id;
 	}
 
 	public Item getItem() {
@@ -30,33 +29,29 @@ public class Emprestimo {
 	public void setItem(Item item) {
 		this.item = item;
 	}
-
-	public Calendar getDataDoEmprestimo() {
-		return dataDoEmprestimo;
+	
+	public Usuario getEmprestador(){
+		return emprestador;
 	}
-
-	public void setDataDoEmprestimo(Calendar dataDoEmprestimo) {
-		this.dataDoEmprestimo = dataDoEmprestimo;
+	
+	public Usuario getBeneficiado(){
+		return beneficiado;
 	}
-
-	public Calendar getDataDaDevolucao() {
-		return dataDaDevolucao;
+	
+	public int getDuracao(){
+		return duracao;
 	}
-
-	public void setDataDaDevolucao(Calendar dataDaDevolucao) {
-		this.dataDaDevolucao = dataDaDevolucao;
+	
+	public String getIdEmprestimo(){
+		return id;
 	}
 
 	public String getStatus() {
-		if (status.equals(Situacao.EM_DIA))
-			return "Empréstimo em dia.";
+		if (status.equals(Situacao.ANDAMENTO))
+			return "Andamento";
 		if (status.equals(Situacao.ATRASADO))
-			return "Empréstimo atrasado. O item devia ter sido devolvido no dia "
-					+ new SimpleDateFormat("dd/MM/yyyy")
-							.format(getDataDaDevolucao().getTime());
-		return "Empréstimo finalizado no dia "
-				+ new SimpleDateFormat("dd/MM/yyyy")
-						.format(getDataDaDevolucao().getTime());
+			return "Empréstimo atrasado.";
+		return "Empréstimo finalizado.";
 
 	}
 
@@ -64,12 +59,10 @@ public class Emprestimo {
 		this.status = status;
 	}
 
-	public int getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public String toString(){
+		return getEmprestador().getLogin() + "-" + 
+		getBeneficiado().getLogin() + 
+		":" + item.getNome() + ":" + getStatus();
 	}
 
 }
