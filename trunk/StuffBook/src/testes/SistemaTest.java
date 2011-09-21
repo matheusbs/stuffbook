@@ -18,6 +18,7 @@ public class SistemaTest {
 		files.add("src/testes/US03.txt");
 		files.add("src/testes/US05.txt");
 		files.add("src/testes/US06.txt");
+		files.add("src/testes/US07.txt");
 		files.add("src/testes/US12.txt");
 
 		
