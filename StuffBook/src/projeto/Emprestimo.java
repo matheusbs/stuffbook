@@ -6,7 +6,7 @@ import java.util.Calendar;
 public class Emprestimo {
 
 	public enum Situacao {
-		ANDAMENTO, ATRASADO, FINALIZADO
+		ANDAMENTO, ATRASADO, FINALIZADO, CANCELADO
 	}
 
 	private Item item;

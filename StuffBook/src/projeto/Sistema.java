@@ -389,6 +389,9 @@ public class Sistema {
 			throw new Exception("Sessão inválida");
 		if (tipo == null || "".equals(tipo)) 
 			throw new Exception("Tipo inválido");
+		if(!(idUsuarios.contains(idSessao)))
+			throw new Exception("Sessão inexistente");
+		
 		if (!"emprestador".equalsIgnoreCase(tipo)
 				&& !"beneficiado".equalsIgnoreCase(tipo) 
 				&& !"todos".equalsIgnoreCase(tipo)) {
@@ -442,11 +445,7 @@ public class Sistema {
 				if (user.getAmigos().contains(dono)){
 					String idEmprestimo = "" + gerarID();
 					Emprestimo novoEmprestimo = new Emprestimo(coisa, dono, user, duracao);
-					
-					if (idsEmprestimos.keySet().contains(idEmprestimo))
-						throw new Exception("Requisição já solicitada");
-					
-					if (user.emprestimos.contains(novoEmprestimo))
+					if (dono.emprestimos.contains(novoEmprestimo))
 						throw new Exception("Requisição já solicitada");
 					idsEmprestimos.put(idEmprestimo, novoEmprestimo);
 					return idEmprestimo;
@@ -474,6 +473,9 @@ public class Sistema {
 		user.emprestimos.add(emp);
 		emp.getBeneficiado().emprestimos.add(emp);
 	}
+	
+	
+	
 
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
