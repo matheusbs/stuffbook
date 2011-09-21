@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 
+import projeto.Emprestimo.Situacao;
 import projeto.Item.Categoria;
 
 public class Sistema {
@@ -13,6 +15,7 @@ public class Sistema {
 	protected List<Usuario> usuarios = new ArrayList<Usuario>();
 	protected List<String> idUsuarios = new ArrayList<String>();
 	protected Map<Usuario, String> ids = new HashMap<Usuario, String>();
+	protected Map<String, Emprestimo> idsEmprestimos = new TreeMap<String, Emprestimo>();
 	protected List<Item> itens = new ArrayList<Item>();
 
 	String abrirSessaoDefault = "sessaoDefault";
@@ -70,6 +73,216 @@ public class Sistema {
 			}
 		}
 		throw new Exception("Usuário inexistente");
+	}
+
+	public String localizarUsuario(String idSessao, String chave,
+			String atributo) throws Exception {
+		String aux = "";
+		if (idSessao == null || "".equalsIgnoreCase(idSessao))
+			throw new Exception("Sessão inválida");
+		if (!(ids.values().contains(idSessao)))
+			throw new Exception("Sessão inexistente");
+		if (chave == null || "".equalsIgnoreCase(chave))
+			throw new Exception("Palavra-chave inválida");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("endereco")))
+			throw new Exception("Atributo inexistente");
+		List<Usuario> listaTemp = new ArrayList<Usuario>();
+		for (Usuario usuario : usuarios) {
+			if (!usuario.getIdSessao().equals(idSessao)) {
+				if (atributo.equalsIgnoreCase("nome")) {
+					if (usuario.getNome().contains(chave)) {
+						listaTemp.add(usuario);
+					}
+				}
+				if (atributo.equalsIgnoreCase("endereco")) {
+					if (usuario.getEndereco().contains(chave)) {
+						listaTemp.add(usuario);
+					}
+				}
+			}
+		}
+		if (listaTemp.size() == 0) {
+			aux = "Nenhum usuário encontrado";
+		} else {
+			for (Usuario user : listaTemp) {
+				aux += user.toString() + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+		}
+		return aux;
+	}
+
+	public Usuario procuraUsuarioIdSessao(String idSessao) throws Exception {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getIdSessao().equals(idSessao))
+				return usuario;
+		}
+		throw new Exception("Usuário inexistente");
+	}
+
+	public Usuario procuraUsuarioLogin(String login) throws Exception {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getLogin().equals(login))
+				return usuario;
+		}
+		throw new Exception("Usuário inexistente");
+	}
+
+	public String getAmigos(String idSessao) throws Exception {
+		List<Usuario> listTemp = new ArrayList<Usuario>();
+		String aux = "";
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		for (Usuario amigo : procuraUsuarioIdSessao(idSessao).getAmigos()) {
+			listTemp.add(amigo);
+		}
+		if (listTemp.size() == 0) {
+			return "O usuário não possui amigos";
+		} else {
+			for (Usuario nomeAmigo : listTemp) {
+				aux += nomeAmigo.getLogin() + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+		}
+		return aux;
+	}
+
+	public String getAmigos(String idSessao, String login) throws Exception {
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		List<Usuario> listTemp = new ArrayList<Usuario>();
+		String aux = "";
+
+		for (Usuario amigo : procuraUsuarioLogin(login).getAmigos()) {
+			listTemp.add(amigo);
+		}
+		if (listTemp.size() == 0) {
+			return "O usuário não possui amigos";
+		} else {
+			for (Usuario nomeAmigo : listTemp) {
+				aux += nomeAmigo.getLogin() + "; ";
+			}
+			aux = aux.substring(0, aux.length() - 2);
+			return aux;
+		}
+	}
+
+	public void requisitarAmizade(String idSessao, String login)
+			throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (ehAmigo(idSessao, login)) {
+			throw new Exception("Os usuários já são amigos");
+		}
+		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
+				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
+			throw new Exception("Requisição já solicitada");
+		}
+		procuraUsuarioLogin(login).RequisicoesDeAmizade
+				.add(procuraUsuarioIdSessao(idSessao).getLogin());
+	}
+
+	public void aprovarAmizade(String idSessao, String login) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		}
+		if (ehAmigo(idSessao, login)) {
+			throw new Exception("Os usuários já são amigos");
+		}
+		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
+				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
+			throw new Exception("Requisição de amizade inexistente");
+		}
+		procuraUsuarioIdSessao(idSessao).removeRequisicaodeAmigo(login);
+		procuraUsuarioIdSessao(idSessao).amigos.add(procuraUsuarioLogin(login));
+		procuraUsuarioLogin(login).amigos.add(procuraUsuarioIdSessao(idSessao));
+	}
+
+	public void desfazerAmizade(String idSessao, String login) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		}
+		if (ehAmigo(idSessao, login)) {
+			throw new Exception("Os usuários já são amigos");
+		}
+		if ((procuraUsuarioLogin(login).amigos.contains(procuraUsuarioIdSessao(
+				idSessao).getLogin()))) {
+			throw new Exception("Amizade inexistente");
+		}
+		procuraUsuarioIdSessao(idSessao).amigos
+				.remove(procuraUsuarioLogin(login));
+		procuraUsuarioLogin(login).amigos
+				.remove(procuraUsuarioIdSessao(idSessao));
+	}
+
+	public boolean ehAmigo(String idSessao, String login) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		}
+		boolean var = false;
+		try {
+			if (procuraUsuarioIdSessao(idSessao).amigos
+					.contains(procuraUsuarioLogin(login))) {
+				var = true;
+			}
+		} catch (Exception erro) {
+		}
+		return var;
+	}
+
+	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		return procuraUsuarioIdSessao(idSessao).getRequisicoesDeAmizade();
 	}
 
 	/**
@@ -172,217 +385,53 @@ public class Sistema {
 		return getItens(user.getIdSessao());
 	}
 
-	public String getAmigos(String idSessao) throws Exception {
-		List<Usuario> listTemp = new ArrayList<Usuario>();
-		String aux = "";
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		for (Usuario amigo : procuraUsuarioIdSessao(idSessao).getAmigos()) {
-			listTemp.add(amigo);
-		}
-		if (listTemp.size() == 0) {
-			return "O usuário não possui amigos";
-		} else {
-			for (Usuario nomeAmigo : listTemp) {
-				aux += nomeAmigo.getLogin() + "; ";
+	public String getEmprestimos(String idSessao, String tipo) throws Exception{
+		Usuario user = procuraUsuarioIdSessao(idSessao);
+		for (Emprestimo emprestimo : user.emprestimos){
+			if (tipo.equals("emprestador")){
+				if (emprestimo.getEmprestador().equals(user))
+					return emprestimo.toString();
 			}
-			aux = aux.substring(0, aux.length() - 2);
+			if (tipo.equals("beneficiado")){
+				if(emprestimo.getBeneficiado().equals(user))
+					return emprestimo.toString();
+			}
+			if (tipo.equals("todos")){
+				if (emprestimo.getBeneficiado().equals(user) ||
+						emprestimo.getEmprestador().equals(user))
+					return emprestimo.toString();
+			}
 		}
-		return aux;
+		return "Não há empréstimos deste tipo";
 	}
-
-	public String getAmigos(String idSessao, String login) throws Exception {
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inválido");
-		}
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		List<Usuario> listTemp = new ArrayList<Usuario>();
-		String aux = "";
-
-		for (Usuario amigo : procuraUsuarioLogin(login).getAmigos()) {
-			listTemp.add(amigo);
-		}
-		if (listTemp.size() == 0) {
-			return "O usuário não possui amigos";
-		} else {
-			for (Usuario nomeAmigo : listTemp) {
-				aux += nomeAmigo.getLogin() + "; ";
+	
+	public String requisitarEmprestimo(String idSessao, String idItem, int duracao) throws Exception{
+		Usuario dono;
+		Usuario user = procuraUsuarioIdSessao(idSessao);
+		for (Item coisa : itens){
+			if (coisa.getIdItem().equals(idItem)){
+				dono = procuraUsuarioIdSessao(coisa.getIdUsuario());
+				if (user.getAmigos().contains(dono)){
+					String idEmprestimo = "" + gerarID();
+					Emprestimo novoEmprestimo = new Emprestimo(coisa, dono, user, duracao, idEmprestimo);
+					idsEmprestimos.put(idEmprestimo, novoEmprestimo);
+					return idEmprestimo;
+				}
 			}
-			aux = aux.substring(0, aux.length() - 2);
-			return aux;
 		}
+		return null;
+	}
+	
+	public void aprovarEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+		Usuario user = procuraUsuarioIdSessao(idSessao);
+		Emprestimo emp = idsEmprestimos.get(idEmprestimo);
+		emp.setStatus(Situacao.ANDAMENTO);
+		user.emprestimos.add(emp);
+		emp.getBeneficiado().emprestimos.add(emp);
 	}
 
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
 	}
 
-	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		return procuraUsuarioIdSessao(idSessao).getRequisicoesDeAmizade();
-	}
-
-	public void requisitarAmizade(String idSessao, String login)
-			throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inválido");
-		}
-		if (ehAmigo(idSessao, login)) {
-			throw new Exception("Os usuários já são amigos");
-		}
-		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
-				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
-			throw new Exception("Requisição já solicitada");
-		}
-		procuraUsuarioLogin(login).RequisicoesDeAmizade
-				.add(procuraUsuarioIdSessao(idSessao).getLogin());
-	}
-
-	public boolean ehAmigo(String idSessao, String login) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inválido");
-		}
-		if (usuarios.contains(procuraUsuarioLogin(login))) {
-		}
-		boolean var = false;
-		try {
-			if (procuraUsuarioIdSessao(idSessao).amigos
-					.contains(procuraUsuarioLogin(login))) {
-				var = true;
-			}
-		} catch (Exception erro) {
-		}
-		return var;
-	}
-
-	public void aprovarAmizade(String idSessao, String login) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inválido");
-		}
-		if (usuarios.contains(procuraUsuarioLogin(login))) {
-		}
-		if (ehAmigo(idSessao, login)) {
-			throw new Exception("Os usuários já são amigos");
-		}
-		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
-				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
-			throw new Exception("Requisição de amizade inexistente");
-		}
-		procuraUsuarioIdSessao(idSessao).removeRequisicaodeAmigo(login);
-		procuraUsuarioIdSessao(idSessao).amigos.add(procuraUsuarioLogin(login));
-		procuraUsuarioLogin(login).amigos.add(procuraUsuarioIdSessao(idSessao));
-	}
-
-	public void desfazerAmizade(String idSessao, String login) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sessão inválida");
-		}
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessão inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inválido");
-		}
-		if (usuarios.contains(procuraUsuarioLogin(login))) {
-		}
-		if (ehAmigo(idSessao, login)) {
-			throw new Exception("Os usuários já são amigos");
-		}
-		if ((procuraUsuarioLogin(login).amigos.contains(procuraUsuarioIdSessao(
-				idSessao).getLogin()))) {
-			throw new Exception("Amizade inexistente");
-		}
-		procuraUsuarioIdSessao(idSessao).amigos
-				.remove(procuraUsuarioLogin(login));
-		procuraUsuarioLogin(login).amigos
-				.remove(procuraUsuarioIdSessao(idSessao));
-	}
-
-	public String localizarUsuario(String idSessao, String chave,
-			String atributo) throws Exception {
-		String aux = "";
-		if (idSessao == null || "".equalsIgnoreCase(idSessao))
-			throw new Exception("Sessão inválida");
-		if (!(ids.values().contains(idSessao)))
-			throw new Exception("Sessão inexistente");
-		if (chave == null || "".equalsIgnoreCase(chave))
-			throw new Exception("Palavra-chave inválida");
-		if (atributo == null || "".equals(atributo))
-			throw new Exception("Atributo inválido");
-		if ((!atributo.equalsIgnoreCase("nome"))
-				&& (!atributo.equalsIgnoreCase("endereco")))
-			throw new Exception("Atributo inexistente");
-		List<Usuario> listaTemp = new ArrayList<Usuario>();
-		for (Usuario usuario : usuarios) {
-			if (!usuario.getIdSessao().equals(idSessao)) {
-				if (atributo.equalsIgnoreCase("nome")) {
-					if (usuario.getNome().contains(chave)) {
-						listaTemp.add(usuario);
-					}
-				}
-				if (atributo.equalsIgnoreCase("endereco")) {
-					if (usuario.getEndereco().contains(chave)) {
-						listaTemp.add(usuario);
-					}
-				}
-			}
-		}
-		if (listaTemp.size() == 0) {
-			aux = "Nenhum usuário encontrado";
-		} else {
-			for (Usuario user : listaTemp) {
-				aux += user.toString() + "; ";
-			}
-			aux = aux.substring(0, aux.length() - 2);
-		}
-		return aux;
-	}
-
-	public Usuario procuraUsuarioIdSessao(String idSessao) throws Exception {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getIdSessao().equals(idSessao))
-				return usuario;
-		}
-		throw new Exception("Usuário inexistente");
-	}
-
-	public Usuario procuraUsuarioLogin(String login) throws Exception {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getLogin().equals(login))
-				return usuario;
-		}
-		throw new Exception("Usuário inexistente");
-	}
 }

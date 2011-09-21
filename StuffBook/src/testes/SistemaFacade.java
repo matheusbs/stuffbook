@@ -75,6 +75,18 @@ public class SistemaFacade {
 	public void desfazerAmizade(String idSessao, String login) throws Exception {
 		sis.desfazerAmizade(idSessao, login);
 	}
+	
+	public String getEmprestimos(String idSessao, String tipo) throws Exception{
+		return sis.getEmprestimos(idSessao, tipo);
+	}
+	
+	public String requisitarEmprestimo(String idSessao, String idItem, int duracao) throws Exception{
+		return sis.requisitarEmprestimo(idSessao, idItem, duracao);
+	}
+	
+	public void aprovarEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+		sis.aprovarEmprestimo(idSessao, idEmprestimo);
+	}
 
 	public void encerrarSistema() {
 	}

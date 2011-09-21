@@ -10,14 +10,14 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import projeto.Emprestimos.Situacao;
+import projeto.Emprestimo.Situacao;
 import projeto.Item.Status;
 
 public class Usuario {
 
 	int idItem;
 	protected List<Item> itens, pedidosDeItens;
-	protected List<Emprestimos> emprestimosCedidos, emprestimosFeitos;
+	protected List<Emprestimo> emprestimos;
 	protected List<Usuario> amigos;
 	protected List<String> RequisicoesDeAmizade;
 
@@ -44,8 +44,7 @@ public class Usuario {
 		this.login = login;
 		itens = new ArrayList<Item>();
 		pedidosDeItens = new ArrayList<Item>();
-		emprestimosCedidos = new ArrayList<Emprestimos>();
-		emprestimosFeitos = new ArrayList<Emprestimos>();
+		emprestimos = new ArrayList<Emprestimo>();
 		amigos = new ArrayList<Usuario>();
 		RequisicoesDeAmizade = new ArrayList<String>();
 	}
@@ -151,61 +150,61 @@ public class Usuario {
 		throw new Exception("OBJETO NÃO ENCONTRADO.");
 	}
 
-	/**
-	 * @param login
-	 * @param objeto
-	 * @throws Exception
-	 */
-	public void pedeItemEmprestado(String login, Item objeto) throws Exception {
-		Usuario amigo = procuraAmigo(login);
-		for (Item objetoAux : amigo.itens) {
-			if (objetoAux.equals(objeto)) {
-				objeto.setDonoTemporario(this);
-				amigo.itens.remove(objeto);
-				amigo.pedidosDeItens.add(objetoAux);
-			}
-		}
-		throw new Exception("ITEM NÃO ENCONTRADO.");
-	}
+//	/**
+//	 * @param login
+//	 * @param objeto
+//	 * @throws Exception
+//	 */
+//	public void pedeItemEmprestado(String login, Item objeto) throws Exception {
+//		Usuario amigo = procuraAmigo(login);
+//		for (Item objetoAux : amigo.itens) {
+//			if (objetoAux.equals(objeto)) {
+//				objeto.setDonoTemporario(this);
+//				amigo.itens.remove(objeto);
+//				amigo.pedidosDeItens.add(objetoAux);
+//			}
+//		}
+//		throw new Exception("ITEM NÃO ENCONTRADO.");
+//	}
 
-	/**
-	 * 
-	 * @param objeto
-	 * @param emprestar
-	 * @throws Exception
-	 */
-	public void emprestaItem(Item objeto, Calendar dataEmprestimo,
-			Calendar dataDevolucao, boolean emprestar) throws Exception {
-		if (emprestar == true) {
-			objeto.setStatus(Status.EMPRESTADO);
-			pedidosDeItens.remove(objeto);
-			itens.add(objeto);
-			Emprestimos emprestimo = new Emprestimos(objeto, dataEmprestimo,
-					dataDevolucao, Situacao.EM_DIA, (int) Math.random());
-			emprestimosCedidos.add(emprestimo);
-			objeto.getDonoTemporario().emprestimosFeitos.add(emprestimo);
-		}
-		if (emprestar == false) {
-			objeto.setDonoTemporario(this);
-			pedidosDeItens.remove(objeto);
-			itens.add(objeto);
-		}
-	}
+//	/**
+//	 * 
+//	 * @param objeto
+//	 * @param emprestar
+//	 * @throws Exception
+//	 */
+//	public void emprestaItem(Item objeto, Calendar dataEmprestimo,
+//			Calendar dataDevolucao, boolean emprestar) throws Exception {
+//		if (emprestar == true) {
+//			objeto.setStatus(Status.EMPRESTADO);
+//			pedidosDeItens.remove(objeto);
+//			itens.add(objeto);
+//			Emprestimo emprestimo = new Emprestimo(objeto, dataEmprestimo,
+//					dataDevolucao, Situacao.ANDAMENTO, (int) Math.random());
+//			emprestimosCedidos.add(emprestimo);
+//			objeto.getDonoTemporario().emprestimosFeitos.add(emprestimo);
+//		}
+//		if (emprestar == false) {
+//			objeto.setDonoTemporario(this);
+//			pedidosDeItens.remove(objeto);
+//			itens.add(objeto);
+//		}
+//	}
 
-	public void devolveItem(Emprestimos emprestimo) {
-		for (Emprestimos emprestimoAux : emprestimosFeitos) {
-			if (emprestimoAux.equals(emprestimo)) {
-				emprestimoAux.setStatus(Situacao.FINALIZADO);
-				emprestimoAux.getItem().setDonoTemporario(
-						emprestimoAux.getItem().getDono());
-			}
-		}
-		for (Emprestimos emprestimoAux : emprestimo.getItem().getDono().emprestimosCedidos) {
-			if (emprestimoAux.equals(emprestimo))
-				emprestimoAux.setStatus(Situacao.FINALIZADO);
-		}
-
-	}
+//	public void devolveItem(Emprestimo emprestimo) {
+//		for (Emprestimo emprestimoAux : emprestimosFeitos) {
+//			if (emprestimoAux.equals(emprestimo)) {
+//				emprestimoAux.setStatus(projeto.Emprestimo.Situacao.FINALIZADO);
+//				emprestimoAux.getItem().setDonoTemporario(
+//						emprestimoAux.getItem().getDono());
+//			}
+//		}
+//		for (Emprestimo emprestimoAux : emprestimo.getItem().getDono().emprestimosCedidos) {
+//			if (emprestimoAux.equals(emprestimo))
+//				emprestimoAux.setStatus(Situacao.FINALIZADO);
+//		}
+//
+//	}
 
 	public String toString() {
 		return getNome() + " - " + getEndereco();
