@@ -87,6 +87,14 @@ public class SistemaFacade {
 	public void aprovarEmprestimo(String idSessao, String idEmprestimo) throws Exception{
 		sis.aprovarEmprestimo(idSessao, idEmprestimo);
 	}
+	
+	public void devolverItem(String idSessao, String idEmprestimo) throws Exception{
+		sis.devolverItem(idSessao, idEmprestimo);
+	}
+	
+	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+		sis.confirmarTerminoEmprestimo(idSessao, idEmprestimo);
+	}
 
 	public void encerrarSistema() {
 	}
