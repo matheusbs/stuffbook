@@ -11,7 +11,8 @@ public class Emprestimo {
 	private Situacao status;
 	private int duracao;
 
-	public Emprestimo(Item item, Usuario emprestador, Usuario beneficiado, int duracao) {
+	public Emprestimo(Item item, Usuario emprestador, Usuario beneficiado,
+			int duracao) {
 		this.item = item;
 		this.emprestador = emprestador;
 		this.beneficiado = beneficiado;
@@ -26,16 +27,16 @@ public class Emprestimo {
 	public void setItem(Item item) {
 		this.item = item;
 	}
-	
-	public Usuario getEmprestador(){
+
+	public Usuario getEmprestador() {
 		return emprestador;
 	}
-	
-	public Usuario getBeneficiado(){
+
+	public Usuario getBeneficiado() {
 		return beneficiado;
 	}
-	
-	public int getDuracao(){
+
+	public int getDuracao() {
 		return duracao;
 	}
 
@@ -51,23 +52,28 @@ public class Emprestimo {
 	}
 
 	public void setStatus(Situacao novoStatus) {
-		this.status = novoStatus;
+		if (novoStatus.equals(Situacao.ANDAMENTO))
+			status = status.ANDAMENTO;
+		if (novoStatus.equals(Situacao.COMPLETADO))
+			status = status.COMPLETADO;
+		if (novoStatus.equals(Situacao.ATRASADO))
+			status = status.ATRASADO;
+
 	}
 
-	public String toString(){
-		return getEmprestador().getLogin() + "-" + 
-		getBeneficiado().getLogin() + 
-		":" + item.getNome() + ":" + getStatus();
+	public String toString() {
+		return getEmprestador().getLogin() + "-" + getBeneficiado().getLogin()
+				+ ":" + item.getNome() + ":" + getStatus();
 	}
-	
+
 	public boolean equals(Object objeto) {
 		if (!(objeto instanceof Emprestimo))
 			return false;
 		Emprestimo outro = (Emprestimo) objeto;
-		return getItem().equals(outro.getItem()) 
-		&& getEmprestador().equals(outro.getEmprestador()) 
-		&& getBeneficiado().equals(outro.getBeneficiado())
-		&& getDuracao()==outro.getDuracao();
+		return getItem().equals(outro.getItem())
+				&& getEmprestador().equals(outro.getEmprestador())
+				&& getBeneficiado().equals(outro.getBeneficiado())
+				&& getDuracao() == outro.getDuracao();
 	}
 
 }
