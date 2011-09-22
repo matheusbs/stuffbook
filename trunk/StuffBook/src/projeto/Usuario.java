@@ -217,4 +217,6 @@ public class Usuario {
 		return getLogin().equals(outro.getLogin());
 	}
 
+	
+	
 }
