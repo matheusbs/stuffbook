@@ -1,6 +1,7 @@
 package projeto;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -238,9 +239,7 @@ public class Sistema {
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
-		if (ehAmigo(idSessao, login)) {
-			throw new Exception("Os usuários já são amigos");
-		}
+
 		if ((procuraUsuarioLogin(login).amigos.contains(procuraUsuarioIdSessao(
 				idSessao).getLogin()))) {
 			throw new Exception("Amizade inexistente");
@@ -384,42 +383,42 @@ public class Sistema {
 		return getItens(user.getIdSessao());
 	}
 
-	public String getEmprestimos(String idSessao, String tipo) throws Exception{
-		if (idSessao == null || "".equals(idSessao)) 
+	public String getEmprestimos(String idSessao, String tipo) throws Exception {
+		if (idSessao == null || "".equals(idSessao))
 			throw new Exception("Sessão inválida");
-		if (tipo == null || "".equals(tipo)) 
+		if (tipo == null || "".equals(tipo))
 			throw new Exception("Tipo inválido");
-		if(!(idUsuarios.contains(idSessao)))
+		if (!(idUsuarios.contains(idSessao)))
 			throw new Exception("Sessão inexistente");
-		
+
 		if (!"emprestador".equalsIgnoreCase(tipo)
-				&& !"beneficiado".equalsIgnoreCase(tipo) 
+				&& !"beneficiado".equalsIgnoreCase(tipo)
 				&& !"todos".equalsIgnoreCase(tipo)) {
 			throw new Exception("Tipo inexistente");
 		}
 		Usuario user = procuraUsuarioIdSessao(idSessao);
-		List<String> listTemp = new ArrayList<String>();
+		ArrayList<String> listTemp = new ArrayList<String>();
 		String aux = "";
-		for (Emprestimo emprestimo : user.emprestimos){
-			if (tipo.equals("emprestador")){
+		for (Emprestimo emprestimo : user.emprestimos) {
+			if (tipo.equals("emprestador")) {
 				if (emprestimo.getEmprestador().equals(user))
 					listTemp.add(emprestimo.toString());
 			}
-			if (tipo.equals("beneficiado")){
-				if(emprestimo.getBeneficiado().equals(user))
+			if (tipo.equals("beneficiado")) {
+				if (emprestimo.getBeneficiado().equals(user))
 					listTemp.add(emprestimo.toString());
 			}
-			if (tipo.equals("todos")){
+			if (tipo.equals("todos")) {
 				if (emprestimo.getEmprestador().equals(user))
 					listTemp.add(emprestimo.toString());
 				if (emprestimo.getBeneficiado().equals(user))
 					listTemp.add(emprestimo.toString());
-				
 			}
 		}
-		if (listTemp.size()==0) {
+		if (listTemp.size() == 0) {
 			return "Não há empréstimos deste tipo";
 		} else {
+			Collections.reverse(listTemp);
 			for (String nomeItem : listTemp) {
 				aux += nomeItem + "; ";
 			}
@@ -427,56 +426,84 @@ public class Sistema {
 		}
 		return aux;
 	}
-	
-	public String requisitarEmprestimo(String idSessao, String idItem, int duracao) throws Exception{
-		if (idSessao == null || "".equals(idSessao)) 
+
+	public String requisitarEmprestimo(String idSessao, String idItem,
+			int duracao) throws Exception {
+		if (idSessao == null || "".equals(idSessao))
 			throw new Exception("Sessão inválida");
-		if (!(idUsuarios.contains(idSessao))) 
+		if (!(idUsuarios.contains(idSessao)))
 			throw new Exception("Sessão inexistente");
-		if (idItem == null || "".equals(idItem)) 
+		if (idItem == null || "".equals(idItem))
 			throw new Exception("Identificador do item é inválido");
-		if (duracao<=0)
+		if (duracao <= 0)
 			throw new Exception("Duracao inválida");
-		Usuario dono;
-		Usuario user = procuraUsuarioIdSessao(idSessao);
-		for (Item coisa : itens){
-			if (coisa.getIdItem().equals(idItem)){
-				dono = procuraUsuarioIdSessao(coisa.getIdUsuario());
-				if (user.getAmigos().contains(dono)){
+		Usuario emprestador;
+		Usuario beneficiado = procuraUsuarioIdSessao(idSessao);
+		for (Item item : itens) {
+			if (item.getIdItem().equals(idItem)) {
+				emprestador = procuraUsuarioIdSessao(item.getIdUsuario());
+				if (beneficiado.getAmigos().contains(emprestador)) {
 					String idEmprestimo = "" + gerarID();
-					Emprestimo novoEmprestimo = new Emprestimo(coisa, dono, user, duracao);
-					if (dono.emprestimos.contains(novoEmprestimo))
+					Emprestimo novoEmprestimo = new Emprestimo(item,
+							emprestador, beneficiado, duracao);
+					if (idsEmprestimos.keySet().contains(idEmprestimo))
+						novoEmprestimo = new Emprestimo(item, emprestador,
+								beneficiado, duracao);
+					if (emprestador.emprestimos.contains(novoEmprestimo))
+						throw new Exception("Requisição já solicitada");
+					if (beneficiado.emprestimos.contains(novoEmprestimo))
 						throw new Exception("Requisição já solicitada");
 					idsEmprestimos.put(idEmprestimo, novoEmprestimo);
 					return idEmprestimo;
 				}
-				throw new Exception("O usuário não tem permissão para requisitar o empréstimo deste item");
+				throw new Exception(
+						"O usuário não tem permissão para requisitar o empréstimo deste item");
 			}
 		}
 		throw new Exception("Item inexistente");
 	}
-	
-	public void aprovarEmprestimo(String idSessao, String idEmprestimo) throws Exception{
-		if (idSessao == null || "".equals(idSessao)) 
+
+	public void aprovarEmprestimo(String idSessao, String idEmprestimo)
+			throws Exception {
+		if (idSessao == null || "".equals(idSessao))
 			throw new Exception("Sessão inválida");
-		if (!(idUsuarios.contains(idSessao))) 
+		if (!(idUsuarios.contains(idSessao)))
 			throw new Exception("Sessão inexistente");
-		if (idEmprestimo == null || "".equals(idEmprestimo)) 
-			throw new Exception("Identificador da requisição de empréstimo é inválido");
+		if (idEmprestimo == null || "".equals(idEmprestimo))
+			throw new Exception(
+					"Identificador da requisição de empréstimo é inválido");
 		if (!(idsEmprestimos.keySet().contains(idEmprestimo)))
 			throw new Exception("Requisição de empréstimo inexistente");
-		Usuario user = procuraUsuarioIdSessao(idSessao);
+		Usuario emprestador = procuraUsuarioIdSessao(idSessao);
 		Emprestimo emp = idsEmprestimos.get(idEmprestimo);
-		if (user.emprestimos.contains(emp))
+		if (!idSessao.equals(idsEmprestimos.get(idEmprestimo).getItem()
+				.getIdUsuario())) {
+			throw new Exception(
+					"O empréstimo só pode ser aprovado pelo dono do item");
+		}
+		if (emprestador.emprestimos.contains(emp))
 			throw new Exception("Empréstimo já aprovado");
 		emp.setStatus(Situacao.ANDAMENTO);
-		user.emprestimos.add(emp);
+		emprestador.emprestimos.add(emp);
 		emp.getBeneficiado().emprestimos.add(emp);
 	}
 	
+	public void devolverItem(String idSessao, String idEmprestimo) throws Exception{
+		Usuario beneficiado = procuraUsuarioIdSessao(idSessao);
+		for (Emprestimo emp : beneficiado.emprestimos){
+			if (emp.equals(idsEmprestimos.get(idEmprestimo)))
+				emp.setStatus(Situacao.COMPLETADO);
+		}
+	}
 	
+	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+		Usuario emprestador = procuraUsuarioIdSessao(idSessao);
+		for (Emprestimo emp : emprestador.emprestimos){
+			if (emp.equals(idsEmprestimos.get(idEmprestimo)))
+				emp.setStatus(Situacao.COMPLETADO);
+		}
+	}
 	
-
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
 	}
