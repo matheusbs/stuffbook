@@ -16,6 +16,7 @@ public class Emprestimo {
 		this.emprestador = emprestador;
 		this.beneficiado = beneficiado;
 		this.duracao = duracao;
+		this.status = Situacao.ANDAMENTO;
 	}
 
 	public Item getItem() {
@@ -49,8 +50,8 @@ public class Emprestimo {
 
 	}
 
-	public void setStatus(Situacao status) {
-		this.status = status;
+	public void setStatus(Situacao novoStatus) {
+		this.status = novoStatus;
 	}
 
 	public String toString(){

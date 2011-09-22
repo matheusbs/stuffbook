@@ -489,12 +489,8 @@ public class Sistema {
 	}
 	
 	public void devolverItem(String idSessao, String idEmprestimo) throws Exception{
-		Usuario beneficiado = procuraUsuarioIdSessao(idSessao);
-		for (Emprestimo emp : beneficiado.emprestimos){
-			if (emp.equals(idsEmprestimos.get(idEmprestimo)))
-				emp.setStatus(Situacao.COMPLETADO);
+		
 		}
-	}
 	
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo) throws Exception{
 		Usuario emprestador = procuraUsuarioIdSessao(idSessao);
@@ -503,6 +499,19 @@ public class Sistema {
 				emp.setStatus(Situacao.COMPLETADO);
 		}
 	}
+	
+/*	public String pesquisarItem(String idSessao, String idItem){
+		String resp = "";
+		for(int i = 0; i < itens.size(); i++){
+			if(itens.get(i).getIdItem().equals(idItem)){
+				resp += itens.get(i).getNome() + ", ";
+			}
+		}
+		
+		
+		
+		return null;
+	}*/
 	
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
