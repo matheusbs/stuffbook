@@ -75,25 +75,33 @@ public class SistemaFacade {
 	public void desfazerAmizade(String idSessao, String login) throws Exception {
 		sis.desfazerAmizade(idSessao, login);
 	}
-	
-	public String getEmprestimos(String idSessao, String tipo) throws Exception{
+
+	public String getEmprestimos(String idSessao, String tipo) throws Exception {
 		return sis.getEmprestimos(idSessao, tipo);
 	}
-	
-	public String requisitarEmprestimo(String idSessao, String idItem, int duracao) throws Exception{
+
+	public String requisitarEmprestimo(String idSessao, String idItem,
+			int duracao) throws Exception {
 		return sis.requisitarEmprestimo(idSessao, idItem, duracao);
 	}
-	
-	public void aprovarEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+
+	public void aprovarEmprestimo(String idSessao, String idEmprestimo)
+			throws Exception {
 		sis.aprovarEmprestimo(idSessao, idEmprestimo);
 	}
-	
-	public void devolverItem(String idSessao, String idEmprestimo) throws Exception{
+
+	public void devolverItem(String idSessao, String idEmprestimo)
+			throws Exception {
 		sis.devolverItem(idSessao, idEmprestimo);
 	}
-	
-	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo) throws Exception{
+
+	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
+			throws Exception {
 		sis.confirmarTerminoEmprestimo(idSessao, idEmprestimo);
+	}
+
+	public void apagarItem(String IdSessao, String idItem) throws Exception {
+		sis.apagarItem(IdSessao, idItem);
 	}
 
 	public void encerrarSistema() {
