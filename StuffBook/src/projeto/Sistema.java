@@ -816,18 +816,35 @@ public class Sistema {
 
 	public String enviarMensagem(String idSessao, String destinatario,
 			String assunto, String mensagem) throws Exception {
-		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null) {
 			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sessão inexistente");
 		}
-		return null;
-
+		if ("".equals(destinatario) || destinatario == null) {
+			throw new Exception("Destinatário inválido");
+		}
+		try {
+			procuraUsuarioLogin(destinatario);
+		} catch (Exception e) {
+			throw new Exception("Destinatário inexistente");
+		}
+		if ("".equalsIgnoreCase(assunto) || assunto == null) {
+			throw new Exception("Assunto inválido");
+		}
+		if ("".equalsIgnoreCase(mensagem) || mensagem == null) {
+			throw new Exception("Mensagem inválida");
+		}
+		String idTopico = "" + gerarID();
+		return idTopico;
 	}
 
-	public String lerMensagens(String idSessao, String idTopico) throws Exception {
-		if ("".equalsIgnoreCase(idSessao) || idSessao == null){
-			throw new Exception("Sessão inválida");}
+	public String lerMensagens(String idSessao, String idTopico)
+			throws Exception {
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sessão inexistente");
 		}
