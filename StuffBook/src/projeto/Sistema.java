@@ -244,6 +244,9 @@ public class Sistema {
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
+		if (!ehAmigo(idSessao, login)) {
+			throw new Exception("Amizade inexistente");
+		}
 
 		if ((procuraUsuarioLogin(login).amigos.contains(procuraUsuarioIdSessao(
 				idSessao).getLogin()))) {
@@ -542,6 +545,9 @@ public class Sistema {
 		Usuario beneficiado = (procurarEmprestimo(idRequisicaoEmprestimo)
 				.getBeneficiado());
 
+		if (!ehAmigo(idSessao, beneficiado.getLogin())) {
+			throw new Exception("Requisição de empréstimo inexistente");
+		}
 		if (emprestador.getEmprestimosAndamento().contains(
 				procurarEmprestimo(idRequisicaoEmprestimo))) {
 			throw new Exception("Empréstimo já aprovado");
@@ -579,26 +585,35 @@ public class Sistema {
 
 	public void devolverItem(String idSessao, String idEmprestimo)
 			throws Exception {
+
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sessão inválida");
 		}
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sessão inexistente");
 		}
+
 		if (idEmprestimo == null || "".equals(idEmprestimo)) {
 			throw new Exception("Identificador do empréstimo é inválido");
 		}
-		if (!emprestimo.contains(procurarEmprestimo(idEmprestimo))) {
+
+		if (procurarEmprestimo(idEmprestimo) == null) {
 			throw new Exception("Empréstimo inexistente");
 		}
 
 		Usuario beneficiado = procuraUsuarioIdSessao(idSessao);
 		Emprestimo emprestimoDevolvido = procurarEmprestimo(idEmprestimo);
 
+		if (emprestimoDevolvido.getItem().getStatus().equals(Status.DEVOLVIDO)) {
+			throw new Exception("Item já devolvido");
+		}
 		if (!emprestimoDevolvido.getBeneficiado().equals(beneficiado)) {
 			throw new Exception(
 					"O item só pode ser devolvido pelo usuário beneficiado");
 		}
+
+		emprestimoDevolvido.getItem().setStatus(Status.DEVOLVIDO);
 	}
 
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
@@ -612,15 +627,32 @@ public class Sistema {
 		if (idEmprestimo == null || "".equals(idEmprestimo)) {
 			throw new Exception("Identificador do empréstimo é inválido");
 		}
-		if (!emprestimo.contains(procurarEmprestimo(idEmprestimo))) {
+		if (procurarEmprestimo(idEmprestimo) == null) {
 			throw new Exception("Empréstimo inexistente");
 		}
 		Usuario emprestador = procuraUsuarioIdSessao(idSessao);
 		Emprestimo emprestimoDevolvido = procurarEmprestimo(idEmprestimo);
 
+		if (emprestador.getEmprestimosCompletados().contains(
+				emprestimoDevolvido)) {
+			throw new Exception("Término do empréstimo já confirmado");
+		}
+
 		if (!emprestimoDevolvido.getEmprestador().equals(emprestador)) {
 			throw new Exception(
 					"O término do empréstimo só pode ser confirmado pelo dono do item");
+		}
+
+		if (emprestimoDevolvido.getItem().getStatus().equals(Status.DEVOLVIDO)) {
+			for (Emprestimo devolverEmprestimo : emprestador
+					.getEmprestimosAndamento()) {
+				if (emprestimoDevolvido.equals(devolverEmprestimo)) {
+					emprestimoDevolvido.getItem().setStatus(Status.DISPONIVEL);
+					emprestimoDevolvido.setSituacao(Situacao.COMPLETADO);
+					emprestador.emprestimosCompletados.add(emprestimoDevolvido);
+				}
+
+			}
 		}
 	}
 
@@ -628,91 +660,19 @@ public class Sistema {
 		apagarItem(IdSessao, idItem);
 	}
 
-	// public void devolverItem(String idSessao, String idEmprestimo)
-	// throws Exception {
-	// if (idSessao == null || "".equals(idSessao))
-	// throw new Exception("Sessão inválida");
-	// if (!(idUsuarios.contains(idSessao)))
-	// throw new Exception("Sessão inexistente");
-	// if (idEmprestimo == null || "".equals(idEmprestimo))
-	// throw new Exception("Identificador do empréstimo é inválido");
-	// if (!(idsEmprestimos.keySet().contains(idEmprestimo)))
-	// throw new Exception("Empréstimo inexistente");
-	//
-	// Usuario beneficiado = procuraUsuarioIdSessao(idSessao);
-	// Emprestimo emprestimo = null;
-	// for (Usuario usuario : usuarios) {
-	// emprestimo = idsEmprestimos.get(idEmprestimo);
-	// if (emprestimo != null) {
-	// if (!emprestimo.getBeneficiado().equals(beneficiado))
-	// throw new Exception(
-	// "O item só pode ser devolvido pelo usuário beneficiado");
-	// }
-	// }
-	// if (emprestimo == null)
-	// throw new Exception("Empréstimo inexistente");
-	// }
-	//
-	// public void confirmarTerminoEmprestimo(String idSessao, String
-	// idEmprestimo)
-	// throws Exception {
-	// Usuario emprestador = procuraUsuarioIdSessao(idSessao);
-	// Emprestimo emprestimo = null;
-	// for (Usuario usuario : usuarios) {
-	// emprestimo = idsEmprestimos.get(idEmprestimo);
-	// if (emprestimo != null) {
-	// if (!emprestimo.getItem().getIdUsuario().equals(emprestador))
-	// throw new Exception(
-	// "O término do empréstimo só pode ser confirmado pelo dono do item");
-	// else
-	// emprestimo.setSituacao(Situacao.COMPLETADO);
-	// break;
-	// }
-	// }
-	// if (emprestimo == null)
-	// throw new Exception("Empréstimo inexistente");
-	// }
-	//
-	// /*
-	// * public String pesquisarItem(String idSessao, String idItem){ String
-	// resp
-	// * = ""; for(int i = 0; i < itens.size(); i++){
-	// * if(itens.get(i).getIdItem().equals(idItem)){ resp +=
-	// * itens.get(i).getNome() + ", "; } }
-	// *
-	// *
-	// *
-	// * return null; }
-	// */
-	//
-	// public void apagarItem(String idSessao, String idItem) throws Exception {
-	// if (itens.size() <= 1) {
-	// throw new Exception("O usuário não possui itens cadastrados");
-	// }
-	// if (idSessao == null || "".equals(idSessao))
-	// throw new Exception("Sessão inválida");
-	// if (!(idUsuarios.contains(idSessao)))
-	// throw new Exception("Sessão inexistente");
-	// if (idItem == null || "".equals(idItem))
-	// throw new Exception("Sessão inválida");
-	// if (!(idUsuarios.contains(idItem)))
-	// throw new Exception("Sessão inexistente");
-	// for (int j = 0; j < itens.size(); j++) {
-	// if (itens.get(j).getIdItem().equals(idItem)) {
-	// itens.remove(itens.get(j));
-	// }
-	// }
-	// throw new Exception("O usuário não possui itens cadastrados");
-	// }
-
 	public Emprestimo procurarEmprestimo(String idEmprestimo) throws Exception {
 		for (Emprestimo empTemp : emprestimo) {
 			if (empTemp.getIdRequisicaoEmprestimo().equals(idEmprestimo)) {
 				return empTemp;
 			}
 		}
-		throw new Exception(
-				"O empréstimo só pode ser aprovado pelo dono do item");
+		throw new Exception("Empréstimo inexistente");
+	}
+
+	public String pesquisarItem(String idSessao, String chave, String atributo,
+			String tipoOrdenacao, String criterioOrdenacao) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void encerrarSistema() throws Throwable {
@@ -725,7 +685,7 @@ public class Sistema {
 
 		Sistema sis = new Sistema();
 
-		System.out.println("testando");
+		System.out.println("testando\n");
 
 		sis.criarUsuario("mark", "MARK DONO DO FB", "CASA DO CARAI");
 		String meuID = sis.abrirSessao("mark");
@@ -737,14 +697,13 @@ public class Sistema {
 		String idRequisicaoEmprestimo = sis
 				.requisitarEmprestimo(id2, idItem, 7);
 
-		System.out.println("requerer" + idRequisicaoEmprestimo);
-		System.out
-				.println(sis.procuraUsuarioLogin("mark").emprestimosRequisitados
-						.size());
-		System.out.println("aprova"
+		System.out.println("requerer: " + idRequisicaoEmprestimo);
+		System.out.println("aprova: "
 				+ sis.aprovarEmprestimo(meuID, idRequisicaoEmprestimo));
-		System.out.println(sis.getEmprestimos(meuID, "emprestador"));
+		System.out.println("getEmprestimo: "
+				+ sis.getEmprestimos(meuID, "emprestador"));
+
+		sis.devolverItem(id2, idRequisicaoEmprestimo);
 
 	}
-
 }
