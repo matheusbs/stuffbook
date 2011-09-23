@@ -110,6 +110,19 @@ public class SistemaFacade {
 		sis.apagarItem(IdSessao, idItem);
 	}
 
+	public String enviarMensagem(String idSessao, String destinatario,
+			String assunto, String mensagem) throws Exception {
+		return sis.enviarMensagem(idSessao, destinatario, assunto, mensagem);
+	}
+
+	public String lerTopicos(String idSessao, String tipo) throws Exception {
+		return sis.lerTopicos(idSessao, tipo);
+	}
+
+	public String lerMensagens(String idSessao, String idTopico) throws Exception {
+		return sis.lerMensagens(idSessao, idTopico);
+	}
+
 	public String getRanking(String idSessao, String categoria)
 			throws Exception {
 		return sis.getRanking(idSessao, categoria);

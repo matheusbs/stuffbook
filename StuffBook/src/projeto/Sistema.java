@@ -796,6 +796,53 @@ public class Sistema {
 		return usuario.getEmprestimosCompletados().size();
 	}
 
+	public String getRanking(String idSessao, String categoria)
+			throws Exception {
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
+			throw new Exception("Sessão inválida");
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if ("".equalsIgnoreCase(categoria) || categoria == null)
+			throw new Exception("Categoria inválida");
+		if (!"filme".equalsIgnoreCase(categoria)
+				&& !"jogo".equalsIgnoreCase(categoria)
+				&& !"livro".equalsIgnoreCase(categoria)) {
+			throw new Exception("Categoria inexistente");
+		}
+
+		return null;
+	}
+
+	public String enviarMensagem(String idSessao, String destinatario,
+			String assunto, String mensagem) throws Exception {
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
+			throw new Exception("Sessão inválida");
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		return null;
+
+	}
+
+	public String lerMensagens(String idSessao, String idTopico) throws Exception {
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null){
+			throw new Exception("Sessão inválida");}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		return null;
+	}
+
+	public String lerTopicos(String idSessao, String tipo) throws Exception {
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
+			throw new Exception("Sessão inválida");
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		return null;
+	}
+
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
 	}
@@ -826,11 +873,5 @@ public class Sistema {
 
 		sis.devolverItem(id2, idRequisicaoEmprestimo);
 
-	}
-
-	public String getRanking(String idSessao, String categoria)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }
