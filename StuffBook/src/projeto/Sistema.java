@@ -313,6 +313,8 @@ public class Sistema {
 			if ((id.equals(idUsuario))) {
 				String idItem = "" + gerarID();
 				idItens.add(idItem);
+				procuraUsuarioIdSessao(idUsuario).itens.add(new Item(idUsuario,
+						idItem, nome, descricao, categoria));
 				itens.add(new Item(idUsuario, idItem, nome, descricao,
 						categoria));
 				return idItem;
@@ -703,30 +705,52 @@ public class Sistema {
 			throw new Exception("Critério de ordenação inexistente");
 		}
 
-		List<Item> listaItensPesquisados = new ArrayList<Item>();
+		List<Item> listaItensPesquisadosGlobal = new ArrayList<Item>();
+		List<Item> listaItensPesquisadosAmigos = new ArrayList<Item>();
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
-		String Itempesquisado = "";
+		String stringPesquisada = "";
 
-		for (Item itemPesquisado : usuario.getItens()) {
-			if ("nome".equals(atributo)) {
-				if ((itemPesquisado.getNome().contains(chave))) {
-					Itempesquisado = itemPesquisado.getNome();
-				}
-			}
-			if ("descricao".equals(atributo)) {
-				if ((itemPesquisado.getDescricao().contains(chave))) {
-					Itempesquisado = "";
-				}
-			}
-			if ("categoria".equals(atributo)) {
-				if ((itemPesquisado.getCategoria().contains(chave))) {
-					Itempesquisado = "";
-				}
-			} else {
-				Itempesquisado = "Nenhum item encontrado";
+		listaItensPesquisadosGlobal = procurarItens(chave, atributo);
+
+		for (int i = 0; i < listaItensPesquisadosGlobal.size(); i++) {
+			if (ehAmigo(
+					idSessao,
+					procuraUsuarioIdSessao(
+							listaItensPesquisadosGlobal.get(i).getIdUsuario())
+							.getLogin())) {
+				listaItensPesquisadosAmigos.add(listaItensPesquisadosGlobal
+						.get(i));
 			}
 		}
-		return Itempesquisado;
+
+		if (stringPesquisada.length() == 0) {
+			return "Nenhum item encontrado";
+		}
+		stringPesquisada = stringPesquisada.substring(0,
+				stringPesquisada.length() - 2);
+		return stringPesquisada;
+	}
+
+	public List<Item> procurarItens(String chave, String atributo) {
+		List<Item> listaArmazenaItens = new ArrayList<Item>();
+		for (int i = 0; i < itens.size(); i++) {
+			if (atributo.equals("nome")) {
+				if (itens.get(i).getNome().contains(chave)) {
+					listaArmazenaItens.add(itens.get(i));
+				}
+			}
+			if (atributo.equals("descricao")) {
+				if (itens.get(i).getDescricao().contains(chave)) {
+					listaArmazenaItens.add(itens.get(i));
+				}
+			}
+			if (atributo.equals("categoria")) {
+				if (itens.get(i).getCategoria().contains(chave)) {
+					listaArmazenaItens.add(itens.get(i));
+				}
+			}
+		}
+		return listaArmazenaItens;
 	}
 
 	public void encerrarSistema() throws Throwable {
