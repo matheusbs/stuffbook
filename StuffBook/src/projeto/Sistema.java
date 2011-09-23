@@ -658,8 +658,28 @@ public class Sistema {
 		}
 	}
 
-	public void apagarItem(String IdSessao, String idItem) throws Exception {
-		apagarItem(IdSessao, idItem);
+	public void apagarItem(String idSessao, String idItem) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (idItem == null || "".equals(idItem)) {
+			throw new Exception("Identificador do item é inválido");
+		}
+		Usuario usuario = procuraUsuarioIdSessao(idSessao);
+		Item item = procurarItens(idItem);
+		if (!item.getIdUsuario().equals(idSessao)) {
+			throw new Exception(
+					"O usuário não tem permissão para apagar este item");
+		}
+		if (procurarItens(idItem) == null) {
+			throw new Exception("Item inexistente");
+		}
+		itens.remove(item);
+		idItens.remove(idItem);
+		usuario.itens.remove(item);
 	}
 
 	public Emprestimo procurarEmprestimo(String idEmprestimo) throws Exception {
@@ -751,6 +771,22 @@ public class Sistema {
 			}
 		}
 		return listaArmazenaItens;
+	}
+
+	public Item procurarItens(String idItem) throws Exception {
+		if (idItem.contains(idItem)) {
+			for (int i = 0; i < itens.size(); i++) {
+				if (itens.get(i).getIdItem().equals(idItem)) {
+					return itens.get(i);
+				}
+			}
+		}
+		return null;
+	}
+
+	public int getReputacao(String idUsuario) throws Exception {
+		Usuario usuario = procuraUsuarioIdSessao(idUsuario);
+		return usuario.getEmprestimosCompletados().size();
 	}
 
 	public void encerrarSistema() throws Throwable {
