@@ -21,6 +21,7 @@ public class Usuario {
 			emprestimosCompletados, emprestimosSolicitados;
 	protected List<Usuario> amigos;
 	protected List<String> RequisicoesDeAmizade;
+	protected List<Mensagem> mensagens;
 
 	private String nome, endereco, login, idSessao;
 
@@ -50,6 +51,7 @@ public class Usuario {
 		emprestimosCompletados = new ArrayList<Emprestimo>();
 		emprestimosSolicitados = new ArrayList<Emprestimo>();
 		amigos = new ArrayList<Usuario>();
+		mensagens = new ArrayList<Mensagem>();
 		RequisicoesDeAmizade = new ArrayList<String>();
 	}
 
@@ -71,6 +73,10 @@ public class Usuario {
 
 	public List<Item> getItens() {
 		return itens;
+	}
+
+	public List<Mensagem> getMensagens() {
+		return mensagens;
 	}
 
 	public String getIdSessao() {
