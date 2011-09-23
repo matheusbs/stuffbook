@@ -670,9 +670,63 @@ public class Sistema {
 	}
 
 	public String pesquisarItem(String idSessao, String chave, String atributo,
-			String tipoOrdenacao, String criterioOrdenacao) {
-		// TODO Auto-generated method stub
-		return null;
+			String tipoOrdenacao, String criterioOrdenacao) throws Exception {
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (chave == null || "".equals(chave)) {
+			throw new Exception("Chave inválida");
+		}
+		if (atributo == null || "".equals(atributo)) {
+			throw new Exception("Atributo inválido");
+		}
+		if (!(atributo.equalsIgnoreCase("nome"))
+				&& !(atributo.equalsIgnoreCase("descricao"))
+				&& !(atributo.equalsIgnoreCase("categoria"))) {
+			throw new Exception("Atributo inexistente");
+		}
+		if (tipoOrdenacao == null || "".equals(tipoOrdenacao)) {
+			throw new Exception("Tipo inválido de ordenação");
+		}
+		if (!(tipoOrdenacao.equals("crescente"))
+				&& !(tipoOrdenacao.equals("decrescente"))) {
+			throw new Exception("Tipo de ordenação inexistente");
+		}
+		if (criterioOrdenacao == null || "".equals(criterioOrdenacao)) {
+			throw new Exception("Critério inválido de ordenação");
+		}
+		if (!(criterioOrdenacao.equals("reputacao"))
+				&& !(criterioOrdenacao.equals("dataCriacao"))) {
+			throw new Exception("Critério de ordenação inexistente");
+		}
+
+		List<Item> listaItensPesquisados = new ArrayList<Item>();
+		Usuario usuario = procuraUsuarioIdSessao(idSessao);
+		String Itempesquisado = "";
+
+		for (Item itemPesquisado : usuario.getItens()) {
+			if ("nome".equals(atributo)) {
+				if ((itemPesquisado.getNome().contains(chave))) {
+					Itempesquisado = itemPesquisado.getNome();
+				}
+			}
+			if ("descricao".equals(atributo)) {
+				if ((itemPesquisado.getDescricao().contains(chave))) {
+					Itempesquisado = "";
+				}
+			}
+			if ("categoria".equals(atributo)) {
+				if ((itemPesquisado.getCategoria().contains(chave))) {
+					Itempesquisado = "";
+				}
+			} else {
+				Itempesquisado = "Nenhum item encontrado";
+			}
+		}
+		return Itempesquisado;
 	}
 
 	public void encerrarSistema() throws Throwable {
