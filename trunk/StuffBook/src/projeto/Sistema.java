@@ -669,17 +669,24 @@ public class Sistema {
 			throw new Exception("Identificador do item é inválido");
 		}
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
+
 		Item item = procurarItens(idItem);
-		if (!item.getIdUsuario().equals(idSessao)) {
+
+		if (!(item.getIdUsuario().equals(idSessao))) {
 			throw new Exception(
 					"O usuário não tem permissão para apagar este item");
 		}
-		if (procurarItens(idItem) == null) {
-			throw new Exception("Item inexistente");
+		if (procurarItens(idItem) != null) {
+
+			if (!item.getStatus().equals(Status.EMPRESTADO)) {
+				itens.remove(item);
+				idItens.remove(idItem);
+				usuario.itens.remove(item);
+			} else {
+				throw new Exception(
+						"O usuário não pode apagar este item enquanto estiver emprestado");
+			}
 		}
-		itens.remove(item);
-		idItens.remove(idItem);
-		usuario.itens.remove(item);
 	}
 
 	public Emprestimo procurarEmprestimo(String idEmprestimo) throws Exception {
@@ -781,7 +788,7 @@ public class Sistema {
 				}
 			}
 		}
-		return null;
+		throw new Exception("Item inexistente");
 	}
 
 	public int getReputacao(String idUsuario) throws Exception {
@@ -819,5 +826,11 @@ public class Sistema {
 
 		sis.devolverItem(id2, idRequisicaoEmprestimo);
 
+	}
+
+	public String getRanking(String idSessao, String categoria)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -110,6 +110,11 @@ public class SistemaFacade {
 		sis.apagarItem(IdSessao, idItem);
 	}
 
+	public String getRanking(String idSessao, String categoria)
+			throws Exception {
+		return sis.getRanking(idSessao, categoria);
+	}
+
 	public void encerrarSistema() {
 	}
 }
