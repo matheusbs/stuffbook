@@ -19,7 +19,6 @@ public class Usuario {
 	protected List<Item> itens, pedidosDeItens;
 	protected List<Emprestimo> emprestimosRequisitados, emprestimosAndamento,
 			emprestimosCompletados, emprestimosSolicitados;
-
 	protected List<Usuario> amigos;
 	protected List<String> RequisicoesDeAmizade;
 
@@ -68,6 +67,10 @@ public class Usuario {
 
 	public List<Emprestimo> getEmprestimosSolicitados() {
 		return emprestimosSolicitados;
+	}
+
+	public List<Item> getItens() {
+		return itens;
 	}
 
 	public String getIdSessao() {
