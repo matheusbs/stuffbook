@@ -85,9 +85,9 @@ public class SistemaFacade {
 		return sis.requisitarEmprestimo(idSessao, idItem, duracao);
 	}
 
-	public void aprovarEmprestimo(String idSessao, String idEmprestimo)
+	public String aprovarEmprestimo(String idSessao, String idEmprestimo)
 			throws Exception {
-		sis.aprovarEmprestimo(idSessao, idEmprestimo);
+		return sis.aprovarEmprestimo(idSessao, idEmprestimo);
 	}
 
 	public void devolverItem(String idSessao, String idEmprestimo)
@@ -98,6 +98,12 @@ public class SistemaFacade {
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
 			throws Exception {
 		sis.confirmarTerminoEmprestimo(idSessao, idEmprestimo);
+	}
+
+	public String pesquisarItem(String idSessao, String chave, String atributo,
+			String tipoOrdenacao, String criterioOrdenacao) throws Exception {
+		return sis.pesquisarItem(idSessao, chave, atributo, tipoOrdenacao,
+				criterioOrdenacao);
 	}
 
 	public void apagarItem(String IdSessao, String idItem) throws Exception {

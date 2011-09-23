@@ -8,7 +8,7 @@ package projeto;
 public class Item {
 
 	public static enum Status {
-		DISPONIVEL, INDISPONIVEL, EMPRESTADO;
+		DISPONIVEL, INDISPONIVEL, EMPRESTADO, DEVOLVIDO;
 	}
 
 	public static enum Categoria {
@@ -95,6 +95,8 @@ public class Item {
 			return "Disponível";
 		if (status.equals(status.EMPRESTADO))
 			return "Emprestado";
+		if (status.equals(status.DEVOLVIDO))
+			return "Devolvido";
 		return "Indisponível";
 	}
 
