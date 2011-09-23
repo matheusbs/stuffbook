@@ -36,14 +36,14 @@ public class Item {
 	 * @throws Exception
 	 */
 	public Item(String idUsuario, String idItem, String nome, String descricao,
-			String categoria){
+			String categoria) {
 
 		this.idUsuario = idUsuario;
 		this.idItem = idItem;
 		this.nome = nome;
 		this.descricao = descricao;
 		this.categoria = categoria;
-		this.status = Status.INDISPONIVEL;
+		this.status = Status.DISPONIVEL;
 	}
 
 	/**
@@ -86,12 +86,16 @@ public class Item {
 	 * 
 	 * @return O status do item
 	 */
-	public String getStatus() {
+	public Status getStatus() {
+		return this.status;
+	}
+
+	public String getStatusString() {
 		if (status.equals(status.DISPONIVEL))
-			return "Item disponível.";
+			return "Disponível";
 		if (status.equals(status.EMPRESTADO))
-			return "Item emprestado.";
-		return "Item indisponível.";
+			return "Emprestado";
+		return "Indisponível";
 	}
 
 	/**
@@ -130,8 +134,7 @@ public class Item {
 	 * @param novoStatus
 	 */
 	public void setStatus(Status novoStatus) {
-		if (!(status == novoStatus))
-			this.status = novoStatus;
+		this.status = novoStatus;
 	}
 
 }

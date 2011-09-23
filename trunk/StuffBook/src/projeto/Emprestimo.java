@@ -8,20 +8,30 @@ public class Emprestimo {
 
 	private Item item;
 	private Usuario emprestador, beneficiado;
-	private Situacao status;
+	private Situacao situacao;
 	private int duracao;
+	private String idRequisicaoEmprestimo;
 
 	public Emprestimo(Item item, Usuario emprestador, Usuario beneficiado,
-			int duracao) {
+			int duracao, String idRequisicaoEmprestimo) {
 		this.item = item;
 		this.emprestador = emprestador;
 		this.beneficiado = beneficiado;
 		this.duracao = duracao;
-		this.status = Situacao.ANDAMENTO;
+		this.situacao = Situacao.ANDAMENTO;
+		this.idRequisicaoEmprestimo = idRequisicaoEmprestimo;
 	}
 
 	public Item getItem() {
 		return item;
+	}
+
+	public String getIdRequisicaoEmprestimo() {
+		return this.idRequisicaoEmprestimo = idRequisicaoEmprestimo;
+	}
+
+	public void setIdRequisicaoEmprestimo(String idRequisicaoEmprestimo) {
+		this.idRequisicaoEmprestimo = idRequisicaoEmprestimo;
 	}
 
 	public void setItem(Item item) {
@@ -40,30 +50,30 @@ public class Emprestimo {
 		return duracao;
 	}
 
-	public String getStatus() {
-		if (status.equals(Situacao.ANDAMENTO))
+	public String getSituacao() {
+		if (situacao.equals(Situacao.ANDAMENTO))
 			return "Andamento";
-		if (status.equals(Situacao.COMPLETADO))
+		if (situacao.equals(Situacao.COMPLETADO))
 			return "Completado";
-		if (status.equals(Situacao.ATRASADO))
+		if (situacao.equals(Situacao.ATRASADO))
 			return "Empréstimo atrasado.";
 		return "Empréstimo finalizado.";
 
 	}
 
-	public void setStatus(Situacao novoStatus) {
-		if (novoStatus.equals(Situacao.ANDAMENTO))
-			status = status.ANDAMENTO;
-		if (novoStatus.equals(Situacao.COMPLETADO))
-			status = status.COMPLETADO;
-		if (novoStatus.equals(Situacao.ATRASADO))
-			status = status.ATRASADO;
+	public void setSituacao(Situacao novaSituacao) {
+		if (novaSituacao.equals(Situacao.ANDAMENTO))
+			situacao = situacao.ANDAMENTO;
+		if (novaSituacao.equals(Situacao.COMPLETADO))
+			situacao = situacao.COMPLETADO;
+		if (novaSituacao.equals(Situacao.ATRASADO))
+			situacao = situacao.ATRASADO;
 
 	}
 
 	public String toString() {
 		return getEmprestador().getLogin() + "-" + getBeneficiado().getLogin()
-				+ ":" + item.getNome() + ":" + getStatus();
+				+ ":" + item.getNome() + ":" + getSituacao();
 	}
 
 	public boolean equals(Object objeto) {
