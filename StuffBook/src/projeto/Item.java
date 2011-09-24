@@ -1,14 +1,16 @@
-/**
- * @author Matheus Batista Silva
- * @author Rodolfo Moraes Martins
- * @author Paulo André Braga Souto
- */
 package projeto;
+
+/**
+ * Classe que cria os itens
+ * 
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
+ * @version 1.0
+ */
 
 public class Item {
 
 	public static enum Status {
-		DISPONIVEL, INDISPONIVEL, EMPRESTADO, DEVOLVIDO;
+		DISPONIVEL, INDISPONIVEL, EMPRESTADO, DEVOLVIDO
 	}
 
 	public static enum Categoria {
@@ -18,7 +20,6 @@ public class Item {
 	private String idItem;
 	private String nome, descricao, categoria, idUsuario;
 	private Status status;
-	private Usuario dono, donoTemporario;
 
 	/**
 	 * Metodo Construtor
@@ -90,6 +91,13 @@ public class Item {
 		return this.status;
 	}
 
+	/**
+	 * Metodo que pega status de um item. apenas 3 sao validas: disponivel,
+	 * emprestado e devolvido
+	 * 
+	 * @return status do item
+	 */
+	@SuppressWarnings("static-access")
 	public String getStatusString() {
 		if (status.equals(status.DISPONIVEL))
 			return "Disponível";
@@ -101,7 +109,7 @@ public class Item {
 	}
 
 	/**
-	 * Metodo que muda a nome do item
+	 * Metodo que muda o nome do item
 	 * 
 	 * @param novoNome
 	 */
