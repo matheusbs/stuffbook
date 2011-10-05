@@ -1,8 +1,6 @@
 package projeto;
 
-/**
- * Classe que cria os emprestimos de item
- * 
+/**Classe que cria os emprestimos de item
  * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
  * @version 1.0
  */
@@ -34,7 +32,7 @@ public class Emprestimo {
 	}
 
 	public String getIdRequisicaoEmprestimo() {
-		return idRequisicaoEmprestimo;
+		return this.idRequisicaoEmprestimo = idRequisicaoEmprestimo;
 	}
 
 	public void setIdRequisicaoEmprestimo(String idRequisicaoEmprestimo) {
@@ -58,9 +56,7 @@ public class Emprestimo {
 	}
 
 	/**
-	 * Metodo que retorna situacao do emprestimo. apenas 3 sao validas:
-	 * andamento, completado e atrasado
-	 * 
+	 * Metodo que retorna situacao do emprestimo. apenas 3 sao validas: andamento, completado e atrasado
 	 * @return situacao
 	 */
 	public String getSituacao() {
@@ -75,13 +71,10 @@ public class Emprestimo {
 	}
 
 	/**
-	 * Metodo que altera a situacao de um emprestimo. apenas 3 sao validas:
-	 * andamento, completado e atrasado
-	 * 
+	 * Metodo que altera a situacao de um emprestimo. apenas 3 sao validas: andamento, completado e atrasado
 	 * @param novaSituacao
 	 */
-
-	@SuppressWarnings("static-access")
+	
 	public void setSituacao(Situacao novaSituacao) {
 		if (novaSituacao.equals(Situacao.ANDAMENTO))
 			situacao = situacao.ANDAMENTO;

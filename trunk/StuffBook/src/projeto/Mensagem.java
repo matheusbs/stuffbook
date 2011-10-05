@@ -1,16 +1,14 @@
 package projeto;
 
-/**
- * Classe que cria as mensagens
- * 
+/**Classe que cria as mensagens
  * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
  * @version 1.0
  */
 
 public class Mensagem {
 
-	private String loginDestinatario, loginRemetente, assunto, mensagem, tipo,
-			idTopico;
+	private String loginDestinatario , loginRemetente, assunto, mensagem, tipo, idTopico;
+
 
 	public Mensagem(String destinatario, String assunto, String mensagem)
 			throws Exception {
@@ -25,7 +23,7 @@ public class Mensagem {
 		if (mensagem == null || "".equals(mensagem)) {
 			throw new Exception("Mensagem inválida");
 		}
-
+		
 		this.loginDestinatario = destinatario;
 		this.assunto = assunto;
 		this.mensagem = mensagem;
@@ -80,10 +78,9 @@ public class Mensagem {
 		this.tipo = tipo;
 	}
 
+	
 	/**
-	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem
-	 * default
-	 * 
+	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem default
 	 * @param item
 	 * @param usuarioRequisitante
 	 * @return mensagem para o usuario
@@ -99,9 +96,7 @@ public class Mensagem {
 	}
 
 	/**
-	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem
-	 * default de devolucao
-	 * 
+	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem default de devolucao
 	 * @param item
 	 * @param usuario
 	 * @return mensagem de devolucao
@@ -114,25 +109,20 @@ public class Mensagem {
 				+ "solicitou a devolução do " + item.getNome() + ".";
 		return formato;
 	}
-
+	
 	/**
-	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem
-	 * default
-	 * 
+	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem default
 	 * @param item
 	 * @param usuario
 	 * @return mensagem de solicitacao de item
 	 */
-	public String msgSolicitacaoItem(Item item, Usuario usuario) {
-		String formato = usuario.getNome() + " solicitou o empréstimo do item "
-				+ item.getNome() + ";" + mensagem;
+	public String msgSolicitacaoItem(Item item, Usuario usuario){
+		String formato = usuario.getNome() + " solicitou o empréstimo do item " + item.getNome() +";" + mensagem;
 		return formato;
 	}
 
 	/**
-	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem
-	 * default de interesse de usuario em item
-	 * 
+	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem default de interesse de usuario em item
 	 * @param item
 	 * @param usuarioInteressado
 	 * @return mensagem de interesse
@@ -147,3 +137,4 @@ public class Mensagem {
 		return formato;
 	}
 }
+

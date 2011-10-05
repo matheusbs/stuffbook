@@ -1,8 +1,6 @@
 package projeto;
 
-/**
- * Classe que cria os itens
- * 
+/**Classe que cria os itens
  * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
  * @version 1.0
  */
@@ -10,7 +8,7 @@ package projeto;
 public class Item {
 
 	public static enum Status {
-		DISPONIVEL, INDISPONIVEL, EMPRESTADO, DEVOLVIDO
+		DISPONIVEL, INDISPONIVEL, EMPRESTADO, DEVOLVIDO;
 	}
 
 	public static enum Categoria {
@@ -20,6 +18,7 @@ public class Item {
 	private String idItem;
 	private String nome, descricao, categoria, idUsuario;
 	private Status status;
+	private Usuario dono, donoTemporario;
 
 	/**
 	 * Metodo Construtor
@@ -92,12 +91,9 @@ public class Item {
 	}
 
 	/**
-	 * Metodo que pega status de um item. apenas 3 sao validas: disponivel,
-	 * emprestado e devolvido
-	 * 
+	 * Metodo que pega status de um item. apenas 3 sao validas: disponivel, emprestado e devolvido
 	 * @return status do item
 	 */
-	@SuppressWarnings("static-access")
 	public String getStatusString() {
 		if (status.equals(status.DISPONIVEL))
 			return "Disponível";

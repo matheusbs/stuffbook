@@ -6,6 +6,7 @@ package projeto;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Sistema {
 	protected List<Emprestimo> emprestimo = new ArrayList<Emprestimo>();
 	protected List<Item> itens = new ArrayList<Item>();
 	protected List<String> idItens = new ArrayList<String>();
-
+	
 	private ArrayList<String> idsTopicos;
 
 	// lista global de mensagens
@@ -34,8 +35,8 @@ public class Sistema {
 
 	String abrirSessaoDefault = "sessaoDefault";
 
-	/**
-	 * Gera um id para usuario
+	
+	/**Gera um id para usuario
 	 * 
 	 * @return id de usuario
 	 */
@@ -47,17 +48,12 @@ public class Sistema {
 
 	/**
 	 * Cria o usuario
-	 * 
-	 * @param login
-	 *            do usuario
-	 * @param nome
-	 *            do usuario
-	 * @param endereco
-	 *            do usuario
-	 * @throws Exception
-	 *             para entradas invalidas
+	 * @param login do usuario
+	 * @param nome do usuario
+	 * @param endereco do usuario
+	 * @throws Exception para entradas invalidas
 	 */
-
+	
 	public void criarUsuario(String login, String nome, String endereco)
 			throws Exception {
 		if ("".equalsIgnoreCase(nome) || nome == null)
@@ -74,14 +70,12 @@ public class Sistema {
 
 	/**
 	 * Metodo que retorna atributos dos usuarios
-	 * 
-	 * @param login
+	 * @param login 
 	 * @param atributo
 	 * @return string formatada dos atributos
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
 		if (login == null || "".equals(login))
@@ -101,14 +95,12 @@ public class Sistema {
 		}
 		throw new Exception("Usuário inexistente");
 	}
-
+	
 	/**
 	 * Metodo que inicia o sistema para o usuario
-	 * 
 	 * @param login
 	 * @return id Usuario
-	 * @throws Exception
-	 *             excessao para entradas invalidas
+	 * @throws Exception excessao para entradas invalidas
 	 */
 
 	public String abrirSessao(String login) throws Exception {
@@ -128,15 +120,13 @@ public class Sistema {
 
 	/**
 	 * Metodo que localiza usuario
-	 * 
 	 * @param idSessao
 	 * @param chave
 	 * @param atributo
 	 * @return string formatada do usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String localizarUsuario(String idSessao, String chave,
 			String atributo) throws Exception {
 		String aux = "";
@@ -179,13 +169,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que procura usuarios pela idsessao
-	 * 
 	 * @param idSessao
 	 * @return retorno o usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public Usuario procuraUsuarioIdSessao(String idSessao) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getIdSessao().equals(idSessao))
@@ -196,11 +184,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que procura o usuario pelo login
-	 * 
 	 * @param login
-	 * @return usuario // * @throws Exception entradas invalidas
+	 * @return usuario
+//	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public Usuario procuraUsuarioLogin(String login) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
@@ -211,13 +199,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que retorna os amigos pela idsessao
-	 * 
 	 * @param idSessao
 	 * @return string formatada de amigos
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAmigos(String idSessao) throws Exception {
 		List<Usuario> listTemp = new ArrayList<Usuario>();
 		String aux = "";
@@ -243,14 +229,12 @@ public class Sistema {
 
 	/**
 	 * metodo que retorna os amigos peloidsessao e login
-	 * 
 	 * @param idSessao
 	 * @param login
 	 * @return string formatada com os amigos do usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAmigos(String idSessao, String login) throws Exception {
 		if (login == null || "".equals(login)) {
 			throw new Exception("Login inválido");
@@ -280,15 +264,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que requisita amizade do usuario com outro usuario
-	 * 
-	 * @param idSessao
-	 *            do requisitante
-	 * @param login
-	 *            do requisitado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param idSessao do requisitante
+	 * @param login do requisitado
+	 * @throws Exception  entradas invalidas
 	 */
-
+	
 	public void requisitarAmizade(String idSessao, String login)
 			throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
@@ -313,15 +293,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que aprova amizade dos usuarios
-	 * 
-	 * @param idSessao
-	 *            do requisitante
-	 * @param login
-	 *            requisitado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param idSessao do requisitante
+	 * @param login requisitado
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public void aprovarAmizade(String idSessao, String login) throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sessão inválida");
@@ -348,15 +324,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que desfaz amizades
-	 * 
-	 * @param idSessao
-	 *            do requisitante
-	 * @param login
-	 *            requisitado para desfazer amizade
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param idSessao do requisitante
+	 * @param login requisitado para desfazer amizade
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public void desfazerAmizade(String idSessao, String login) throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sessão inválida");
@@ -385,16 +357,12 @@ public class Sistema {
 
 	/**
 	 * Metodo que retorna se o usuario eh amigo ou nao do outro usuario
-	 * 
-	 * @param idSessao
-	 *            requisitante
-	 * @param login
-	 *            requisitado
+	 * @param idSessao requisitante
+	 * @param login requisitado
 	 * @return true se forem amigos, false caso contrario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public boolean ehAmigo(String idSessao, String login) throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sessão inválida");
@@ -420,14 +388,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que retorna as requisiçoes de amizade
-	 * 
-	 * @param idSessao
-	 *            do requisitante
+	 * @param idSessao do requisitante
 	 * @return string formatada com os dados
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sessão inválida");
@@ -440,11 +405,8 @@ public class Sistema {
 
 	/**
 	 * Metodo que cadastra item
-	 * 
-	 * @param objeto
-	 *            item
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param objeto item
+	 * @throws Exception entradas invalidas
 	 */
 	public String cadastrarItem(String idUsuario, String nome,
 			String descricao, String categoria) throws Exception {
@@ -475,14 +437,12 @@ public class Sistema {
 
 	/**
 	 * Metodo que verifica o atributo do usuario
-	 * 
 	 * @param idItem
 	 * @param atributo
 	 * @return string do atributo do usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAtributoItem(String idItem, String atributo)
 			throws Exception {
 		if ("".equalsIgnoreCase(idItem) || idItem == null)
@@ -508,12 +468,9 @@ public class Sistema {
 
 	/**
 	 * Metodo acessador de itens
-	 * 
-	 * @param id
-	 *            sessao de usuario
+	 * @param id sessao de usuario
 	 * @return lista de itens
-	 * @exception entradas
-	 *                invalidas
+	 * @exception entradas invalidas
 	 */
 	public String getItens(String idSessao) throws Exception {
 		List<String> listTemp = new ArrayList<String>();
@@ -539,15 +496,13 @@ public class Sistema {
 		}
 		return aux;
 	}
-
+	
 	/**
 	 * Metodo que retorna itens
-	 * 
 	 * @param idSessao
 	 * @param login
 	 * @return string com os itens
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public String getItens(String idSessao, String login) throws Exception {
@@ -567,15 +522,13 @@ public class Sistema {
 		Usuario user = procuraUsuarioLogin(login);
 		return getItens(user.getIdSessao());
 	}
-
+	
 	/**
 	 * Metodo que retorna emprestimos
-	 * 
 	 * @param idSessao
 	 * @param tipo
 	 * @return string de emprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public String getEmprestimos(String idSessao, String tipo) throws Exception {
@@ -650,21 +603,20 @@ public class Sistema {
 		for (String emprestimo : listaEmprestimos) {
 			emprestimos += emprestimo + "; ";
 		}
+
 		emprestimos = emprestimos.substring(0, emprestimos.length() - 2);
 		return emprestimos;
 	}
 
 	/**
 	 * Metodo de requisicao de emprestimo
-	 * 
 	 * @param idSessao
 	 * @param idItem
 	 * @param duracao
 	 * @return String da requisicao do emprestimo requisitado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String requisitarEmprestimo(String idSessao, String idItem,
 			int duracao) throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
@@ -717,14 +669,12 @@ public class Sistema {
 
 	/**
 	 * Metodo que aprova emprestimo
-	 * 
 	 * @param idSessao
 	 * @param idRequisicaoEmprestimo
 	 * @return retorna string dizendo se foi aprovado ou nao
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String aprovarEmprestimo(String idSessao,
 			String idRequisicaoEmprestimo) throws Exception {
 
@@ -755,9 +705,7 @@ public class Sistema {
 			throw new Exception("Requisição de empréstimo inexistente");
 		}
 		if (emprestador.getEmprestimosAndamento().contains(
-				procurarEmprestimo(idRequisicaoEmprestimo))
-				&& procurarEmprestimo(idRequisicaoEmprestimo).getItem()
-						.getStatus().equals(Status.EMPRESTADO)) {
+				procurarEmprestimo(idRequisicaoEmprestimo))) {
 			throw new Exception("Empréstimo já aprovado");
 		}
 		List<Emprestimo> listaEmprestimosRequisitados = emprestador
@@ -771,8 +719,8 @@ public class Sistema {
 
 					listaEmprestimosRequisitados.get(i).setSituacao(
 							Situacao.ANDAMENTO);
-					listaEmprestimosRequisitados.get(i).getItem().setStatus(
-							Status.EMPRESTADO);
+					listaEmprestimosRequisitados.get(i).getItem()
+							.setStatus(Status.EMPRESTADO);
 
 					beneficiado.emprestimosAndamento
 							.add(listaEmprestimosRequisitados.get(i));
@@ -790,14 +738,12 @@ public class Sistema {
 		}
 		return idRequisicaoEmprestimo;
 	}
-
+	
 	/**
 	 * Metodo que devolve item emprestado pelo dono ao dono
-	 * 
 	 * @param idSessao
 	 * @param idEmprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public void devolverItem(String idSessao, String idEmprestimo)
@@ -832,14 +778,12 @@ public class Sistema {
 
 		emprestimoDevolvido.getItem().setStatus(Status.DEVOLVIDO);
 	}
-
+	
 	/**
-	 *Metodo que confirma que houve o termino de um emprestimo
-	 * 
+	 *Metodo que confirma que houve o termino de um emprestimo 
 	 * @param idSessao
 	 * @param idEmprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
@@ -860,9 +804,7 @@ public class Sistema {
 		Emprestimo emprestimoDevolvido = procurarEmprestimo(idEmprestimo);
 
 		if (emprestador.getEmprestimosCompletados().contains(
-				emprestimoDevolvido)
-				&& emprestimoDevolvido.getItem().getStatus().equals(
-						Status.DISPONIVEL)) {
+				emprestimoDevolvido)) {
 			throw new Exception("Término do empréstimo já confirmado");
 		}
 
@@ -883,14 +825,12 @@ public class Sistema {
 			}
 		}
 	}
-
+	
 	/**
 	 * Metodo que apaga item, metodo sem retorno
-	 * 
 	 * @param idSessao
 	 * @param idItem
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public void apagarItem(String idSessao, String idItem) throws Exception {
@@ -926,13 +866,11 @@ public class Sistema {
 
 	/**
 	 * Metodo que procura emprestimo
-	 * 
 	 * @param idEmprestimo
 	 * @return emprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public Emprestimo procurarEmprestimo(String idEmprestimo) throws Exception {
 		for (Emprestimo empTemp : emprestimo) {
 			if (empTemp.getIdRequisicaoEmprestimo().equals(idEmprestimo)) {
@@ -944,17 +882,15 @@ public class Sistema {
 
 	/**
 	 * Metodo que pesquisa item
-	 * 
 	 * @param idSessao
 	 * @param chave
 	 * @param atributo
 	 * @param tipoOrdenacao
 	 * @param criterioOrdenacao
 	 * @return item pesquisado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String pesquisarItem(String idSessao, String chave, String atributo,
 			String tipoOrdenacao, String criterioOrdenacao) throws Exception {
 		if (idSessao == null || "".equals(idSessao)) {
@@ -991,40 +927,34 @@ public class Sistema {
 
 		List<Item> listaItensPesquisadosGlobal = new ArrayList<Item>();
 		List<Item> listaItensPesquisadosAmigos = new ArrayList<Item>();
-		String stringItens = "";
+		Usuario usuario = procuraUsuarioIdSessao(idSessao);
+		String stringPesquisada = "";
 
 		listaItensPesquisadosGlobal = procurarItens(chave, atributo);
 
 		for (int i = 0; i < listaItensPesquisadosGlobal.size(); i++) {
-			if (ehAmigo(idSessao, procuraUsuarioIdSessao(
-					listaItensPesquisadosGlobal.get(i).getIdUsuario())
-					.getLogin())) {
+			if (ehAmigo(
+					idSessao,
+					procuraUsuarioIdSessao(
+							listaItensPesquisadosGlobal.get(i).getIdUsuario())
+							.getLogin())) {
 				listaItensPesquisadosAmigos.add(listaItensPesquisadosGlobal
 						.get(i));
 			}
 		}
 
-		if (listaItensPesquisadosAmigos.size() == 0) {
+		if (stringPesquisada.length() == 0) {
 			return "Nenhum item encontrado";
 		}
-
-		if (tipoOrdenacao.equals("decrescente")) {
-			Collections.reverse(listaItensPesquisadosAmigos);
-		}
-
-		for (Item item : listaItensPesquisadosAmigos) {
-			stringItens += item.getNome() + "; ";
-		}
-
-		stringItens = stringItens.substring(0, stringItens.length() - 2);
-		return stringItens;
+		stringPesquisada = stringPesquisada.substring(0,
+				stringPesquisada.length() - 2);
+		return stringPesquisada;
 	}
-
+	
 	/**
 	 * Metodo que procura itens
-	 * 
 	 * @param chave
-	 * @param atributo
+	 * @param atributo 
 	 * @return lista de itens
 	 */
 
@@ -1049,14 +979,12 @@ public class Sistema {
 		}
 		return listaArmazenaItens;
 	}
-
+	
 	/**
 	 * Metodo de procura de itens
-	 * 
 	 * @param idItem
 	 * @return item procurado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public Item procurarItens(String idItem) throws Exception {
@@ -1069,15 +997,13 @@ public class Sistema {
 		}
 		throw new Exception("Item inexistente");
 	}
-
+	
 	/**
 	 * Metodo que captura posicao para verificar ranking
-	 * 
 	 * @param idSessao
 	 * @param categoria
 	 * @return ranking
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public String getRanking(String idSessao, String categoria)
@@ -1089,62 +1015,63 @@ public class Sistema {
 		}
 		if ("".equalsIgnoreCase(categoria) || categoria == null)
 			throw new Exception("Categoria inválida");
-		if (!"amigos".equalsIgnoreCase(categoria)
-				&& !"global".equalsIgnoreCase(categoria)) {
+		if (!"filme".equalsIgnoreCase(categoria)
+				&& !"jogo".equalsIgnoreCase(categoria)
+				&& !"livro".equalsIgnoreCase(categoria)) {
 			throw new Exception("Categoria inexistente");
 		}
 
 		String ranking = "";
 		String maior = "", menor = "";
-		int[] reputacao = null;
-		List<Usuario> listaRanking = new ArrayList<Usuario>();
-
-		if ("amigos".equalsIgnoreCase(categoria)) {
-			listaRanking = procuraUsuarioIdSessao(idSessao).amigos;
+		List<String> reputacao = new ArrayList<String>();
+		for (int i = 0; i < usuarios.size(); i++) {
+			if (usuarios.get(i).getReputacao() < usuarios.get(i + 1)
+					.getReputacao()) {
+				maior = usuarios.get(i + 1).getLogin();
+				menor = usuarios.get(i).getLogin();
+			}
 		}
-		if ("global".equalsIgnoreCase(categoria)) {
-			listaRanking = usuarios;
-		}
+		Collections.sort(reputacao);
 
 		return ranking;
 	}
 
-	public Usuario getUsuarioLogin(String login) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getLogin().equals(login)) {
+	
+
+	public Usuario getUsuarioLogin(String login){
+		for(Usuario usuario : usuarios){
+			if(usuario.getLogin().equals(login)){	
 				return usuario;
 			}
 		}
 		return null;
 	}
+	
 
-	public Usuario getUsuarioId(String id) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getIdSessao().equals(id)) {
+	public Usuario getUsuarioId(String id){
+		for(Usuario usuario : usuarios){
+			if(usuario.getIdSessao().equals(id)){	
 				return usuario;
 			}
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Metodo que manda mensagem para usuarios offtopic
-	 * 
 	 * @param idSessao
 	 * @param destinatario
 	 * @param assunto
 	 * @param mensagemEscrita
 	 * @return mensagem
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-	public String enviarMensagem(String idSessao, String destinatario,
-			String assunto, String mensagemEscrita) throws Exception {
-		if (destinatario == null || "".equals(destinatario)) {
+	public String enviarMensagem(String idSessao, String destinatario, String assunto, String mensagemEscrita) throws Exception{
+		if(destinatario == null || "".equals(destinatario)){
 			throw new Exception("Destinatário inválido");
 		}
-
-		if (getUsuarioLogin(destinatario) == null) {
+		
+		if(getUsuarioLogin(destinatario) == null){
 			throw new Exception("Destinatário inexistente");
 		}
 		Mensagem mensagem = new Mensagem(destinatario, assunto, mensagemEscrita);
@@ -1158,64 +1085,63 @@ public class Sistema {
 
 	/**
 	 * Metodo que envia mensagem a usuario
-	 * 
 	 * @param idSessao
 	 * @param destinatario
 	 * @param assunto
 	 * @param mensagemEscrita
 	 * @param idEmprestimo
 	 * @return mensagem
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 	public String enviarMensagem(String idSessao, String destinatario,
-			String assunto, String mensagemEscrita, String idEmprestimo)
-			throws Exception {
+			String assunto, String mensagemEscrita, String idEmprestimo) throws Exception {
+			
+			if(destinatario == null || "".equals(destinatario)){
+				throw new Exception("Destinatário inválido");
+			}
 
-		if (destinatario == null || "".equals(destinatario)) {
-			throw new Exception("Destinatário inválido");
+			if(idEmprestimo == null || "".equals(idEmprestimo )){
+				throw new Exception("Identificador da requisição de empréstimo é inválido");
+			}
+			
+			if(assunto == null || "".equals(assunto )){
+				throw new Exception("Assunto inválido");
+			}
+			
+			if(mensagemEscrita == null || "".equals(mensagemEscrita )){
+				throw new Exception("Mensagem inválida");
+			}
+			
+			if(getUsuarioLogin(destinatario) == null){
+				throw new Exception("Destinatário inexistente");
+			}
+			
+			if(!idEmprestimo.contains(idEmprestimo)){
+				throw new Exception("Requisição de empréstimo inexistente");
+			}
+
+			if(getUsuarioId(idSessao).getEmprestimosAndamento() == null){
+				throw new Exception("O usuário não participa deste empréstimo");
+			}
+			
+			Mensagem mensagem = new Mensagem(destinatario, assunto, mensagemEscrita);
+			mensagem.setLoginRemetente(getUsuarioId(idSessao).getLogin());
+			mensagem.setTipo("negociacao");
+			mensagem.setIdTopico(mensagem.getTipo() + mensagem.getLoginDestinatario());
+			getUsuarioId(idSessao).addMensagemNegociacao(mensagem);
+			getUsuarioLogin(destinatario).addMensagemNegociacao(mensagem);
+			return mensagem.getIdTopico();
 		}
 
-		if (idEmprestimo == null || "".equals(idEmprestimo)) {
-			throw new Exception(
-					"Identificador da requisição de empréstimo é inválido");
+	
+
+		public ArrayList<String> getIdsTopicos() {
+			return idsTopicos;
 		}
-
-		if (assunto == null || "".equals(assunto)) {
-			throw new Exception("Assunto inválido");
-		}
-
-		if (mensagemEscrita == null || "".equals(mensagemEscrita)) {
-			throw new Exception("Mensagem inválida");
-		}
-
-		if (getUsuarioLogin(destinatario) == null) {
-			throw new Exception("Destinatário inexistente");
-		}
-
-		if (!idEmprestimo.contains(idEmprestimo)) {
-			throw new Exception("Requisição de empréstimo inexistente");
-		}
-
-		if (getUsuarioId(idSessao).getEmprestimosAndamento() == null) {
-			throw new Exception("O usuário não participa deste empréstimo");
-		}
-
-		Mensagem mensagem = new Mensagem(destinatario, assunto, mensagemEscrita);
-		mensagem.setLoginRemetente(getUsuarioId(idSessao).getLogin());
-		mensagem.setTipo("negociacao");
-		mensagem.setIdTopico(mensagem.getTipo()
-				+ mensagem.getLoginDestinatario());
-		getUsuarioId(idSessao).addMensagemNegociacao(mensagem);
-		getUsuarioLogin(destinatario).addMensagemNegociacao(mensagem);
-		return mensagem.getIdTopico();
-	}
-
-	public ArrayList<String> getIdsTopicos() {
-		return idsTopicos;
-	}
-
+	
+		
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
 	}
+	
 }
