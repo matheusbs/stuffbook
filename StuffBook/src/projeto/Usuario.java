@@ -1,4 +1,3 @@
-
 package projeto;
 
 /**Classe que cria os usuarios
@@ -22,8 +21,8 @@ public class Usuario {
 			emprestimosCompletados, emprestimosSolicitados;
 	protected List<Usuario> amigos;
 	protected List<String> RequisicoesDeAmizade;
-//	protected List<Mensagem> mensagens;
-	
+	// protected List<Mensagem> mensagens;
+
 	private ArrayList<Mensagem> mensagensOffTopic;
 	private ArrayList<Mensagem> mensagensNegociacao;
 	private ArrayList<Mensagem> mensagensInteresse;
@@ -32,7 +31,6 @@ public class Usuario {
 	private String nome, endereco, login, idSessao;
 
 	Sistema sistema = new Sistema();
-
 
 	public Usuario(String login, String nome, String endereco, String idSessao) {
 		this.idSessao = idSessao;
@@ -46,7 +44,7 @@ public class Usuario {
 		emprestimosCompletados = new ArrayList<Emprestimo>();
 		emprestimosSolicitados = new ArrayList<Emprestimo>();
 		amigos = new ArrayList<Usuario>();
-		
+
 		this.mensagensOffTopic = new ArrayList<Mensagem>();
 		this.mensagensNegociacao = new ArrayList<Mensagem>();
 		this.mensagensInteresse = new ArrayList<Mensagem>();
@@ -54,63 +52,65 @@ public class Usuario {
 
 		RequisicoesDeAmizade = new ArrayList<String>();
 	}
-	
-	
+
 	/**
 	 * Metodo de leitura de mensagens
+	 * 
 	 * @param idTopico
 	 * @return
 	 * @throws Exception
 	 */
-	
-	public ArrayList<String> lerMensagens(String idTopico) throws Exception{
-		
-		if(!idsTopicos.contains(idTopico)){
-        	throw new Exception("O usuário não tem permissão para ler as mensagens deste tópico");
-        }  
-		
-		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
-		
 
-		for(Mensagem m : mensagensOffTopic){
-			if(m.getIdTopico().equals(idTopico)){
+	public ArrayList<String> lerMensagens(String idTopico) throws Exception {
+
+		if (!idsTopicos.contains(idTopico)) {
+			throw new Exception(
+					"O usuï¿½rio nï¿½o tem permissï¿½o para ler as mensagens deste tï¿½pico");
+		}
+
+		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
+
+		for (Mensagem m : mensagensOffTopic) {
+			if (m.getIdTopico().equals(idTopico)) {
 				mensagensEncontradas.add(m.getMensagem());
 			}
 		}
-		
-		for(Mensagem m : mensagensNegociacao){
+
+		for (Mensagem m : mensagensNegociacao) {
 			mensagensEncontradas.add(m.getMensagem());
 		}
-		return mensagensEncontradas;	
+		return mensagensEncontradas;
 	}
-	
+
 	/**
 	 * Metodo que adiciona mensagens nas suas categorias
+	 * 
 	 * @param mensagem
 	 */
-	public void addMensagemOffTopic(Mensagem mensagem){
+	public void addMensagemOffTopic(Mensagem mensagem) {
 		idsTopicos.add(mensagem.getIdTopico());
 		mensagensOffTopic.add(mensagem);
 	}
-	
+
 	/**
 	 * Metodo que adiciona mensagens nas suas categorias
+	 * 
 	 * @param mensagem
 	 */
-	public void addMensagemNegociacao(Mensagem mensagem){
+	public void addMensagemNegociacao(Mensagem mensagem) {
 		idsTopicos.add(mensagem.getIdTopico());
 		mensagensNegociacao.add(mensagem);
 	}
-	
+
 	/**
 	 * Metodo que adiciona mensagens nas suas categorias
+	 * 
 	 * @param mensagem
 	 */
-	public void addMensagemInteresse(Mensagem mensagem){
+	public void addMensagemInteresse(Mensagem mensagem) {
 		idsTopicos.add(mensagem.getIdTopico());
 		mensagensInteresse.add(mensagem);
 	}
-	
 
 	public List<Emprestimo> getEmprestimosRequisitados() {
 		return emprestimosRequisitados;
@@ -132,9 +132,9 @@ public class Usuario {
 		return itens;
 	}
 
-	/*public List<Mensagem> getMensagens() {
-		return mensagens;
-	}*/
+	/*
+	 * public List<Mensagem> getMensagens() { return mensagens; }
+	 */
 
 	public String getIdSessao() {
 		return idSessao;
@@ -144,14 +144,14 @@ public class Usuario {
 		this.idSessao = IdSessao;
 	}
 
-	
 	/**
 	 * Metodo que retorna requisicoes de amizade
+	 * 
 	 * @return string de amigos que requisitaram amizade
 	 */
 	public String getRequisicoesDeAmizade() {
 		if (RequisicoesDeAmizade.size() == 0) {
-			return "Não há requisições";
+			return "Nï¿½o hï¿½ requisiï¿½ï¿½es";
 		}
 		String requisicoesDeAmizade = "";
 		for (String requisicoes : RequisicoesDeAmizade) {
@@ -166,30 +166,25 @@ public class Usuario {
 		return amigos;
 	}
 
-
 	public String getNome() {
 		return nome;
 	}
 
-
 	public void setNome(String novoNome) throws Exception {
 		if (!(nome.equals(novoNome)))
 			this.nome = novoNome;
-		throw new Exception("O NOVO NOME NÃO PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O NOVO NOME Nï¿½O PODE SER IGUAL AO ANTERIOR.");
 	}
-
 
 	public String getEndereco() {
 		return endereco;
 	}
 
-
 	public void setEndereco(String novoEndereco) throws Exception {
 		if (!(endereco.equals(novoEndereco)))
 			this.endereco = novoEndereco;
-		throw new Exception("O NOVO ENDEREÇO NÃO PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O NOVO ENDEREï¿½O Nï¿½O PODE SER IGUAL AO ANTERIOR.");
 	}
-
 
 	public String getLogin() {
 		return this.login;
@@ -197,6 +192,7 @@ public class Usuario {
 
 	/**
 	 * Metodo que remove requisicao de amizade de amigo
+	 * 
 	 * @param login
 	 */
 	public void removeRequisicaodeAmigo(String login) {
@@ -205,29 +201,33 @@ public class Usuario {
 
 	/**
 	 * Metodo que procura amigo
+	 * 
 	 * @param login
 	 * @return amigo procurado
-	 * @throws Exception entradas invalidas
+	 * @throws Exception
+	 *             entradas invalidas
 	 */
 	public Usuario procuraAmigo(String login) throws Exception {
 		for (Usuario amigo : amigos) {
 			if (amigo.getLogin().equals(login))
 				return amigo;
 		}
-		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
+		throw new Exception("USUï¿½RIO Nï¿½O ENCONTRADO.");
 	}
 
 	/**
 	 * metodo que remove um item da lista de itens
+	 * 
 	 * @param objeto
-	 * @throws Exception entradas invalidas
+	 * @throws Exception
+	 *             entradas invalidas
 	 */
 	public void removeItem(Item objeto) throws Exception {
 		for (Item objetoAux : itens) {
 			if (objetoAux.equals(objeto))
 				itens.remove(objeto);
 		}
-		throw new Exception("OBJETO NÃO ENCONTRADO.");
+		throw new Exception("OBJETO Nï¿½O ENCONTRADO.");
 	}
 
 	public int getReputacao() throws Exception {
@@ -246,67 +246,66 @@ public class Usuario {
 	}
 
 	/**
-	 * Metodo que ler os topicos das mensagens para o usuario	
+	 * Metodo que ler os topicos das mensagens para o usuario
+	 * 
 	 * @param tipo
 	 * @return mensagens dos topicos
-	 * @throws Exception entradas invalidas
+	 * @throws Exception
+	 *             entradas invalidas
 	 */
-	public ArrayList<String> lerTopicos(String tipo) throws Exception{
-		if(tipo == null || "".equals(tipo)){
-			throw new Exception("Tipo inválido");
+	public ArrayList<String> lerTopicos(String tipo) throws Exception {
+		if (tipo == null || "".equals(tipo)) {
+			throw new Exception("Tipo invï¿½lido");
 		}
-		if(!tipo.equals("todos") && !tipo.equals("offtopic") && !tipo.equals("negociacao")){
+		if (!tipo.equals("todos") && !tipo.equals("offtopic")
+				&& !tipo.equals("negociacao")) {
 			throw new Exception("Tipo inexistente");
 		}
-		
+
 		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
-		
-		if(tipo.equals("todos")){
-			for (Mensagem mensagem : mensagensOffTopic){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+
+		if (tipo.equals("todos")) {
+			for (Mensagem mensagem : mensagensOffTopic) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
-					}
+				}
 			}
-			for (Mensagem mensagem : mensagensNegociacao){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+			for (Mensagem mensagem : mensagensNegociacao) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
 
 			}
-			
-			
-			
+
 			return mensagensEncontradas;
 		}
-		
-		if(tipo.equals("offtopic")){
-			for (Mensagem mensagem : mensagensOffTopic){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
-					mensagensEncontradas.add(mensagem.getAssunto());
-					}
-			}
-			for (Mensagem mensagem : mensagensInteresse){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+
+		if (tipo.equals("offtopic")) {
+			for (Mensagem mensagem : mensagensOffTopic) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
-
 			}
-			return mensagensEncontradas;
-		}
-		
-		if(tipo.equals("negociacao")){
-			for (Mensagem mensagem : mensagensNegociacao){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+			for (Mensagem mensagem : mensagensInteresse) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
 
 			}
 			return mensagensEncontradas;
 		}
-		
-		
-		
+
+		if (tipo.equals("negociacao")) {
+			for (Mensagem mensagem : mensagensNegociacao) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
+					mensagensEncontradas.add(mensagem.getAssunto());
+				}
+
+			}
+			return mensagensEncontradas;
+		}
+
 		return mensagensEncontradas;
 	}
-	
+
 }
