@@ -11,20 +11,13 @@ public class Mensagem {
 
 	private String loginDestinatario, loginRemetente, assunto, mensagem, tipo,
 			idTopico;
-
+	
 	public Mensagem(String destinatario, String assunto, String mensagem)
 			throws Exception {
-		if (destinatario == null || "".equals(destinatario)) {
-			throw new Exception("Destinat�rio inv�lido");
-		}
-
-		if (assunto == null || "".equals(assunto)) {
-			throw new Exception("Assunto inv�lido");
-		}
-
-		if (mensagem == null || "".equals(mensagem)) {
-			throw new Exception("Mensagem inv�lida");
-		}
+	
+		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinat�rio inv�lido"));
+		ManipuladorStrings.trataVazio(assunto, new Exception("Assunto inv�lido"));
+		ManipuladorStrings.trataVazio(mensagem, new Exception("Mensagem inv�lida"));
 
 		this.loginDestinatario = destinatario;
 		this.assunto = assunto;
