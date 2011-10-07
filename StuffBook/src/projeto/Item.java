@@ -8,11 +8,11 @@ package projeto;
  */
 
 public class Item {
-	public static enum Status {
+	public enum Status {
 		DISPONIVEL, INDISPONIVEL, EMPRESTADO, DEVOLVIDO;
 	}
 
-	public static enum Categoria {
+	public enum Categoria {
 		LIVRO, FILME, JOGO;
 	}
 
@@ -98,11 +98,11 @@ public class Item {
 	 * @return status do item
 	 */
 	public String getStatusString() {
-		if (status.equals(status.DISPONIVEL))
+		if (status.equals(Status.DISPONIVEL))
 			return "Dispon�vel";
-		if (status.equals(status.EMPRESTADO))
+		if (status.equals(Status.EMPRESTADO))
 			return "Emprestado";
-		if (status.equals(status.DEVOLVIDO))
+		if (status.equals(Status.DEVOLVIDO))
 			return "Devolvido";
 		return "Indispon�vel";
 	}
@@ -144,6 +144,22 @@ public class Item {
 	 */
 	public void setStatus(Status novoStatus) {
 		this.status = novoStatus;
+	}
+
+	public Usuario getDono() {
+		return dono;
+	}
+
+	public void setDono(Usuario dono) {
+		this.dono = dono;
+	}
+
+	public Usuario getDonoTemporario() {
+		return donoTemporario;
+	}
+
+	public void setDonoTemporario(Usuario donoTemporario) {
+		this.donoTemporario = donoTemporario;
 	}
 
 }

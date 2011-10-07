@@ -83,11 +83,11 @@ public class Emprestimo {
 
 	public void setSituacao(Situacao novaSituacao) {
 		if (novaSituacao.equals(Situacao.ANDAMENTO))
-			situacao = situacao.ANDAMENTO;
+			situacao = Situacao.ANDAMENTO;
 		if (novaSituacao.equals(Situacao.COMPLETADO))
-			situacao = situacao.COMPLETADO;
+			situacao = Situacao.COMPLETADO;
 		if (novaSituacao.equals(Situacao.ATRASADO))
-			situacao = situacao.ATRASADO;
+			situacao = Situacao.ATRASADO;
 
 	}
 

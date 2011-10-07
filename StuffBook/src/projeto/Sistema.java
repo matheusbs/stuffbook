@@ -6,7 +6,6 @@ package projeto;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -85,9 +84,10 @@ public class Sistema {
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
-		ManipuladorStrings.trataAtributoUsuario(atributo);
-		
+		ManipuladorStrings.trataVazio(atributo, new Exception(
+				"Atributo inv�lido"));
+		ManipuladorStrings.trataInexistencia("atributoUsuario", atributo);
+
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				if (atributo.equalsIgnoreCase("nome"))
@@ -136,13 +136,16 @@ public class Sistema {
 	public String localizarUsuario(String idSessao, String chave,
 			String atributo) throws Exception {
 		String aux = "";
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		if (!(ids.values().contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
-		ManipuladorStrings.trataVazio(chave, new Exception("Palavra-chave inv�lida"));
-		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
-		ManipuladorStrings.trataAtributoUsuario(atributo);
-	
+		ManipuladorStrings.trataVazio(chave, new Exception(
+				"Palavra-chave inv�lida"));
+		ManipuladorStrings.trataVazio(atributo, new Exception(
+				"Atributo inv�lido"));
+		ManipuladorStrings.trataInexistencia("atributoUsuario", atributo);
+
 		List<Usuario> listaTemp = new ArrayList<Usuario>();
 		for (Usuario usuario : usuarios) {
 			if (!usuario.getIdSessao().equals(idSessao)) {
@@ -213,8 +216,9 @@ public class Sistema {
 	public String getAmigos(String idSessao) throws Exception {
 		List<Usuario> listTemp = new ArrayList<Usuario>();
 		String aux = "";
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -244,8 +248,9 @@ public class Sistema {
 
 	public String getAmigos(String idSessao, String login) throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -280,7 +285,8 @@ public class Sistema {
 	public void requisitarAmizade(String idSessao, String login)
 			throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
@@ -309,8 +315,9 @@ public class Sistema {
 
 	public void aprovarAmizade(String idSessao, String login) throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-	
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -341,7 +348,8 @@ public class Sistema {
 
 	public void desfazerAmizade(String idSessao, String login) throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
@@ -376,7 +384,8 @@ public class Sistema {
 
 	public boolean ehAmigo(String idSessao, String login) throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -404,7 +413,8 @@ public class Sistema {
 	 */
 
 	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
@@ -423,9 +433,11 @@ public class Sistema {
 	public String cadastrarItem(String idUsuario, String nome,
 			String descricao, String categoria) throws Exception {
 		ManipuladorStrings.trataVazio(nome, new Exception("Nome inv�lido"));
-		ManipuladorStrings.trataVazio(idUsuario, new Exception("Sess�o inv�lida"));
-		ManipuladorStrings.trataVazio(categoria, new Exception("Categoria inv�lida"));
-		ManipuladorStrings.trataCategoria(categoria);
+		ManipuladorStrings.trataVazio(idUsuario, new Exception(
+				"Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(categoria, new Exception(
+				"Categoria inv�lida"));
+		ManipuladorStrings.trataInexistencia("categoria", categoria);
 
 		for (String id : idUsuarios) {
 			if ((id.equals(idUsuario))) {
@@ -453,10 +465,12 @@ public class Sistema {
 
 	public String getAtributoItem(String idItem, String atributo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
-		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
-		ManipuladorStrings.trataAtributoItem(atributo);
-		
+		ManipuladorStrings.trataVazio(idItem, new Exception(
+				"Identificador do item � inv�lido"));
+		ManipuladorStrings.trataVazio(atributo, new Exception(
+				"Atributo inv�lido"));
+		ManipuladorStrings.trataInexistencia("atributoItem", atributo);
+
 		for (Item item : itens) {
 			if (item.getIdItem().equalsIgnoreCase(idItem)) {
 				if (atributo.equalsIgnoreCase("nome"))
@@ -482,7 +496,8 @@ public class Sistema {
 	public String getItens(String idSessao) throws Exception {
 		List<String> listTemp = new ArrayList<String>();
 		String aux = "";
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -514,7 +529,8 @@ public class Sistema {
 
 	public String getItens(String idSessao, String login) throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -538,12 +554,13 @@ public class Sistema {
 
 	public String getEmprestimos(String idSessao, String tipo) throws Exception {
 		ManipuladorStrings.trataVazio(tipo, new Exception("Tipo inv�lido"));
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
-		
-		ManipuladorStrings.trataTipo(tipo);
-	
+
+		ManipuladorStrings.trataInexistencia("tipoUsuario", tipo);
+
 		String emprestimos = "";
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
 		List<String> listaEmprestimosEmprestador = new ArrayList<String>();
@@ -620,8 +637,10 @@ public class Sistema {
 
 	public String requisitarEmprestimo(String idSessao, String idItem,
 			int duracao) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idItem, new Exception(
+				"Identificador do item � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -675,8 +694,10 @@ public class Sistema {
 
 	public String aprovarEmprestimo(String idSessao,
 			String idRequisicaoEmprestimo) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		ManipuladorStrings.trataVazio(idRequisicaoEmprestimo, new Exception("Identificador da requisi��o de empr�stimo � inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idRequisicaoEmprestimo, new Exception(
+				"Identificador da requisi��o de empr�stimo � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -742,8 +763,10 @@ public class Sistema {
 
 	public void devolverItem(String idSessao, String idEmprestimo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		ManipuladorStrings.trataVazio(idEmprestimo, new Exception("Identificador do empr�stimo � inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idEmprestimo, new Exception(
+				"Identificador do empr�stimo � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -776,8 +799,10 @@ public class Sistema {
 
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		ManipuladorStrings.trataVazio(idEmprestimo, new Exception("Identificador do empr�stimo � inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idEmprestimo, new Exception(
+				"Identificador do empr�stimo � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -820,8 +845,10 @@ public class Sistema {
 	 */
 
 	public void apagarItem(String idSessao, String idItem) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
-		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idItem, new Exception(
+				"Identificador do item � inv�lido"));
 
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
@@ -880,19 +907,24 @@ public class Sistema {
 
 	public String pesquisarItem(String idSessao, String chave, String atributo,
 			String tipoOrdenacao, String criterioOrdenacao) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		ManipuladorStrings.trataVazio(chave, new Exception("Chave inv�lida"));
-		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
-		
+		ManipuladorStrings.trataVazio(atributo, new Exception(
+				"Atributo inv�lido"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
-		
-		ManipuladorStrings.trataAtributoItem(atributo);
-		ManipuladorStrings.trataVazio(tipoOrdenacao, new Exception("Tipo inv�lido de ordena��o"));
-		ManipuladorStrings.trataOrdenacao(tipoOrdenacao);
-		ManipuladorStrings.trataVazio(criterioOrdenacao, new Exception("Crit�rio inv�lido de ordena��o"));
-		ManipuladorStrings.trataCriterio(criterioOrdenacao);
+
+		ManipuladorStrings.trataInexistencia("atributoItem", atributo);
+		ManipuladorStrings.trataVazio(tipoOrdenacao, new Exception(
+				"Tipo inv�lido de ordena��o"));
+		ManipuladorStrings.trataInexistencia("tipoOrdenacao", tipoOrdenacao);
+		ManipuladorStrings.trataVazio(criterioOrdenacao, new Exception(
+				"Crit�rio inv�lido de ordena��o"));
+		ManipuladorStrings.trataInexistencia("criterioOrdenacao",
+				criterioOrdenacao);
 
 		List<Item> listaItensPesquisadosGlobal = new ArrayList<Item>();
 		List<Item> listaItensPesquisadosAmigos = new ArrayList<Item>();
@@ -982,12 +1014,14 @@ public class Sistema {
 
 	public String getRanking(String idSessao, String categoria)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idSessao,
+				new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
-		ManipuladorStrings.trataVazio(categoria, new Exception("Categoria inv�lida"));
-		ManipuladorStrings.trataCategoria(categoria);
+		ManipuladorStrings.trataVazio(categoria, new Exception(
+				"Categoria inv�lida"));
+		ManipuladorStrings.trataInexistencia("categoria", categoria);
 
 		String ranking = "";
 		String maior = "", menor = "";
@@ -1035,7 +1069,8 @@ public class Sistema {
 	 */
 	public String enviarMensagem(String idSessao, String destinatario,
 			String assunto, String mensagemEscrita) throws Exception {
-		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinat�rio inv�lido"));
+		ManipuladorStrings.trataVazio(destinatario, new Exception(
+				"Destinat�rio inv�lido"));
 
 		if (getUsuarioLogin(destinatario) == null) {
 			throw new Exception("Destinat�rio inexistente");
@@ -1064,11 +1099,15 @@ public class Sistema {
 	public String enviarMensagem(String idSessao, String destinatario,
 			String assunto, String mensagemEscrita, String idEmprestimo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinat�rio inv�lido"));
-		ManipuladorStrings.trataVazio(idEmprestimo, new Exception("Identificador da requisi��o de empr�stimo � inv�lido"));
-		ManipuladorStrings.trataVazio(assunto, new Exception("Assunto inv�lido"));
-		ManipuladorStrings.trataVazio(mensagemEscrita, new Exception("Mensagem inv�lida"));
-		
+		ManipuladorStrings.trataVazio(destinatario, new Exception(
+				"Destinat�rio inv�lido"));
+		ManipuladorStrings.trataVazio(idEmprestimo, new Exception(
+				"Identificador da requisi��o de empr�stimo � inv�lido"));
+		ManipuladorStrings.trataVazio(assunto,
+				new Exception("Assunto inv�lido"));
+		ManipuladorStrings.trataVazio(mensagemEscrita, new Exception(
+				"Mensagem inv�lida"));
+
 		if (getUsuarioLogin(destinatario) == null) {
 			throw new Exception("Destinat�rio inexistente");
 		}
