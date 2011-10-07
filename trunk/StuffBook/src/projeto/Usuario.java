@@ -6,12 +6,7 @@ package projeto;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
-
-import projeto.Emprestimo.Situacao;
-import projeto.Item.Status;
 
 public class Usuario {
 
