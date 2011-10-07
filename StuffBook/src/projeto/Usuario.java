@@ -29,7 +29,7 @@ public class Usuario {
 	private ArrayList<String> idsTopicos;
 
 	private String nome, endereco, login, idSessao;
-
+	
 	Sistema sistema = new Sistema();
 
 	public Usuario(String login, String nome, String endereco, String idSessao) {
@@ -254,9 +254,8 @@ public class Usuario {
 	 *             entradas invalidas
 	 */
 	public ArrayList<String> lerTopicos(String tipo) throws Exception {
-		if (tipo == null || "".equals(tipo)) {
-			throw new Exception("Tipo inv�lido");
-		}
+		ManipuladorStrings.trataVazio(tipo, new Exception("Tipo inv�lido"));
+		
 		if (!tipo.equals("todos") && !tipo.equals("offtopic")
 				&& !tipo.equals("negociacao")) {
 			throw new Exception("Tipo inexistente");

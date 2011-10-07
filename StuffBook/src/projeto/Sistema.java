@@ -61,10 +61,9 @@ public class Sistema {
 
 	public void criarUsuario(String login, String nome, String endereco)
 			throws Exception {
-		if ("".equalsIgnoreCase(nome) || nome == null)
-			throw new Exception("Nome inv�lido");
-		if ("".equalsIgnoreCase(login) || login == null)
-			throw new Exception("Login inv�lido");
+		ManipuladorStrings.trataVazio(nome, new Exception("Nome inv�lido"));
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
 				throw new Exception("J� existe um usu�rio com este login");
@@ -85,10 +84,9 @@ public class Sistema {
 
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
-		if (login == null || "".equals(login))
-			throw new Exception("Login inv�lido");
-		if (atributo == null || "".equals(atributo))
-			throw new Exception("Atributo inv�lido");
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
+		
 		if ((!atributo.equalsIgnoreCase("nome"))
 				&& (!atributo.equalsIgnoreCase("endereco")))
 			throw new Exception("Atributo inexistente");
@@ -113,8 +111,7 @@ public class Sistema {
 	 */
 
 	public String abrirSessao(String login) throws Exception {
-		if (login == null || "".equals(login))
-			throw new Exception("Login inv�lido");
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				String idUsuario = login + gerarID();
@@ -141,14 +138,11 @@ public class Sistema {
 	public String localizarUsuario(String idSessao, String chave,
 			String atributo) throws Exception {
 		String aux = "";
-		if (idSessao == null || "".equalsIgnoreCase(idSessao))
-			throw new Exception("Sess�o inv�lida");
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(ids.values().contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
-		if (chave == null || "".equalsIgnoreCase(chave))
-			throw new Exception("Palavra-chave inv�lida");
-		if (atributo == null || "".equals(atributo))
-			throw new Exception("Atributo inv�lido");
+		ManipuladorStrings.trataVazio(chave, new Exception("Palavra-chave inv�lida"));
+		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
 		if ((!atributo.equalsIgnoreCase("nome"))
 				&& (!atributo.equalsIgnoreCase("endereco")))
 			throw new Exception("Atributo inexistente");
@@ -222,9 +216,8 @@ public class Sistema {
 	public String getAmigos(String idSessao) throws Exception {
 		List<Usuario> listTemp = new ArrayList<Usuario>();
 		String aux = "";
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -253,12 +246,9 @@ public class Sistema {
 	 */
 
 	public String getAmigos(String idSessao, String login) throws Exception {
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inv�lido");
-		}
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -292,14 +282,11 @@ public class Sistema {
 
 	public void requisitarAmizade(String idSessao, String login)
 			throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inv�lido");
 		}
 		if (ehAmigo(idSessao, login)) {
 			throw new Exception("Os usu�rios j� s�o amigos");
@@ -324,14 +311,11 @@ public class Sistema {
 	 */
 
 	public void aprovarAmizade(String idSessao, String login) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+	
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inv�lido");
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
@@ -359,14 +343,11 @@ public class Sistema {
 	 */
 
 	public void desfazerAmizade(String idSessao, String login) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inv�lido");
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
@@ -397,14 +378,10 @@ public class Sistema {
 	 */
 
 	public boolean ehAmigo(String idSessao, String login) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inv�lido");
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
@@ -430,9 +407,8 @@ public class Sistema {
 	 */
 
 	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -449,12 +425,10 @@ public class Sistema {
 	 */
 	public String cadastrarItem(String idUsuario, String nome,
 			String descricao, String categoria) throws Exception {
-		if ("".equalsIgnoreCase(idUsuario) || idUsuario == null)
-			throw new Exception("Sess�o inv�lida");
-		if ("".equalsIgnoreCase(nome) || nome == null)
-			throw new Exception("Nome inv�lido");
-		if ("".equalsIgnoreCase(categoria) || categoria == null)
-			throw new Exception("Categoria inv�lida");
+		ManipuladorStrings.trataVazio(nome, new Exception("Nome inv�lido"));
+		ManipuladorStrings.trataVazio(idUsuario, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(categoria, new Exception("Categoria inv�lida"));
+
 		if (!"filme".equalsIgnoreCase(categoria)
 				&& !"jogo".equalsIgnoreCase(categoria)
 				&& !"livro".equalsIgnoreCase(categoria)) {
@@ -486,10 +460,8 @@ public class Sistema {
 
 	public String getAtributoItem(String idItem, String atributo)
 			throws Exception {
-		if ("".equalsIgnoreCase(idItem) || idItem == null)
-			throw new Exception("Identificador do item � inv�lido");
-		if (atributo == null || "".equals(atributo))
-			throw new Exception("Atributo inv�lido");
+		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
+		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
 		if ((!atributo.equalsIgnoreCase("nome"))
 				&& (!atributo.equalsIgnoreCase("categoria"))
 				&& (!atributo.equalsIgnoreCase("descricao")))
@@ -519,9 +491,7 @@ public class Sistema {
 	public String getItens(String idSessao) throws Exception {
 		List<String> listTemp = new ArrayList<String>();
 		String aux = "";
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -552,12 +522,8 @@ public class Sistema {
 	 */
 
 	public String getItens(String idSessao, String login) throws Exception {
-		if (login == null || "".equals(login)) {
-			throw new Exception("Login inv�lido");
-		}
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
@@ -580,10 +546,8 @@ public class Sistema {
 	 */
 
 	public String getEmprestimos(String idSessao, String tipo) throws Exception {
-		if (idSessao == null || "".equals(idSessao))
-			throw new Exception("Sess�o inv�lida");
-		if (tipo == null || "".equals(tipo))
-			throw new Exception("Tipo inv�lido");
+		ManipuladorStrings.trataVazio(tipo, new Exception("Tipo inv�lido"));
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
 
@@ -669,16 +633,11 @@ public class Sistema {
 
 	public String requisitarEmprestimo(String idSessao, String idItem,
 			int duracao) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
-		if (idItem == null || "".equals(idItem)) {
-			throw new Exception("Identificador do item � inv�lido");
-		}
-
 		if (!(idItens.contains(idItem))) {
 			throw new Exception("Item inexistente");
 		}
@@ -729,16 +688,10 @@ public class Sistema {
 
 	public String aprovarEmprestimo(String idSessao,
 			String idRequisicaoEmprestimo) throws Exception {
-
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idRequisicaoEmprestimo, new Exception("Identificador da requisi��o de empr�stimo � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (idRequisicaoEmprestimo == null || "".equals(idRequisicaoEmprestimo)) {
-			throw new Exception(
-					"Identificador da requisi��o de empr�stimo � inv�lido");
 		}
 		if (!idEmprestimo.contains(idRequisicaoEmprestimo)) {
 			throw new Exception("Requisi��o de empr�stimo inexistente");
@@ -802,19 +755,11 @@ public class Sistema {
 
 	public void devolverItem(String idSessao, String idEmprestimo)
 			throws Exception {
-
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
-
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idEmprestimo, new Exception("Identificador do empr�stimo � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
-
-		if (idEmprestimo == null || "".equals(idEmprestimo)) {
-			throw new Exception("Identificador do empr�stimo � inv�lido");
-		}
-
 		if (procurarEmprestimo(idEmprestimo) == null) {
 			throw new Exception("Empr�stimo inexistente");
 		}
@@ -844,14 +789,10 @@ public class Sistema {
 
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
 			throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idEmprestimo, new Exception("Identificador do empr�stimo � inv�lido"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (idEmprestimo == null || "".equals(idEmprestimo)) {
-			throw new Exception("Identificador do empr�stimo � inv�lido");
 		}
 		if (procurarEmprestimo(idEmprestimo) == null) {
 			throw new Exception("Empr�stimo inexistente");
@@ -892,14 +833,11 @@ public class Sistema {
 	 */
 
 	public void apagarItem(String idSessao, String idItem) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
+
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (idItem == null || "".equals(idItem)) {
-			throw new Exception("Identificador do item � inv�lido");
 		}
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
 
@@ -955,33 +893,26 @@ public class Sistema {
 
 	public String pesquisarItem(String idSessao, String chave, String atributo,
 			String tipoOrdenacao, String criterioOrdenacao) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess�o inv�lida");
-		}
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
+		ManipuladorStrings.trataVazio(chave, new Exception("Chave inv�lida"));
+		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
+		
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
-		}
-		if (chave == null || "".equals(chave)) {
-			throw new Exception("Chave inv�lida");
-		}
-		if (atributo == null || "".equals(atributo)) {
-			throw new Exception("Atributo inv�lido");
 		}
 		if (!(atributo.equalsIgnoreCase("nome"))
 				&& !(atributo.equalsIgnoreCase("descricao"))
 				&& !(atributo.equalsIgnoreCase("categoria"))) {
 			throw new Exception("Atributo inexistente");
 		}
-		if (tipoOrdenacao == null || "".equals(tipoOrdenacao)) {
-			throw new Exception("Tipo inv�lido de ordena��o");
-		}
+		
+		ManipuladorStrings.trataVazio(tipoOrdenacao, new Exception("Tipo inv�lido de ordena��o"));
 		if (!(tipoOrdenacao.equals("crescente"))
 				&& !(tipoOrdenacao.equals("decrescente"))) {
 			throw new Exception("Tipo de ordena��o inexistente");
 		}
-		if (criterioOrdenacao == null || "".equals(criterioOrdenacao)) {
-			throw new Exception("Crit�rio inv�lido de ordena��o");
-		}
+		
+		ManipuladorStrings.trataVazio(criterioOrdenacao, new Exception("Crit�rio inv�lido de ordena��o"));
 		if (!(criterioOrdenacao.equals("reputacao"))
 				&& !(criterioOrdenacao.equals("dataCriacao"))) {
 			throw new Exception("Crit�rio de ordena��o inexistente");
@@ -1075,13 +1006,11 @@ public class Sistema {
 
 	public String getRanking(String idSessao, String categoria)
 			throws Exception {
-		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
-			throw new Exception("Sess�o inv�lida");
+		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
-		if ("".equalsIgnoreCase(categoria) || categoria == null)
-			throw new Exception("Categoria inv�lida");
+		ManipuladorStrings.trataVazio(categoria, new Exception("Categoria inv�lida"));
 		if (!"filme".equalsIgnoreCase(categoria)
 				&& !"jogo".equalsIgnoreCase(categoria)
 				&& !"livro".equalsIgnoreCase(categoria)) {
@@ -1134,9 +1063,7 @@ public class Sistema {
 	 */
 	public String enviarMensagem(String idSessao, String destinatario,
 			String assunto, String mensagemEscrita) throws Exception {
-		if (destinatario == null || "".equals(destinatario)) {
-			throw new Exception("Destinat�rio inv�lido");
-		}
+		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinat�rio inv�lido"));
 
 		if (getUsuarioLogin(destinatario) == null) {
 			throw new Exception("Destinat�rio inexistente");
@@ -1165,24 +1092,11 @@ public class Sistema {
 	public String enviarMensagem(String idSessao, String destinatario,
 			String assunto, String mensagemEscrita, String idEmprestimo)
 			throws Exception {
-
-		if (destinatario == null || "".equals(destinatario)) {
-			throw new Exception("Destinat�rio inv�lido");
-		}
-
-		if (idEmprestimo == null || "".equals(idEmprestimo)) {
-			throw new Exception(
-					"Identificador da requisi��o de empr�stimo � inv�lido");
-		}
-
-		if (assunto == null || "".equals(assunto)) {
-			throw new Exception("Assunto inv�lido");
-		}
-
-		if (mensagemEscrita == null || "".equals(mensagemEscrita)) {
-			throw new Exception("Mensagem inv�lida");
-		}
-
+		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinat�rio inv�lido"));
+		ManipuladorStrings.trataVazio(idEmprestimo, new Exception("Identificador da requisi��o de empr�stimo � inv�lido"));
+		ManipuladorStrings.trataVazio(assunto, new Exception("Assunto inv�lido"));
+		ManipuladorStrings.trataVazio(mensagemEscrita, new Exception("Mensagem inv�lida"));
+		
 		if (getUsuarioLogin(destinatario) == null) {
 			throw new Exception("Destinat�rio inexistente");
 		}

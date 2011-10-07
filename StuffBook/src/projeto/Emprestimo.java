@@ -34,7 +34,7 @@ public class Emprestimo {
 	}
 
 	public String getIdRequisicaoEmprestimo() {
-		return this.idRequisicaoEmprestimo = idRequisicaoEmprestimo;
+		return idRequisicaoEmprestimo;
 	}
 
 	public void setIdRequisicaoEmprestimo(String idRequisicaoEmprestimo) {
