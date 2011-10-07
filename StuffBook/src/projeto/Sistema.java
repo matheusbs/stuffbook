@@ -86,10 +86,8 @@ public class Sistema {
 			throws Exception {
 		ManipuladorStrings.trataVazio(login, new Exception("Login inv�lido"));
 		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
+		ManipuladorStrings.trataAtributoUsuario(atributo);
 		
-		if ((!atributo.equalsIgnoreCase("nome"))
-				&& (!atributo.equalsIgnoreCase("endereco")))
-			throw new Exception("Atributo inexistente");
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				if (atributo.equalsIgnoreCase("nome"))
@@ -143,9 +141,8 @@ public class Sistema {
 			throw new Exception("Sess�o inexistente");
 		ManipuladorStrings.trataVazio(chave, new Exception("Palavra-chave inv�lida"));
 		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
-		if ((!atributo.equalsIgnoreCase("nome"))
-				&& (!atributo.equalsIgnoreCase("endereco")))
-			throw new Exception("Atributo inexistente");
+		ManipuladorStrings.trataAtributoUsuario(atributo);
+	
 		List<Usuario> listaTemp = new ArrayList<Usuario>();
 		for (Usuario usuario : usuarios) {
 			if (!usuario.getIdSessao().equals(idSessao)) {
@@ -428,12 +425,8 @@ public class Sistema {
 		ManipuladorStrings.trataVazio(nome, new Exception("Nome inv�lido"));
 		ManipuladorStrings.trataVazio(idUsuario, new Exception("Sess�o inv�lida"));
 		ManipuladorStrings.trataVazio(categoria, new Exception("Categoria inv�lida"));
+		ManipuladorStrings.trataCategoria(categoria);
 
-		if (!"filme".equalsIgnoreCase(categoria)
-				&& !"jogo".equalsIgnoreCase(categoria)
-				&& !"livro".equalsIgnoreCase(categoria)) {
-			throw new Exception("Categoria inexistente");
-		}
 		for (String id : idUsuarios) {
 			if ((id.equals(idUsuario))) {
 				String idItem = "" + gerarID();
@@ -462,10 +455,8 @@ public class Sistema {
 			throws Exception {
 		ManipuladorStrings.trataVazio(idItem, new Exception("Identificador do item � inv�lido"));
 		ManipuladorStrings.trataVazio(atributo, new Exception("Atributo inv�lido"));
-		if ((!atributo.equalsIgnoreCase("nome"))
-				&& (!atributo.equalsIgnoreCase("categoria"))
-				&& (!atributo.equalsIgnoreCase("descricao")))
-			throw new Exception("Atributo inexistente");
+		ManipuladorStrings.trataAtributoItem(atributo);
+		
 		for (Item item : itens) {
 			if (item.getIdItem().equalsIgnoreCase(idItem)) {
 				if (atributo.equalsIgnoreCase("nome"))
@@ -550,13 +541,9 @@ public class Sistema {
 		ManipuladorStrings.trataVazio(idSessao, new Exception("Sess�o inv�lida"));
 		if (!(idUsuarios.contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
-
-		if (!"emprestador".equalsIgnoreCase(tipo)
-				&& !"beneficiado".equalsIgnoreCase(tipo)
-				&& !"todos".equalsIgnoreCase(tipo)) {
-			throw new Exception("Tipo inexistente");
-		}
-
+		
+		ManipuladorStrings.trataTipo(tipo);
+	
 		String emprestimos = "";
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
 		List<String> listaEmprestimosEmprestador = new ArrayList<String>();
@@ -900,23 +887,12 @@ public class Sistema {
 		if (!(idUsuarios.contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
-		if (!(atributo.equalsIgnoreCase("nome"))
-				&& !(atributo.equalsIgnoreCase("descricao"))
-				&& !(atributo.equalsIgnoreCase("categoria"))) {
-			throw new Exception("Atributo inexistente");
-		}
 		
+		ManipuladorStrings.trataAtributoItem(atributo);
 		ManipuladorStrings.trataVazio(tipoOrdenacao, new Exception("Tipo inv�lido de ordena��o"));
-		if (!(tipoOrdenacao.equals("crescente"))
-				&& !(tipoOrdenacao.equals("decrescente"))) {
-			throw new Exception("Tipo de ordena��o inexistente");
-		}
-		
+		ManipuladorStrings.trataOrdenacao(tipoOrdenacao);
 		ManipuladorStrings.trataVazio(criterioOrdenacao, new Exception("Crit�rio inv�lido de ordena��o"));
-		if (!(criterioOrdenacao.equals("reputacao"))
-				&& !(criterioOrdenacao.equals("dataCriacao"))) {
-			throw new Exception("Crit�rio de ordena��o inexistente");
-		}
+		ManipuladorStrings.trataCriterio(criterioOrdenacao);
 
 		List<Item> listaItensPesquisadosGlobal = new ArrayList<Item>();
 		List<Item> listaItensPesquisadosAmigos = new ArrayList<Item>();
@@ -1011,11 +987,7 @@ public class Sistema {
 			throw new Exception("Sess�o inexistente");
 		}
 		ManipuladorStrings.trataVazio(categoria, new Exception("Categoria inv�lida"));
-		if (!"filme".equalsIgnoreCase(categoria)
-				&& !"jogo".equalsIgnoreCase(categoria)
-				&& !"livro".equalsIgnoreCase(categoria)) {
-			throw new Exception("Categoria inexistente");
-		}
+		ManipuladorStrings.trataCategoria(categoria);
 
 		String ranking = "";
 		String maior = "", menor = "";
