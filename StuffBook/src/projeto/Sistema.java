@@ -6,6 +6,7 @@ package projeto;
  */
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -26,16 +27,12 @@ public class Sistema {
 	protected List<Emprestimo> emprestimo = new ArrayList<Emprestimo>();
 	protected List<Item> itens = new ArrayList<Item>();
 	protected List<String> idItens = new ArrayList<String>();
-
+	
 	private ArrayList<String> idsTopicos;
-
-	// lista global de mensagens
-	protected List<Mensagem> mensagens = new ArrayList<Mensagem>();
-
 	String abrirSessaoDefault = "sessaoDefault";
 
-	/**
-	 * Gera um id para usuario
+	
+	/**Gera um id para usuario
 	 * 
 	 * @return id de usuario
 	 */
@@ -47,25 +44,21 @@ public class Sistema {
 
 	/**
 	 * Cria o usuario
-	 * 
-	 * @param login
-	 *            do usuario
-	 * @param nome
-	 *            do usuario
-	 * @param endereco
-	 *            do usuario
-	 * @throws Exception
-	 *             para entradas invalidas
+	 * @param login do usuario
+	 * @param nome do usuario
+	 * @param endereco do usuario
+	 * @throws Exception para entradas invalidas
 	 */
-
+	
 	public void criarUsuario(String login, String nome, String endereco)
 			throws Exception {
-		ManipuladorStrings.trataVazio(nome, new Exception("Nome invï¿½lido"));
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-
+		if ("".equalsIgnoreCase(nome) || nome == null)
+			throw new Exception("Nome inválido");
+		if ("".equalsIgnoreCase(login) || login == null)
+			throw new Exception("Login inválido");
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
-				throw new Exception("Jï¿½ existe um usuï¿½rio com este login");
+				throw new Exception("Já existe um usuário com este login");
 		}
 
 		usuarios.add(new Usuario(login, nome, endereco, abrirSessaoDefault));
@@ -73,21 +66,21 @@ public class Sistema {
 
 	/**
 	 * Metodo que retorna atributos dos usuarios
-	 * 
-	 * @param login
+	 * @param login 
 	 * @param atributo
 	 * @return string formatada dos atributos
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(atributo, new Exception(
-				"Atributo invï¿½lido"));
-		ManipuladorStrings.trataInexistencia("atributoUsuario", atributo);
-
+		if (login == null || "".equals(login))
+			throw new Exception("Login inválido");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("endereco")))
+			throw new Exception("Atributo inexistente");
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				if (atributo.equalsIgnoreCase("nome"))
@@ -96,20 +89,19 @@ public class Sistema {
 					return usuario.getEndereco();
 			}
 		}
-		throw new Exception("Usuï¿½rio inexistente");
+		throw new Exception("Usuário inexistente");
 	}
-
+	
 	/**
 	 * Metodo que inicia o sistema para o usuario
-	 * 
 	 * @param login
 	 * @return id Usuario
-	 * @throws Exception
-	 *             excessao para entradas invalidas
+	 * @throws Exception excessao para entradas invalidas
 	 */
 
 	public String abrirSessao(String login) throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
+		if (login == null || "".equals(login))
+			throw new Exception("Login inválido");
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				String idUsuario = login + gerarID();
@@ -119,33 +111,32 @@ public class Sistema {
 				return idUsuario;
 			}
 		}
-		throw new Exception("Usuï¿½rio inexistente");
+		throw new Exception("Usuário inexistente");
 	}
 
 	/**
 	 * Metodo que localiza usuario
-	 * 
 	 * @param idSessao
 	 * @param chave
 	 * @param atributo
 	 * @return string formatada do usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String localizarUsuario(String idSessao, String chave,
 			String atributo) throws Exception {
 		String aux = "";
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
+		if (idSessao == null || "".equalsIgnoreCase(idSessao))
+			throw new Exception("Sessão inválida");
 		if (!(ids.values().contains(idSessao)))
-			throw new Exception("Sessï¿½o inexistente");
-		ManipuladorStrings.trataVazio(chave, new Exception(
-				"Palavra-chave invï¿½lida"));
-		ManipuladorStrings.trataVazio(atributo, new Exception(
-				"Atributo invï¿½lido"));
-		ManipuladorStrings.trataInexistencia("atributoUsuario", atributo);
-
+			throw new Exception("Sessão inexistente");
+		if (chave == null || "".equalsIgnoreCase(chave))
+			throw new Exception("Palavra-chave inválida");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("endereco")))
+			throw new Exception("Atributo inexistente");
 		List<Usuario> listaTemp = new ArrayList<Usuario>();
 		for (Usuario usuario : usuarios) {
 			if (!usuario.getIdSessao().equals(idSessao)) {
@@ -162,7 +153,7 @@ public class Sistema {
 			}
 		}
 		if (listaTemp.size() == 0) {
-			aux = "Nenhum usuï¿½rio encontrado";
+			aux = "Nenhum usuário encontrado";
 		} else {
 			for (Usuario user : listaTemp) {
 				aux += user.toString() + "; ";
@@ -174,59 +165,55 @@ public class Sistema {
 
 	/**
 	 * Metodo que procura usuarios pela idsessao
-	 * 
 	 * @param idSessao
 	 * @return retorno o usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public Usuario procuraUsuarioIdSessao(String idSessao) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getIdSessao().equals(idSessao))
 				return usuario;
 		}
-		throw new Exception("Usuï¿½rio inexistente");
+		throw new Exception("Usuário inexistente");
 	}
 
 	/**
 	 * Metodo que procura o usuario pelo login
-	 * 
 	 * @param login
-	 * @return usuario // * @throws Exception entradas invalidas
+	 * @return usuario
+//	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public Usuario procuraUsuarioLogin(String login) throws Exception {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getLogin().equals(login))
 				return usuario;
 		}
-		throw new Exception("Usuï¿½rio inexistente");
+		throw new Exception("Usuário inexistente");
 	}
 
 	/**
 	 * Metodo que retorna os amigos pela idsessao
-	 * 
 	 * @param idSessao
 	 * @return string formatada de amigos
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAmigos(String idSessao) throws Exception {
 		List<Usuario> listTemp = new ArrayList<Usuario>();
 		String aux = "";
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 		}
 		for (Usuario amigo : procuraUsuarioIdSessao(idSessao).getAmigos()) {
 			listTemp.add(amigo);
 		}
 		if (listTemp.size() == 0) {
-			return "O usuï¿½rio nï¿½o possui amigos";
+			return "O usuário não possui amigos";
 		} else {
 			for (Usuario nomeAmigo : listTemp) {
 				aux += nomeAmigo.getLogin() + "; ";
@@ -238,21 +225,21 @@ public class Sistema {
 
 	/**
 	 * metodo que retorna os amigos peloidsessao e login
-	 * 
 	 * @param idSessao
 	 * @param login
 	 * @return string formatada com os amigos do usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAmigos(String idSessao, String login) throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 		}
 		List<Usuario> listTemp = new ArrayList<Usuario>();
 		String aux = "";
@@ -261,7 +248,7 @@ public class Sistema {
 			listTemp.add(amigo);
 		}
 		if (listTemp.size() == 0) {
-			return "O usuï¿½rio nï¿½o possui amigos";
+			return "O usuário não possui amigos";
 		} else {
 			for (Usuario nomeAmigo : listTemp) {
 				aux += nomeAmigo.getLogin() + "; ";
@@ -273,30 +260,28 @@ public class Sistema {
 
 	/**
 	 * Metodo que requisita amizade do usuario com outro usuario
-	 * 
-	 * @param idSessao
-	 *            do requisitante
-	 * @param login
-	 *            do requisitado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param idSessao do requisitante
+	 * @param login do requisitado
+	 * @throws Exception  entradas invalidas
 	 */
-
+	
 	public void requisitarAmizade(String idSessao, String login)
 			throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
 		}
 		if (ehAmigo(idSessao, login)) {
-			throw new Exception("Os usuï¿½rios jï¿½ sï¿½o amigos");
+			throw new Exception("Os usuários já são amigos");
 		}
 		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
 				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
-			throw new Exception("Requisiï¿½ï¿½o jï¿½ solicitada");
+			throw new Exception("Requisição já solicitada");
 		}
 		procuraUsuarioLogin(login).RequisicoesDeAmizade
 				.add(procuraUsuarioIdSessao(idSessao).getLogin());
@@ -304,31 +289,29 @@ public class Sistema {
 
 	/**
 	 * Metodo que aprova amizade dos usuarios
-	 * 
-	 * @param idSessao
-	 *            do requisitante
-	 * @param login
-	 *            requisitado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param idSessao do requisitante
+	 * @param login requisitado
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public void aprovarAmizade(String idSessao, String login) throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
 		if (ehAmigo(idSessao, login)) {
-			throw new Exception("Os usuï¿½rios jï¿½ sï¿½o amigos");
+			throw new Exception("Os usuários já são amigos");
 		}
 		if ((procuraUsuarioLogin(login).RequisicoesDeAmizade
 				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
-			throw new Exception("Requisiï¿½ï¿½o de amizade inexistente");
+			throw new Exception("Requisição de amizade inexistente");
 		}
 		procuraUsuarioIdSessao(idSessao).removeRequisicaodeAmigo(login);
 		procuraUsuarioIdSessao(idSessao).amigos.add(procuraUsuarioLogin(login));
@@ -337,22 +320,20 @@ public class Sistema {
 
 	/**
 	 * Metodo que desfaz amizades
-	 * 
-	 * @param idSessao
-	 *            do requisitante
-	 * @param login
-	 *            requisitado para desfazer amizade
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param idSessao do requisitante
+	 * @param login requisitado para desfazer amizade
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public void desfazerAmizade(String idSessao, String login) throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
@@ -372,22 +353,21 @@ public class Sistema {
 
 	/**
 	 * Metodo que retorna se o usuario eh amigo ou nao do outro usuario
-	 * 
-	 * @param idSessao
-	 *            requisitante
-	 * @param login
-	 *            requisitado
+	 * @param idSessao requisitante
+	 * @param login requisitado
 	 * @return true se forem amigos, false caso contrario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public boolean ehAmigo(String idSessao, String login) throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
 		}
 		if (usuarios.contains(procuraUsuarioLogin(login))) {
 		}
@@ -403,42 +383,40 @@ public class Sistema {
 	}
 
 	/**
-	 * Metodo que retorna as requisiï¿½oes de amizade
-	 * 
-	 * @param idSessao
-	 *            do requisitante
+	 * Metodo que retorna as requisiçoes de amizade
+	 * @param idSessao do requisitante
 	 * @return string formatada com os dados
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getRequisicoesDeAmizade(String idSessao) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 		}
 		return procuraUsuarioIdSessao(idSessao).getRequisicoesDeAmizade();
 	}
 
 	/**
 	 * Metodo que cadastra item
-	 * 
-	 * @param objeto
-	 *            item
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @param objeto item
+	 * @throws Exception entradas invalidas
 	 */
 	public String cadastrarItem(String idUsuario, String nome,
 			String descricao, String categoria) throws Exception {
-		ManipuladorStrings.trataVazio(nome, new Exception("Nome invï¿½lido"));
-		ManipuladorStrings.trataVazio(idUsuario, new Exception(
-				"Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(categoria, new Exception(
-				"Categoria invï¿½lida"));
-		ManipuladorStrings.trataInexistencia("categoria", categoria);
-
+		if ("".equalsIgnoreCase(idUsuario) || idUsuario == null)
+			throw new Exception("Sessão inválida");
+		if ("".equalsIgnoreCase(nome) || nome == null)
+			throw new Exception("Nome inválido");
+		if ("".equalsIgnoreCase(categoria) || categoria == null)
+			throw new Exception("Categoria inválida");
+		if (!"filme".equalsIgnoreCase(categoria)
+				&& !"jogo".equalsIgnoreCase(categoria)
+				&& !"livro".equalsIgnoreCase(categoria)) {
+			throw new Exception("Categoria inexistente");
+		}
 		for (String id : idUsuarios) {
 			if ((id.equals(idUsuario))) {
 				String idItem = "" + gerarID();
@@ -450,27 +428,27 @@ public class Sistema {
 				return idItem;
 			}
 		}
-		throw new Exception("Sessï¿½o inexistente");
+		throw new Exception("Sessão inexistente");
 	}
 
 	/**
 	 * Metodo que verifica o atributo do usuario
-	 * 
 	 * @param idItem
 	 * @param atributo
 	 * @return string do atributo do usuario
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String getAtributoItem(String idItem, String atributo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idItem, new Exception(
-				"Identificador do item ï¿½ invï¿½lido"));
-		ManipuladorStrings.trataVazio(atributo, new Exception(
-				"Atributo invï¿½lido"));
-		ManipuladorStrings.trataInexistencia("atributoItem", atributo);
-
+		if ("".equalsIgnoreCase(idItem) || idItem == null)
+			throw new Exception("Identificador do item é inválido");
+		if (atributo == null || "".equals(atributo))
+			throw new Exception("Atributo inválido");
+		if ((!atributo.equalsIgnoreCase("nome"))
+				&& (!atributo.equalsIgnoreCase("categoria"))
+				&& (!atributo.equalsIgnoreCase("descricao")))
+			throw new Exception("Atributo inexistente");
 		for (Item item : itens) {
 			if (item.getIdItem().equalsIgnoreCase(idItem)) {
 				if (atributo.equalsIgnoreCase("nome"))
@@ -486,20 +464,18 @@ public class Sistema {
 
 	/**
 	 * Metodo acessador de itens
-	 * 
-	 * @param id
-	 *            sessao de usuario
+	 * @param id sessao de usuario
 	 * @return lista de itens
-	 * @exception entradas
-	 *                invalidas
+	 * @exception entradas invalidas
 	 */
 	public String getItens(String idSessao) throws Exception {
 		List<String> listTemp = new ArrayList<String>();
 		String aux = "";
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 		}
 		for (Item item : itens) {
 			if (item.getIdUsuario().equals(idSessao)) {
@@ -507,7 +483,7 @@ public class Sistema {
 			}
 		}
 		if (listTemp.size() == 0) {
-			return "O usuï¿½rio nï¿½o possui itens cadastrados";
+			return "O usuário não possui itens cadastrados";
 		} else {
 			for (String nomeItem : listTemp) {
 				aux += nomeItem + "; ";
@@ -516,50 +492,54 @@ public class Sistema {
 		}
 		return aux;
 	}
-
+	
 	/**
 	 * Metodo que retorna itens
-	 * 
 	 * @param idSessao
 	 * @param login
 	 * @return string com os itens
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public String getItens(String idSessao, String login) throws Exception {
-		ManipuladorStrings.trataVazio(login, new Exception("Login invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
+		if (login == null || "".equals(login)) {
+			throw new Exception("Login inválido");
+		}
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 		}
 		if (!ehAmigo(idSessao, login)) {
 			throw new Exception(
-					"O usuï¿½rio nï¿½o tem permissï¿½o para visualizar estes itens");
+					"O usuário não tem permissão para visualizar estes itens");
 		}
 		Usuario user = procuraUsuarioLogin(login);
 		return getItens(user.getIdSessao());
 	}
-
+	
 	/**
 	 * Metodo que retorna emprestimos
-	 * 
 	 * @param idSessao
 	 * @param tipo
 	 * @return string de emprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public String getEmprestimos(String idSessao, String tipo) throws Exception {
-		ManipuladorStrings.trataVazio(tipo, new Exception("Tipo invï¿½lido"));
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
+		if (idSessao == null || "".equals(idSessao))
+			throw new Exception("Sessão inválida");
+		if (tipo == null || "".equals(tipo))
+			throw new Exception("Tipo inválido");
 		if (!(idUsuarios.contains(idSessao)))
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 
-		ManipuladorStrings.trataInexistencia("tipoUsuario", tipo);
+		if (!"emprestador".equalsIgnoreCase(tipo)
+				&& !"beneficiado".equalsIgnoreCase(tipo)
+				&& !"todos".equalsIgnoreCase(tipo)) {
+			throw new Exception("Tipo inexistente");
+		}
 
 		String emprestimos = "";
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
@@ -589,20 +569,20 @@ public class Sistema {
 		}
 		if ("emprestador".equalsIgnoreCase(tipo)) {
 			if (listaEmprestimosEmprestador.size() == 0) {
-				return "Nï¿½o hï¿½ emprï¿½stimos deste tipo";
+				return "Não há empréstimos deste tipo";
 			}
 			listaEmprestimos = listaEmprestimosEmprestador;
 		}
 		if ("beneficiado".equalsIgnoreCase(tipo)) {
 			if (listaEmprestimosBeneficiado.size() == 0) {
-				return "Nï¿½o hï¿½ emprï¿½stimos deste tipo";
+				return "Não há empréstimos deste tipo";
 			}
 			listaEmprestimos = listaEmprestimosBeneficiado;
 		}
 		if ("todos".equalsIgnoreCase(tipo)) {
 			if (listaEmprestimosEmprestador.size() == 0
 					&& listaEmprestimosBeneficiado.size() == 0) {
-				return "Nï¿½o hï¿½ emprï¿½stimos deste tipo";
+				return "Não há empréstimos deste tipo";
 			}
 			for (int i = 0; i < (listaEmprestimosEmprestador.size()); i++) {
 				if (i < listaEmprestimosEmprestador.size()) {
@@ -626,29 +606,30 @@ public class Sistema {
 
 	/**
 	 * Metodo de requisicao de emprestimo
-	 * 
 	 * @param idSessao
 	 * @param idItem
 	 * @param duracao
 	 * @return String da requisicao do emprestimo requisitado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String requisitarEmprestimo(String idSessao, String idItem,
 			int duracao) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(idItem, new Exception(
-				"Identificador do item ï¿½ invï¿½lido"));
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
 		}
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (idItem == null || "".equals(idItem)) {
+			throw new Exception("Identificador do item é inválido");
+		}
+
 		if (!(idItens.contains(idItem))) {
 			throw new Exception("Item inexistente");
 		}
 		if (duracao <= 0) {
-			throw new Exception("Duracao invï¿½lida");
+			throw new Exception("Duracao inválida");
 		}
 
 		String idRequisicaoEmprestimo = "" + gerarID();
@@ -665,7 +646,7 @@ public class Sistema {
 								idRequisicaoEmprestimo);
 						if (beneficiado.getEmprestimosSolicitados().contains(
 								emprestimos)) {
-							throw new Exception("Requisiï¿½ï¿½o jï¿½ solicitada");
+							throw new Exception("Requisição já solicitada");
 						}
 						beneficiado.emprestimosSolicitados.add(emprestimos);
 						emprestador.emprestimosRequisitados.add(emprestimos);
@@ -675,7 +656,7 @@ public class Sistema {
 					}
 				} else {
 					throw new Exception(
-							"O usuï¿½rio nï¿½o tem permissï¿½o para requisitar o emprï¿½stimo deste item");
+							"O usuário não tem permissão para requisitar o empréstimo deste item");
 				}
 			}
 		}
@@ -684,30 +665,32 @@ public class Sistema {
 
 	/**
 	 * Metodo que aprova emprestimo
-	 * 
 	 * @param idSessao
 	 * @param idRequisicaoEmprestimo
 	 * @return retorna string dizendo se foi aprovado ou nao
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String aprovarEmprestimo(String idSessao,
 			String idRequisicaoEmprestimo) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(idRequisicaoEmprestimo, new Exception(
-				"Identificador da requisiï¿½ï¿½o de emprï¿½stimo ï¿½ invï¿½lido"));
+
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (idRequisicaoEmprestimo == null || "".equals(idRequisicaoEmprestimo)) {
+			throw new Exception(
+					"Identificador da requisição de empréstimo é inválido");
 		}
 		if (!idEmprestimo.contains(idRequisicaoEmprestimo)) {
-			throw new Exception("Requisiï¿½ï¿½o de emprï¿½stimo inexistente");
+			throw new Exception("Requisição de empréstimo inexistente");
 		}
 		if (!procurarEmprestimo(idRequisicaoEmprestimo).getEmprestador()
 				.equals(procuraUsuarioIdSessao(idSessao))) {
 			throw new Exception(
-					"O emprï¿½stimo sï¿½ pode ser aprovado pelo dono do item");
+					"O empréstimo só pode ser aprovado pelo dono do item");
 		}
 
 		Usuario emprestador = procuraUsuarioIdSessao(idSessao);
@@ -715,11 +698,11 @@ public class Sistema {
 				.getBeneficiado());
 
 		if (!ehAmigo(idSessao, beneficiado.getLogin())) {
-			throw new Exception("Requisiï¿½ï¿½o de emprï¿½stimo inexistente");
+			throw new Exception("Requisição de empréstimo inexistente");
 		}
 		if (emprestador.getEmprestimosAndamento().contains(
 				procurarEmprestimo(idRequisicaoEmprestimo))) {
-			throw new Exception("Emprï¿½stimo jï¿½ aprovado");
+			throw new Exception("Empréstimo já aprovado");
 		}
 		List<Emprestimo> listaEmprestimosRequisitados = emprestador
 				.getEmprestimosRequisitados();
@@ -751,75 +734,79 @@ public class Sistema {
 		}
 		return idRequisicaoEmprestimo;
 	}
-
+	
 	/**
 	 * Metodo que devolve item emprestado pelo dono ao dono
-	 * 
 	 * @param idSessao
 	 * @param idEmprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public void devolverItem(String idSessao, String idEmprestimo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(idEmprestimo, new Exception(
-				"Identificador do emprï¿½stimo ï¿½ invï¿½lido"));
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
 		}
+
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+
+		if (idEmprestimo == null || "".equals(idEmprestimo)) {
+			throw new Exception("Identificador do empréstimo é inválido");
+		}
+
 		if (procurarEmprestimo(idEmprestimo) == null) {
-			throw new Exception("Emprï¿½stimo inexistente");
+			throw new Exception("Empréstimo inexistente");
 		}
 
 		Usuario beneficiado = procuraUsuarioIdSessao(idSessao);
 		Emprestimo emprestimoDevolvido = procurarEmprestimo(idEmprestimo);
 
 		if (emprestimoDevolvido.getItem().getStatus().equals(Status.DEVOLVIDO)) {
-			throw new Exception("Item jï¿½ devolvido");
+			throw new Exception("Item já devolvido");
 		}
 		if (!emprestimoDevolvido.getBeneficiado().equals(beneficiado)) {
 			throw new Exception(
-					"O item sï¿½ pode ser devolvido pelo usuï¿½rio beneficiado");
+					"O item só pode ser devolvido pelo usuário beneficiado");
 		}
 
 		emprestimoDevolvido.getItem().setStatus(Status.DEVOLVIDO);
 	}
-
+	
 	/**
-	 * Metodo que confirma que houve o termino de um emprestimo
-	 * 
+	 *Metodo que confirma que houve o termino de um emprestimo 
 	 * @param idSessao
 	 * @param idEmprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(idEmprestimo, new Exception(
-				"Identificador do emprï¿½stimo ï¿½ invï¿½lido"));
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (idEmprestimo == null || "".equals(idEmprestimo)) {
+			throw new Exception("Identificador do empréstimo é inválido");
 		}
 		if (procurarEmprestimo(idEmprestimo) == null) {
-			throw new Exception("Emprï¿½stimo inexistente");
+			throw new Exception("Empréstimo inexistente");
 		}
 		Usuario emprestador = procuraUsuarioIdSessao(idSessao);
 		Emprestimo emprestimoDevolvido = procurarEmprestimo(idEmprestimo);
 
 		if (emprestador.getEmprestimosCompletados().contains(
 				emprestimoDevolvido)) {
-			throw new Exception("Tï¿½rmino do emprï¿½stimo jï¿½ confirmado");
+			throw new Exception("Término do empréstimo já confirmado");
 		}
 
 		if (!emprestimoDevolvido.getEmprestador().equals(emprestador)) {
 			throw new Exception(
-					"O tï¿½rmino do emprï¿½stimo sï¿½ pode ser confirmado pelo dono do item");
+					"O término do empréstimo só pode ser confirmado pelo dono do item");
 		}
 
 		if (emprestimoDevolvido.getItem().getStatus().equals(Status.DEVOLVIDO)) {
@@ -834,24 +821,23 @@ public class Sistema {
 			}
 		}
 	}
-
+	
 	/**
 	 * Metodo que apaga item, metodo sem retorno
-	 * 
 	 * @param idSessao
 	 * @param idItem
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public void apagarItem(String idSessao, String idItem) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(idItem, new Exception(
-				"Identificador do item ï¿½ invï¿½lido"));
-
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
+		}
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
+		}
+		if (idItem == null || "".equals(idItem)) {
+			throw new Exception("Identificador do item é inválido");
 		}
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
 
@@ -859,7 +845,7 @@ public class Sistema {
 
 		if (!(item.getIdUsuario().equals(idSessao))) {
 			throw new Exception(
-					"O usuï¿½rio nï¿½o tem permissï¿½o para apagar este item");
+					"O usuário não tem permissão para apagar este item");
 		}
 		if (procurarItens(idItem) != null) {
 
@@ -869,62 +855,71 @@ public class Sistema {
 				usuario.itens.remove(item);
 			} else {
 				throw new Exception(
-						"O usuï¿½rio nï¿½o pode apagar este item enquanto estiver emprestado");
+						"O usuário não pode apagar este item enquanto estiver emprestado");
 			}
 		}
 	}
 
 	/**
 	 * Metodo que procura emprestimo
-	 * 
 	 * @param idEmprestimo
 	 * @return emprestimo
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public Emprestimo procurarEmprestimo(String idEmprestimo) throws Exception {
 		for (Emprestimo empTemp : emprestimo) {
 			if (empTemp.getIdRequisicaoEmprestimo().equals(idEmprestimo)) {
 				return empTemp;
 			}
 		}
-		throw new Exception("Emprï¿½stimo inexistente");
+		throw new Exception("Empréstimo inexistente");
 	}
 
 	/**
 	 * Metodo que pesquisa item
-	 * 
 	 * @param idSessao
 	 * @param chave
 	 * @param atributo
 	 * @param tipoOrdenacao
 	 * @param criterioOrdenacao
 	 * @return item pesquisado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-
+	
 	public String pesquisarItem(String idSessao, String chave, String atributo,
 			String tipoOrdenacao, String criterioOrdenacao) throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
-		ManipuladorStrings.trataVazio(chave, new Exception("Chave invï¿½lida"));
-		ManipuladorStrings.trataVazio(atributo, new Exception(
-				"Atributo invï¿½lido"));
-
-		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+		if (idSessao == null || "".equals(idSessao)) {
+			throw new Exception("Sessão inválida");
 		}
-
-		ManipuladorStrings.trataInexistencia("atributoItem", atributo);
-		ManipuladorStrings.trataVazio(tipoOrdenacao, new Exception(
-				"Tipo invï¿½lido de ordenaï¿½ï¿½o"));
-		ManipuladorStrings.trataInexistencia("tipoOrdenacao", tipoOrdenacao);
-		ManipuladorStrings.trataVazio(criterioOrdenacao, new Exception(
-				"Critï¿½rio invï¿½lido de ordenaï¿½ï¿½o"));
-		ManipuladorStrings.trataInexistencia("criterioOrdenacao",
-				criterioOrdenacao);
+		if (!(idUsuarios.contains(idSessao))) {
+			throw new Exception("Sessão inexistente");
+		}
+		if (chave == null || "".equals(chave)) {
+			throw new Exception("Chave inválida");
+		}
+		if (atributo == null || "".equals(atributo)) {
+			throw new Exception("Atributo inválido");
+		}
+		if (!(atributo.equalsIgnoreCase("nome"))
+				&& !(atributo.equalsIgnoreCase("descricao"))
+				&& !(atributo.equalsIgnoreCase("categoria"))) {
+			throw new Exception("Atributo inexistente");
+		}
+		if (tipoOrdenacao == null || "".equals(tipoOrdenacao)) {
+			throw new Exception("Tipo inválido de ordenação");
+		}
+		if (!(tipoOrdenacao.equals("crescente"))
+				&& !(tipoOrdenacao.equals("decrescente"))) {
+			throw new Exception("Tipo de ordenação inexistente");
+		}
+		if (criterioOrdenacao == null || "".equals(criterioOrdenacao)) {
+			throw new Exception("Critério inválido de ordenação");
+		}
+		if (!(criterioOrdenacao.equals("reputacao"))
+				&& !(criterioOrdenacao.equals("dataCriacao"))) {
+			throw new Exception("Critério de ordenação inexistente");
+		}
 
 		List<Item> listaItensPesquisadosGlobal = new ArrayList<Item>();
 		List<Item> listaItensPesquisadosAmigos = new ArrayList<Item>();
@@ -951,12 +946,11 @@ public class Sistema {
 				stringPesquisada.length() - 2);
 		return stringPesquisada;
 	}
-
+	
 	/**
 	 * Metodo que procura itens
-	 * 
 	 * @param chave
-	 * @param atributo
+	 * @param atributo 
 	 * @return lista de itens
 	 */
 
@@ -981,18 +975,16 @@ public class Sistema {
 		}
 		return listaArmazenaItens;
 	}
-
+	
 	/**
 	 * Metodo de procura de itens
-	 * 
 	 * @param idItem
 	 * @return item procurado
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public Item procurarItens(String idItem) throws Exception {
-		if (idItem.contains(idItem)) {
+		if (idItens.contains(idItem)) {
 			for (int i = 0; i < itens.size(); i++) {
 				if (itens.get(i).getIdItem().equals(idItem)) {
 					return itens.get(i);
@@ -1001,27 +993,29 @@ public class Sistema {
 		}
 		throw new Exception("Item inexistente");
 	}
-
+	
 	/**
 	 * Metodo que captura posicao para verificar ranking
-	 * 
 	 * @param idSessao
 	 * @param categoria
 	 * @return ranking
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 
 	public String getRanking(String idSessao, String categoria)
 			throws Exception {
-		ManipuladorStrings.trataVazio(idSessao,
-				new Exception("Sessï¿½o invï¿½lida"));
+		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
+			throw new Exception("Sessão inválida");
 		if (!(idUsuarios.contains(idSessao))) {
-			throw new Exception("Sessï¿½o inexistente");
+			throw new Exception("Sessão inexistente");
 		}
-		ManipuladorStrings.trataVazio(categoria, new Exception(
-				"Categoria invï¿½lida"));
-		ManipuladorStrings.trataInexistencia("categoria", categoria);
+		if ("".equalsIgnoreCase(categoria) || categoria == null)
+			throw new Exception("Categoria inválida");
+		if (!"filme".equalsIgnoreCase(categoria)
+				&& !"jogo".equalsIgnoreCase(categoria)
+				&& !"livro".equalsIgnoreCase(categoria)) {
+			throw new Exception("Categoria inexistente");
+		}
 
 		String ranking = "";
 		String maior = "", menor = "";
@@ -1038,42 +1032,43 @@ public class Sistema {
 		return ranking;
 	}
 
-	public Usuario getUsuarioLogin(String login) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getLogin().equals(login)) {
+	
+
+	public Usuario getUsuarioLogin(String login){
+		for(Usuario usuario : usuarios){
+			if(usuario.getLogin().equals(login)){	
 				return usuario;
 			}
 		}
 		return null;
 	}
+	
 
-	public Usuario getUsuarioId(String id) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getIdSessao().equals(id)) {
+	public Usuario getUsuarioId(String id){
+		for(Usuario usuario : usuarios){
+			if(usuario.getIdSessao().equals(id)){	
 				return usuario;
 			}
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Metodo que manda mensagem para usuarios offtopic
-	 * 
 	 * @param idSessao
 	 * @param destinatario
 	 * @param assunto
 	 * @param mensagemEscrita
 	 * @return mensagem
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
-	public String enviarMensagem(String idSessao, String destinatario,
-			String assunto, String mensagemEscrita) throws Exception {
-		ManipuladorStrings.trataVazio(destinatario, new Exception(
-				"Destinatï¿½rio invï¿½lido"));
-
-		if (getUsuarioLogin(destinatario) == null) {
-			throw new Exception("Destinatï¿½rio inexistente");
+	public String enviarMensagem(String idSessao, String destinatario, String assunto, String mensagemEscrita) throws Exception{
+		if(destinatario == null || "".equals(destinatario)){
+			throw new Exception("Destinatário inválido");
+		}
+		
+		if(getUsuarioLogin(destinatario) == null){
+			throw new Exception("Destinatário inexistente");
 		}
 		Mensagem mensagem = new Mensagem(destinatario, assunto, mensagemEscrita);
 		mensagem.setLoginRemetente(getUsuarioId(idSessao).getLogin());
@@ -1086,56 +1081,63 @@ public class Sistema {
 
 	/**
 	 * Metodo que envia mensagem a usuario
-	 * 
 	 * @param idSessao
 	 * @param destinatario
 	 * @param assunto
 	 * @param mensagemEscrita
 	 * @param idEmprestimo
 	 * @return mensagem
-	 * @throws Exception
-	 *             entradas invalidas
+	 * @throws Exception entradas invalidas
 	 */
 	public String enviarMensagem(String idSessao, String destinatario,
-			String assunto, String mensagemEscrita, String idEmprestimo)
-			throws Exception {
-		ManipuladorStrings.trataVazio(destinatario, new Exception(
-				"Destinatï¿½rio invï¿½lido"));
-		ManipuladorStrings.trataVazio(idEmprestimo, new Exception(
-				"Identificador da requisiï¿½ï¿½o de emprï¿½stimo ï¿½ invï¿½lido"));
-		ManipuladorStrings.trataVazio(assunto,
-				new Exception("Assunto invï¿½lido"));
-		ManipuladorStrings.trataVazio(mensagemEscrita, new Exception(
-				"Mensagem invï¿½lida"));
+			String assunto, String mensagemEscrita, String idEmp) throws Exception {
+			
+			if(destinatario == null || "".equals(destinatario)){
+				throw new Exception("Destinatário inválido");
+			}
 
-		if (getUsuarioLogin(destinatario) == null) {
-			throw new Exception("Destinatï¿½rio inexistente");
+			if(idEmp == null || "".equals(idEmp)){
+				throw new Exception("Identificador da requisição de empréstimo é inválido");
+			}
+			
+			if(assunto == null || "".equals(assunto )){
+				throw new Exception("Assunto inválido");
+			}
+			
+			if(mensagemEscrita == null || "".equals(mensagemEscrita )){
+				throw new Exception("Mensagem inválida");
+			}
+			
+			if(getUsuarioLogin(destinatario) == null){
+				throw new Exception("Destinatário inexistente");
+			}
+			
+			if(!idEmprestimo.contains(idEmp)){
+				throw new Exception("Requisição de empréstimo inexistente");
+			}
+
+			if(getUsuarioId(idSessao).getEmprestimosAndamento() == null){
+				throw new Exception("O usuário não participa deste empréstimo");
+			}
+			
+			Mensagem mensagem = new Mensagem(destinatario, assunto, mensagemEscrita);
+			mensagem.setLoginRemetente(getUsuarioId(idSessao).getLogin());
+			mensagem.setTipo("negociacao");
+			mensagem.setIdTopico(mensagem.getTipo() + mensagem.getLoginDestinatario());
+			getUsuarioId(idSessao).addMensagemNegociacao(mensagem);
+			getUsuarioLogin(destinatario).addMensagemNegociacao(mensagem);
+			return mensagem.getIdTopico();
 		}
 
-		if (!idEmprestimo.contains(idEmprestimo)) {
-			throw new Exception("Requisiï¿½ï¿½o de emprï¿½stimo inexistente");
+	
+
+		public ArrayList<String> getIdsTopicos() {
+			return idsTopicos;
 		}
-
-		if (getUsuarioId(idSessao).getEmprestimosAndamento() == null) {
-			throw new Exception("O usuï¿½rio nï¿½o participa deste emprï¿½stimo");
-		}
-
-		Mensagem mensagem = new Mensagem(destinatario, assunto, mensagemEscrita);
-		mensagem.setLoginRemetente(getUsuarioId(idSessao).getLogin());
-		mensagem.setTipo("negociacao");
-		mensagem.setIdTopico(mensagem.getTipo()
-				+ mensagem.getLoginDestinatario());
-		getUsuarioId(idSessao).addMensagemNegociacao(mensagem);
-		getUsuarioLogin(destinatario).addMensagemNegociacao(mensagem);
-		return mensagem.getIdTopico();
-	}
-
-	public ArrayList<String> getIdsTopicos() {
-		return idsTopicos;
-	}
-
+	
+		
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
 	}
-
+	
 }
