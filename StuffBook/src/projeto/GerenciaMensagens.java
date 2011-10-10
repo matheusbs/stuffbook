@@ -39,7 +39,7 @@ public class GerenciaMensagens {
 	 * @param destinatario
 	 * @param assunto
 	 * @param mensagemEscrita
-	 * @param idEmprestimo
+	 * @param idsEmprestimos
 	 * @return mensagem
 	 * @throws Exception entradas invalidas
 	 */
@@ -66,7 +66,7 @@ public class GerenciaMensagens {
 				throw new Exception("Destinatário inexistente");
 			}
 			
-			if(!sistema.idEmprestimo.contains(idEmp)){
+			if(!sistema.idsEmprestimos.contains(idEmp)){
 				throw new Exception("Requisição de empréstimo inexistente");
 			}
 
