@@ -2,20 +2,14 @@ package testes;
 
 import java.util.ArrayList;
 
-import projeto.GerenciaItens;
-import projeto.GerenciaUsuarios;
 import projeto.Sistema;
 
 public class SistemaFacade {
 
 	Sistema sis = new Sistema();
-	GerenciaUsuarios gerenciadorDeUsuarios = new GerenciaUsuarios();
-	GerenciaItens gerenciadorDeItens = new GerenciaItens();
-
+	
 	public void zerarSistema() {
 		sis = new Sistema();
-		gerenciadorDeUsuarios = new GerenciaUsuarios();
-		gerenciadorDeItens = new GerenciaItens();
 	}
 
 	public void criarUsuario(String login, String nome, String endereco)
