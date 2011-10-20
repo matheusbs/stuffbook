@@ -15,7 +15,7 @@ public class Usuario {
 	protected List<Emprestimo> emprestimosRequisitados, emprestimosAndamento,
 			emprestimosCompletados, emprestimosSolicitados;
 	protected List<Usuario> amigos;
-	protected List<String> RequisicoesDeAmizade;
+	public List<String> RequisicoesDeAmizade;
 	// protected List<Mensagem> mensagens;
 
 	private ArrayList<Mensagem> mensagensOffTopic;
