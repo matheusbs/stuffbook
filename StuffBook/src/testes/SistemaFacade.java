@@ -1,7 +1,5 @@
 package testes;
 
-import java.util.ArrayList;
-
 import projeto.Sistema;
 
 public class SistemaFacade {
@@ -112,83 +110,32 @@ public class SistemaFacade {
 		sis.apagarItem(IdSessao, idItem);
 	}
 
-	public String enviarMensagem(String idSessao, String destinatario,
-			String assunto, String mensagemEscrita) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess„o inv·lida");
-		}
-		if (sis.getUsuarioId(idSessao) == null) {
-			throw new Exception("Sess„o inexistente");
-		}
-		return sis.enviarMensagem(idSessao, destinatario, assunto,
-				mensagemEscrita);
+	public String enviarMensagem(String idSessao, String destinatario, String assunto, String mensagemEscrita) throws Exception {
+		if(idSessao == null || "".equals(idSessao)){
+            throw new Exception("Sess√£o inv√°lida");
+        }
+        if(sis.getUsuarioId(idSessao) == null){
+            throw new Exception("Sess√£o inexistente");
+        }
+		return sis.enviarMensagem(idSessao, destinatario, assunto, mensagemEscrita);
+	}
+	
+	public String enviarMensagem(String idSessao, String destinatario, String assunto, String mensagemEscrita, String idEmprestimo) throws Exception {
+		if(idSessao == null || "".equals(idSessao)){
+            throw new Exception("Sess√£o inv√°lida");
+        }
+        if(sis.getUsuarioId(idSessao) == null){
+            throw new Exception("Sess√£o inexistente");
+        }
+		return sis.enviarMensagem(idSessao, destinatario, assunto, mensagemEscrita, idEmprestimo);
 	}
 
-	public String enviarMensagem(String idSessao, String destinatario,
-			String assunto, String mensagemEscrita, String idEmprestimo)
-			throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess„o inv·lida");
-		}
-		if (sis.getUsuarioId(idSessao) == null) {
-			throw new Exception("Sess„o inexistente");
-		}
-		return sis.enviarMensagem(idSessao, destinatario, assunto,
-				mensagemEscrita, idEmprestimo);
+	public String lerTopicos(String idSessao, String tipo) throws Exception{
+		return sis.lerTopicos(idSessao, tipo);
 	}
 
-	public String lerTopicos(String idSessao, String tipo) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess„o inv·lida");
-		}
-		if (sis.getUsuarioId(idSessao) == null) {
-			throw new Exception("Sess„o inexistente");
-		}
-		if (tipo == null || "".equals(tipo)) {
-			throw new Exception("Tipo inv·lido");
-		}
-
-		ArrayList<String> mensagens = sis.getUsuarioId(idSessao).lerTopicos(
-				tipo);
-		String lerTopicos = "";
-		if (mensagens.isEmpty()) {
-			return "N„o h· tÛpicos criados";
-		} else {
-			for (int i = mensagens.size() - 1; i >= 0; i--) {
-				lerTopicos += mensagens.get(i) + "; ";
-			}
-			lerTopicos = lerTopicos.substring(0, lerTopicos.length() - 2);
-		}
-		return lerTopicos;
-	}
-
-	public String lerMensagens(String idSessao, String topico) throws Exception {
-		if (idSessao == null || "".equals(idSessao)) {
-			throw new Exception("Sess„o inv·lida");
-		}
-		if (sis.getUsuarioId(idSessao) == null) {
-			throw new Exception("Sess„o inexistente");
-		}
-
-		if (topico == null || "".equals(topico)) {
-			throw new Exception("Identificador do tÛpico È inv·lido");
-		}
-		if ("xpto".equals(topico)) {
-			throw new Exception("TÛpico inexistente");
-		}
-
-		ArrayList<String> mensagens = sis.getUsuarioId(idSessao).lerMensagens(
-				topico);
-		String lerMensagens = "";
-		if (mensagens.isEmpty()) {
-			return "N„o h· tÛpicos criados";
-		} else {
-			for (String m : mensagens) {
-				lerMensagens += m + "; ";
-			}
-			lerMensagens = lerMensagens.substring(0, lerMensagens.length() - 2);
-		}
-		return lerMensagens;
+	public String lerMensagens(String idSessao, String topico) throws Exception{
+		return sis.lerMensagens(idSessao, topico);
 	}
 
 	/*
