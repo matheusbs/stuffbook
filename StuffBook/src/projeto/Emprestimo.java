@@ -69,8 +69,8 @@ public class Emprestimo {
 		if (situacao.equals(Situacao.COMPLETADO))
 			return "Completado";
 		if (situacao.equals(Situacao.ATRASADO))
-			return "Empr�stimo atrasado.";
-		return "Empr�stimo finalizado.";
+			return "Empréstimo atrasado.";
+		return "Empréstimo finalizado.";
 
 	}
 

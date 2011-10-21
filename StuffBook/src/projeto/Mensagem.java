@@ -15,9 +15,9 @@ public class Mensagem {
 	public Mensagem(String destinatario, String assunto, String mensagem)
 			throws Exception {
 	
-		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinat�rio inv�lido"));
-		ManipuladorStrings.trataVazio(assunto, new Exception("Assunto inv�lido"));
-		ManipuladorStrings.trataVazio(mensagem, new Exception("Mensagem inv�lida"));
+		ManipuladorStrings.trataVazio(destinatario, new Exception("Destinatário inválido"));
+		ManipuladorStrings.trataVazio(assunto, new Exception("Assunto inválido"));
+		ManipuladorStrings.trataVazio(mensagem, new Exception("Mensagem inválida"));
 
 		this.loginDestinatario = destinatario;
 		this.assunto = assunto;
@@ -73,6 +73,7 @@ public class Mensagem {
 		this.tipo = tipo;
 	}
 
+
 	/**
 	 * Metodo de mensagem padronizada para informar ao usuario uma mensagem
 	 * default
@@ -81,12 +82,14 @@ public class Mensagem {
 	 * @param usuarioRequisitante
 	 * @return mensagem para o usuario
 	 */
+
+	
 	public String msgPadrao(Item item, Usuario usuarioRequisitante) {
 		String formato = "";
 
-		formato = "Assunto: Empr�stimo do item " + item.getNome() + " a "
+		formato = "Assunto: Empréstimo do item " + item.getNome() + " a "
 				+ usuarioRequisitante.getNome() + "," + "Mensagem: "
-				+ usuarioRequisitante.getNome() + "solicitou o empr�stimo do "
+				+ usuarioRequisitante.getNome() + "solicitou o empréstimo do "
 				+ item.getNome() + ".";
 		return formato;
 	}
@@ -102,9 +105,9 @@ public class Mensagem {
 	public String msgDevolucaoItem(Item item, Usuario usuario) {
 		String formato = "";
 
-		formato = "Assunto: Empr�stimo do item " + item.getNome() + " a "
+		formato = "Assunto: Empréstimo do item " + item.getNome() + " a "
 				+ usuario.getNome() + ";" + "Mensagem: " + usuario.getNome()
-				+ "solicitou a devolu��o do " + item.getNome() + ".";
+				+ "solicitou a devolução do " + item.getNome() + ".";
 		return formato;
 	}
 
@@ -117,7 +120,7 @@ public class Mensagem {
 	 * @return mensagem de solicitacao de item
 	 */
 	public String msgSolicitacaoItem(Item item, Usuario usuario) {
-		String formato = usuario.getNome() + " solicitou o empr�stimo do item "
+		String formato = usuario.getNome() + " solicitou o empréstimo do item "
 				+ item.getNome() + ";" + mensagem;
 		return formato;
 	}
@@ -134,9 +137,13 @@ public class Mensagem {
 		String formato = "";
 
 		formato = "Assunto: O item " + item.getNome() + " do "
-				+ usuarioInteressado.getNome() + "est� dispon�vel;"
-				+ "Mensagem: Agora voc� pode requisitar o empr�stimo do "
+				+ usuarioInteressado.getNome() + "está disponível;"
+				+ "Mensagem: Agora você pode requisitar o empréstimo do "
 				+ item.getNome() + ".";
 		return formato;
 	}
+
+	
+	
+	
 }

@@ -99,12 +99,12 @@ public class Item {
 	 */
 	public String getStatusString() {
 		if (status.equals(Status.DISPONIVEL))
-			return "Dispon�vel";
+			return "Disponível";
 		if (status.equals(Status.EMPRESTADO))
 			return "Emprestado";
 		if (status.equals(Status.DEVOLVIDO))
 			return "Devolvido";
-		return "Indispon�vel";
+		return "Indisponível";
 	}
 
 	/**
