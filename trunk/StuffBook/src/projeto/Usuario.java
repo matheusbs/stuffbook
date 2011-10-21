@@ -20,7 +20,7 @@ public class Usuario {
 
 	private ArrayList<Mensagem> mensagensOffTopic;
 	private ArrayList<Mensagem> mensagensNegociacao;
-	private ArrayList<Mensagem> mensagensInteresse;
+	//private ArrayList<Mensagem> mensagensInteresse;
 	private ArrayList<String> idsTopicos;
 
 	private String nome, endereco, login, idSessao;
@@ -42,7 +42,7 @@ public class Usuario {
 
 		this.mensagensOffTopic = new ArrayList<Mensagem>();
 		this.mensagensNegociacao = new ArrayList<Mensagem>();
-		this.mensagensInteresse = new ArrayList<Mensagem>();
+		//this.mensagensInteresse = new ArrayList<Mensagem>();
 		this.idsTopicos = new ArrayList<String>();
 
 		RequisicoesDeAmizade = new ArrayList<String>();
@@ -56,25 +56,27 @@ public class Usuario {
 	 * @throws Exception
 	 */
 
-	public ArrayList<String> lerMensagens(String idTopico) throws Exception {
-
-		if (!idsTopicos.contains(idTopico)) {
-			throw new Exception(
-					"O usu�rio n�o tem permiss�o para ler as mensagens deste t�pico");
-		}
-
+	public ArrayList<String> lerMensagens(String idTopico) throws Exception{
+		
+		if(!idsTopicos.contains(idTopico)){
+        	throw new Exception("O usuário não tem permissão para ler as mensagens deste tópico");
+        }  
+		
 		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
+		
 
-		for (Mensagem m : mensagensOffTopic) {
-			if (m.getIdTopico().equals(idTopico)) {
+		for(Mensagem m : mensagensOffTopic){
+			if(m.getIdTopico().equals(idTopico)){
 				mensagensEncontradas.add(m.getMensagem());
 			}
 		}
-
-		for (Mensagem m : mensagensNegociacao) {
+		
+		for(Mensagem m : mensagensNegociacao){
 			mensagensEncontradas.add(m.getMensagem());
 		}
-		return mensagensEncontradas;
+		
+		
+		return mensagensEncontradas;	
 	}
 
 	/**
@@ -102,11 +104,13 @@ public class Usuario {
 	 * 
 	 * @param mensagem
 	 */
-	public void addMensagemInteresse(Mensagem mensagem) {
+	/*public void addMensagemInteresse(Mensagem mensagem) {
 		idsTopicos.add(mensagem.getIdTopico());
 		mensagensInteresse.add(mensagem);
-	}
+	}*/
 
+	
+	
 	public List<Emprestimo> getEmprestimosRequisitados() {
 		return emprestimosRequisitados;
 	}
@@ -146,7 +150,7 @@ public class Usuario {
 	 */
 	public String getRequisicoesDeAmizade() {
 		if (RequisicoesDeAmizade.size() == 0) {
-			return "N�o h� requisi��es";
+			return "Não há requisições";
 		}
 		String requisicoesDeAmizade = "";
 		for (String requisicoes : RequisicoesDeAmizade) {
@@ -168,7 +172,7 @@ public class Usuario {
 	public void setNome(String novoNome) throws Exception {
 		if (!(nome.equals(novoNome)))
 			this.nome = novoNome;
-		throw new Exception("O NOVO NOME N�O PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O NOVO NOME NÃO PODE SER IGUAL AO ANTERIOR.");
 	}
 
 	public String getEndereco() {
@@ -178,7 +182,7 @@ public class Usuario {
 	public void setEndereco(String novoEndereco) throws Exception {
 		if (!(endereco.equals(novoEndereco)))
 			this.endereco = novoEndereco;
-		throw new Exception("O NOVO ENDERE�O N�O PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O NOVO ENDEREÇO NÃO PODE SER IGUAL AO ANTERIOR.");
 	}
 
 	public String getLogin() {
@@ -207,7 +211,7 @@ public class Usuario {
 			if (amigo.getLogin().equals(login))
 				return amigo;
 		}
-		throw new Exception("USU�RIO N�O ENCONTRADO.");
+		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
 	}
 
 	/**
@@ -222,7 +226,7 @@ public class Usuario {
 			if (objetoAux.equals(objeto))
 				itens.remove(objeto);
 		}
-		throw new Exception("OBJETO N�O ENCONTRADO.");
+		throw new Exception("OBJETO NÃO ENCONTRADO.");
 	}
 
 	public int getReputacao() throws Exception {
@@ -248,58 +252,83 @@ public class Usuario {
 	 * @throws Exception
 	 *             entradas invalidas
 	 */
-	public ArrayList<String> lerTopicos(String tipo) throws Exception {
-		ManipuladorStrings.trataVazio(tipo, new Exception("Tipo inv�lido"));
-		
-		if (!tipo.equals("todos") && !tipo.equals("offtopic")
-				&& !tipo.equals("negociacao")) {
+	public ArrayList<String> lerTopicos(String tipo) throws Exception{
+		if(tipo == null || "".equals(tipo)){
+			throw new Exception("Tipo inválido");
+		}
+		if(!tipo.equals("todos") && !tipo.equals("offtopic") && !tipo.equals("negociacao")){
 			throw new Exception("Tipo inexistente");
 		}
-
+		
 		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
-
-		if (tipo.equals("todos")) {
-			for (Mensagem mensagem : mensagensOffTopic) {
-				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
+		
+		if(tipo.equals("todos")){
+			for (Mensagem mensagem : mensagensOffTopic){
+				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+					mensagensEncontradas.add(mensagem.getAssunto());
+					}
+			}
+			for (Mensagem mensagem : mensagensNegociacao){
+				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
-			}
-			for (Mensagem mensagem : mensagensNegociacao) {
-				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
-					mensagensEncontradas.add(mensagem.getAssunto());
-				}
 
 			}
-
+			
+			
 			return mensagensEncontradas;
 		}
-
-		if (tipo.equals("offtopic")) {
-			for (Mensagem mensagem : mensagensOffTopic) {
-				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
+		
+		if(tipo.equals("offtopic")){
+			for (Mensagem mensagem : mensagensOffTopic){
+				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
 					mensagensEncontradas.add(mensagem.getAssunto());
-				}
-			}
-			for (Mensagem mensagem : mensagensInteresse) {
-				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
-					mensagensEncontradas.add(mensagem.getAssunto());
-				}
-
+					}
 			}
 			return mensagensEncontradas;
 		}
-
-		if (tipo.equals("negociacao")) {
-			for (Mensagem mensagem : mensagensNegociacao) {
-				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
+		
+		if(tipo.equals("negociacao")){
+			for (Mensagem mensagem : mensagensNegociacao){
+				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
 
 			}
 			return mensagensEncontradas;
 		}
-
+		
+		
+		
 		return mensagensEncontradas;
 	}
+	
+	
+	
+	
+	public String mensagemDefaultEmprestimo(Item item,Usuario user){
+		String msgPadrão = " ";
+		
+		msgPadrão = "Assunto: Emprestimo do item "
+			+ "<" + item.getNome() + ">" + "a" + "<"
+			+ user.getNome() + ">" + "\nMensagem: " + "<" 
+			+ this.nome + ">" + "solicitou emprestimo do item " 
+			+ item.getNome();
+		
+		return msgPadrão;
+	}
+
+	/*public Emprestimo getEmprestimo(String idEmprestimo) {
+			if(!(idEmprestimo == null) && !(idEmprestimo.equals("")) ){
+				for (int i = 0; i < emprestimosAndamento.size() ; i++){
+					
+					
+				}
+			}
+			
+		
+		
+		return null;
+	}*/
 
 }
