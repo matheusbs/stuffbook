@@ -1,5 +1,7 @@
 package projeto;
 
+import java.util.List;
+
 /**
  * Classe que cria os emprestimos de item
  * 
@@ -69,8 +71,8 @@ public class Emprestimo {
 		if (situacao.equals(Situacao.COMPLETADO))
 			return "Completado";
 		if (situacao.equals(Situacao.ATRASADO))
-			return "Empréstimo atrasado.";
-		return "Empréstimo finalizado.";
+			return "Empr�stimo atrasado.";
+		return "Empr�stimo finalizado.";
 
 	}
 
@@ -104,6 +106,10 @@ public class Emprestimo {
 				&& getEmprestador().equals(outro.getEmprestador())
 				&& getBeneficiado().equals(outro.getBeneficiado())
 				&& getDuracao() == outro.getDuracao();
+	}
+
+	public String getEnvolvidos() {
+		return emprestador.getLogin() + "," + beneficiado.getLogin();
 	}
 
 }

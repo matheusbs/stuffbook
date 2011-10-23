@@ -59,7 +59,7 @@ public class Usuario {
 	public ArrayList<String> lerMensagens(String idTopico) throws Exception{
 		
 		if(!idsTopicos.contains(idTopico)){
-        	throw new Exception("O usuário não tem permissão para ler as mensagens deste tópico");
+        	throw new Exception("O usu�rio n�o tem permiss�o para ler as mensagens deste t�pico");
         }  
 		
 		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
@@ -87,6 +87,7 @@ public class Usuario {
 	public void addMensagemOffTopic(Mensagem mensagem) {
 		idsTopicos.add(mensagem.getIdTopico());
 		mensagensOffTopic.add(mensagem);
+		
 	}
 
 	/**
@@ -150,7 +151,7 @@ public class Usuario {
 	 */
 	public String getRequisicoesDeAmizade() {
 		if (RequisicoesDeAmizade.size() == 0) {
-			return "Não há requisições";
+			return "N�o h� requisi��es";
 		}
 		String requisicoesDeAmizade = "";
 		for (String requisicoes : RequisicoesDeAmizade) {
@@ -172,7 +173,7 @@ public class Usuario {
 	public void setNome(String novoNome) throws Exception {
 		if (!(nome.equals(novoNome)))
 			this.nome = novoNome;
-		throw new Exception("O NOVO NOME NÃO PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O NOVO NOME N�O PODE SER IGUAL AO ANTERIOR.");
 	}
 
 	public String getEndereco() {
@@ -182,7 +183,7 @@ public class Usuario {
 	public void setEndereco(String novoEndereco) throws Exception {
 		if (!(endereco.equals(novoEndereco)))
 			this.endereco = novoEndereco;
-		throw new Exception("O NOVO ENDEREÇO NÃO PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O NOVO ENDERE�O N�O PODE SER IGUAL AO ANTERIOR.");
 	}
 
 	public String getLogin() {
@@ -211,7 +212,7 @@ public class Usuario {
 			if (amigo.getLogin().equals(login))
 				return amigo;
 		}
-		throw new Exception("USUÁRIO NÃO ENCONTRADO.");
+		throw new Exception("USU�RIO N�O ENCONTRADO.");
 	}
 
 	/**
@@ -226,7 +227,7 @@ public class Usuario {
 			if (objetoAux.equals(objeto))
 				itens.remove(objeto);
 		}
-		throw new Exception("OBJETO NÃO ENCONTRADO.");
+		throw new Exception("OBJETO N�O ENCONTRADO.");
 	}
 
 	public int getReputacao() throws Exception {
@@ -254,7 +255,7 @@ public class Usuario {
 	 */
 	public ArrayList<String> lerTopicos(String tipo) throws Exception{
 		if(tipo == null || "".equals(tipo)){
-			throw new Exception("Tipo inválido");
+			throw new Exception("Tipo inv�lido");
 		}
 		if(!tipo.equals("todos") && !tipo.equals("offtopic") && !tipo.equals("negociacao")){
 			throw new Exception("Tipo inexistente");
