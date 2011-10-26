@@ -3,8 +3,8 @@ package projeto;
 /**
  * Classe que cria as mensagens
  * 
- * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
- * @version 1.0
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @version 1.01
  */
 
 public class Mensagem {

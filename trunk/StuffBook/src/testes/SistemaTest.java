@@ -26,8 +26,8 @@ public class SistemaTest {
 		files.add("src/testes/US12.txt");
 		files.add("src/testes/US13.txt");
 		files.add("src/testes/US14.txt");
-
-		
+		files.add("src/testes/US15.txt");
+		files.add("src/testes/US16.txt");
 
 		// Instancie a fachada do sistema
 		SistemaFacade redeSocialFacade = new SistemaFacade();

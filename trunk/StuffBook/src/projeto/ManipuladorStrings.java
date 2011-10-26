@@ -4,8 +4,8 @@ package projeto;
  * Classe estatica manipula Strings tratando parametros invalidos, evitando
  * alguma repeticao de codigo na classe Sistema.
  * 
- * @author
- * 
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @version 1.01
  */
 
 public class ManipuladorStrings {

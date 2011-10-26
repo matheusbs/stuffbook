@@ -1,8 +1,9 @@
 package projeto;
 
 /**Classe que cria os usuarios
- * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
- * @version 1.0
+ * 
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @version 1.01
  */
 
 import java.util.ArrayList;
@@ -10,39 +11,38 @@ import java.util.List;
 
 public class Usuario {
 
-	int idItem;
-	protected List<Item> itens, pedidosDeItens;
-	protected List<Emprestimo> emprestimosRequisitados, emprestimosAndamento,
-			emprestimosCompletados, emprestimosSolicitados;
-	protected List<Usuario> amigos;
-	public List<String> RequisicoesDeAmizade;
-	// protected List<Mensagem> mensagens;
-
+	private List<Item> pedidosDeItens;
+	private List<Item> itens;
+	private List<Emprestimo> emprestimosSolicitados;
+	private List<Emprestimo> emprestimosCompletados;
+	private List<Emprestimo> emprestimosAndamento;
+	private List<Emprestimo> emprestimosRequisitados;
+	private List<Usuario> amigos;
+	protected List<String> RequisicoesDeAmizade;
 	private ArrayList<Mensagem> mensagensOffTopic;
 	private ArrayList<Mensagem> mensagensNegociacao;
-	//private ArrayList<Mensagem> mensagensInteresse;
+
 	private ArrayList<String> idsTopicos;
 
 	private String nome, endereco, login, idSessao;
-	
-	Sistema sistema = new Sistema();
+
+	private Sistema sistema = new Sistema();
 
 	public Usuario(String login, String nome, String endereco, String idSessao) {
 		this.idSessao = idSessao;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.login = login;
-		itens = new ArrayList<Item>();
-		pedidosDeItens = new ArrayList<Item>();
-		emprestimosRequisitados = new ArrayList<Emprestimo>();
-		emprestimosAndamento = new ArrayList<Emprestimo>();
-		emprestimosCompletados = new ArrayList<Emprestimo>();
-		emprestimosSolicitados = new ArrayList<Emprestimo>();
-		amigos = new ArrayList<Usuario>();
+		setItens(new ArrayList<Item>());
+		setPedidosDeItens(new ArrayList<Item>());
+		setEmprestimosRequisitados(new ArrayList<Emprestimo>());
+		setEmprestimosAndamento(new ArrayList<Emprestimo>());
+		setEmprestimosCompletados(new ArrayList<Emprestimo>());
+		setEmprestimosSolicitados(new ArrayList<Emprestimo>());
+		setAmigos(new ArrayList<Usuario>());
 
 		this.mensagensOffTopic = new ArrayList<Mensagem>();
 		this.mensagensNegociacao = new ArrayList<Mensagem>();
-		//this.mensagensInteresse = new ArrayList<Mensagem>();
 		this.idsTopicos = new ArrayList<String>();
 
 		RequisicoesDeAmizade = new ArrayList<String>();
@@ -56,27 +56,26 @@ public class Usuario {
 	 * @throws Exception
 	 */
 
-	public ArrayList<String> lerMensagens(String idTopico) throws Exception{
-		
-		if(!idsTopicos.contains(idTopico)){
-        	throw new Exception("O usu�rio n�o tem permiss�o para ler as mensagens deste t�pico");
-        }  
-		
-		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
-		
+	public ArrayList<String> lerMensagens(String idTopico) throws Exception {
 
-		for(Mensagem m : mensagensOffTopic){
-			if(m.getIdTopico().equals(idTopico)){
+		if (!idsTopicos.contains(idTopico)) {
+			throw new Exception(
+					"O usu�rio n�o tem permiss�o para ler as mensagens deste t�pico");
+		}
+
+		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
+
+		for (Mensagem m : mensagensOffTopic) {
+			if (m.getIdTopico().equals(idTopico)) {
 				mensagensEncontradas.add(m.getMensagem());
 			}
 		}
-		
-		for(Mensagem m : mensagensNegociacao){
+
+		for (Mensagem m : mensagensNegociacao) {
 			mensagensEncontradas.add(m.getMensagem());
 		}
-		
-		
-		return mensagensEncontradas;	
+
+		return mensagensEncontradas;
 	}
 
 	/**
@@ -87,7 +86,7 @@ public class Usuario {
 	public void addMensagemOffTopic(Mensagem mensagem) {
 		idsTopicos.add(mensagem.getIdTopico());
 		mensagensOffTopic.add(mensagem);
-		
+
 	}
 
 	/**
@@ -105,13 +104,7 @@ public class Usuario {
 	 * 
 	 * @param mensagem
 	 */
-	/*public void addMensagemInteresse(Mensagem mensagem) {
-		idsTopicos.add(mensagem.getIdTopico());
-		mensagensInteresse.add(mensagem);
-	}*/
 
-	
-	
 	public List<Emprestimo> getEmprestimosRequisitados() {
 		return emprestimosRequisitados;
 	}
@@ -131,10 +124,6 @@ public class Usuario {
 	public List<Item> getItens() {
 		return itens;
 	}
-
-	/*
-	 * public List<Mensagem> getMensagens() { return mensagens; }
-	 */
 
 	public String getIdSessao() {
 		return idSessao;
@@ -208,7 +197,7 @@ public class Usuario {
 	 *             entradas invalidas
 	 */
 	public Usuario procuraAmigo(String login) throws Exception {
-		for (Usuario amigo : amigos) {
+		for (Usuario amigo : getAmigos()) {
 			if (amigo.getLogin().equals(login))
 				return amigo;
 		}
@@ -223,9 +212,9 @@ public class Usuario {
 	 *             entradas invalidas
 	 */
 	public void removeItem(Item objeto) throws Exception {
-		for (Item objetoAux : itens) {
+		for (Item objetoAux : getItens()) {
 			if (objetoAux.equals(objeto))
-				itens.remove(objeto);
+				getItens().remove(objeto);
 		}
 		throw new Exception("OBJETO N�O ENCONTRADO.");
 	}
@@ -253,83 +242,107 @@ public class Usuario {
 	 * @throws Exception
 	 *             entradas invalidas
 	 */
-	public ArrayList<String> lerTopicos(String tipo) throws Exception{
-		if(tipo == null || "".equals(tipo)){
+	public ArrayList<String> lerTopicos(String tipo) throws Exception {
+		if (tipo == null || "".equals(tipo)) {
 			throw new Exception("Tipo inv�lido");
 		}
-		if(!tipo.equals("todos") && !tipo.equals("offtopic") && !tipo.equals("negociacao")){
+		if (!tipo.equals("todos") && !tipo.equals("offtopic")
+				&& !tipo.equals("negociacao")) {
 			throw new Exception("Tipo inexistente");
 		}
-		
+
 		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
-		
-		if(tipo.equals("todos")){
-			for (Mensagem mensagem : mensagensOffTopic){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+
+		if (tipo.equals("todos")) {
+			for (Mensagem mensagem : mensagensOffTopic) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
-					}
+				}
 			}
-			for (Mensagem mensagem : mensagensNegociacao){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+			for (Mensagem mensagem : mensagensNegociacao) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
 
 			}
-			
-			
+
 			return mensagensEncontradas;
 		}
-		
-		if(tipo.equals("offtopic")){
-			for (Mensagem mensagem : mensagensOffTopic){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+
+		if (tipo.equals("offtopic")) {
+			for (Mensagem mensagem : mensagensOffTopic) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
-					}
+				}
 			}
 			return mensagensEncontradas;
 		}
-		
-		if(tipo.equals("negociacao")){
-			for (Mensagem mensagem : mensagensNegociacao){
-				if(!mensagensEncontradas.contains(mensagem.getAssunto())){
+
+		if (tipo.equals("negociacao")) {
+			for (Mensagem mensagem : mensagensNegociacao) {
+				if (!mensagensEncontradas.contains(mensagem.getAssunto())) {
 					mensagensEncontradas.add(mensagem.getAssunto());
 				}
 
 			}
 			return mensagensEncontradas;
 		}
-		
-		
-		
+
 		return mensagensEncontradas;
 	}
-	
-	
-	
-	
-	public String mensagemDefaultEmprestimo(Item item,Usuario user){
+
+	public String mensagemDefaultEmprestimo(Item item, Usuario user) {
 		String msgPadrão = " ";
-		
-		msgPadrão = "Assunto: Emprestimo do item "
-			+ "<" + item.getNome() + ">" + "a" + "<"
-			+ user.getNome() + ">" + "\nMensagem: " + "<" 
-			+ this.nome + ">" + "solicitou emprestimo do item " 
-			+ item.getNome();
-		
+
+		msgPadrão = "Assunto: Emprestimo do item " + "<" + item.getNome() + ">"
+				+ "a" + "<" + user.getNome() + ">" + "\nMensagem: " + "<"
+				+ this.nome + ">" + "solicitou emprestimo do item "
+				+ item.getNome();
+
 		return msgPadrão;
 	}
 
-	/*public Emprestimo getEmprestimo(String idEmprestimo) {
-			if(!(idEmprestimo == null) && !(idEmprestimo.equals("")) ){
-				for (int i = 0; i < emprestimosAndamento.size() ; i++){
-					
-					
-				}
-			}
-			
-		
-		
-		return null;
-	}*/
+	public void setItens(List<Item> itens) {
+		this.itens = itens;
+	}
+
+	public void setEmprestimosRequisitados(
+			List<Emprestimo> emprestimosRequisitados) {
+		this.emprestimosRequisitados = emprestimosRequisitados;
+	}
+
+	public void setEmprestimosAndamento(List<Emprestimo> emprestimosAndamento) {
+		this.emprestimosAndamento = emprestimosAndamento;
+	}
+
+	public void setEmprestimosCompletados(
+			List<Emprestimo> emprestimosCompletados) {
+		this.emprestimosCompletados = emprestimosCompletados;
+	}
+
+	public void setEmprestimosSolicitados(
+			List<Emprestimo> emprestimosSolicitados) {
+		this.emprestimosSolicitados = emprestimosSolicitados;
+	}
+
+	public void setPedidosDeItens(List<Item> pedidosDeItens) {
+		this.pedidosDeItens = pedidosDeItens;
+	}
+
+	public List<Item> getPedidosDeItens() {
+		return pedidosDeItens;
+	}
+
+	public void setAmigos(List<Usuario> amigos) {
+		this.amigos = amigos;
+	}
+
+	public void setSistema(Sistema sistema) {
+		this.sistema = sistema;
+	}
+
+	public Sistema getSistema() {
+		return sistema;
+	}
 
 }
