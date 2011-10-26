@@ -1,12 +1,10 @@
 package projeto;
 
-import java.util.List;
-
 /**
  * Classe que cria os emprestimos de item
  * 
- * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
- * @version 1.0
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @version 1.01
  */
 
 public class Emprestimo {

@@ -1,8 +1,9 @@
 package projeto;
 
 /**Classe que manipula o sistema
- * @author Paulo Souto, Matheus Batista, Rodolfo Moraes
- * @version 1.0
+ * 
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @version 1.01
  */
 
 import java.util.ArrayList;
@@ -11,28 +12,42 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
-
 import projeto.Emprestimo.Situacao;
 import projeto.Item.Status;
 
 public class Sistema {
 
-	protected List<Usuario> usuarios = new ArrayList<Usuario>();
-	protected List<String> idsUsuarios = new ArrayList<String>();
-	protected Map<Usuario, String> ids = new HashMap<Usuario, String>();
-	protected List<String> idsEmprestimos = new ArrayList<String>();
-	protected List<Emprestimo> emprestimos = new ArrayList<Emprestimo>();
-	protected List<Item> itens = new ArrayList<Item>();
-	protected List<String> idsItens = new ArrayList<String>();
-	private List<String> idsTopicos = new ArrayList<String>();
-	String abrirSessaoDefault = "sessaoDefault";
+	private List<Usuario> usuarios;
+	private List<String> idsUsuarios;
+	private Map<Usuario, String> ids;
+	private List<String> idsEmprestimos;
+	private List<Emprestimo> emprestimos;
+	private List<Item> itens;
+	private List<String> idsItens;
+	private List<String> idsTopicos;
+	private String abrirSessaoDefault;
 
 	/**
 	 * Gera um id para usuario
 	 * 
 	 * @return id de usuario
 	 */
+
+	public Sistema() {
+		usuarios = new ArrayList<Usuario>();
+		idsUsuarios = new ArrayList<String>();
+		ids = new HashMap<Usuario, String>();
+		idsEmprestimos = new ArrayList<String>();
+		emprestimos = new ArrayList<Emprestimo>();
+		itens = new ArrayList<Item>();
+		idsItens = new ArrayList<String>();
+		idsTopicos = new ArrayList<String>();
+		abrirSessaoDefault = "sessaoDefault";
+		
+	}
+
+
+
 	public int gerarID() {
 		Random randomGenerator = new Random();
 		int id = randomGenerator.nextInt(10000);
@@ -58,12 +73,13 @@ public class Sistema {
 			throw new Exception("Nome inv�lido");
 		if ("".equalsIgnoreCase(login) || login == null)
 			throw new Exception("Login inv�lido");
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getLogin().equals(login))
 				throw new Exception("J� existe um usu�rio com este login");
 		}
 
-		usuarios.add(new Usuario(login, nome, endereco, abrirSessaoDefault));
+		getUsuarios().add(
+				new Usuario(login, nome, endereco, getAbrirSessaoDefault()));
 	}
 
 	/**
@@ -85,7 +101,7 @@ public class Sistema {
 		if ((!atributo.equalsIgnoreCase("nome"))
 				&& (!atributo.equalsIgnoreCase("endereco")))
 			throw new Exception("Atributo inexistente");
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				if (atributo.equalsIgnoreCase("nome"))
 					return usuario.getNome();
@@ -108,12 +124,12 @@ public class Sistema {
 	public String abrirSessao(String login) throws Exception {
 		if (login == null || "".equals(login))
 			throw new Exception("Login inv�lido");
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getLogin().equalsIgnoreCase(login)) {
 				String idUsuario = login + gerarID();
 				usuario.setIdSessao(idUsuario);
-				ids.put(usuario, idUsuario);
-				idsUsuarios.add(idUsuario);
+				getIds().put(usuario, idUsuario);
+				getIdsUsuarios().add(idUsuario);
 				return idUsuario;
 			}
 		}
@@ -136,7 +152,7 @@ public class Sistema {
 		String aux = "";
 		if (idSessao == null || "".equalsIgnoreCase(idSessao))
 			throw new Exception("Sess�o inv�lida");
-		if (!(ids.values().contains(idSessao)))
+		if (!(getIds().values().contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
 		if (chave == null || "".equalsIgnoreCase(chave))
 			throw new Exception("Palavra-chave inv�lida");
@@ -146,7 +162,7 @@ public class Sistema {
 				&& (!atributo.equalsIgnoreCase("endereco")))
 			throw new Exception("Atributo inexistente");
 		List<Usuario> listaTemp = new ArrayList<Usuario>();
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (!usuario.getIdSessao().equals(idSessao)) {
 				if (atributo.equalsIgnoreCase("nome")) {
 					if (usuario.getNome().contains(chave)) {
@@ -181,7 +197,7 @@ public class Sistema {
 	 */
 
 	public Usuario procuraUsuarioIdSessao(String idSessao) throws Exception {
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getIdSessao().equals(idSessao))
 				return usuario;
 		}
@@ -196,7 +212,7 @@ public class Sistema {
 	 */
 
 	public Usuario procuraUsuarioLogin(String login) throws Exception {
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getLogin().equals(login))
 				return usuario;
 		}
@@ -218,7 +234,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		for (Usuario amigo : procuraUsuarioIdSessao(idSessao).getAmigos()) {
@@ -252,7 +268,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		List<Usuario> listTemp = new ArrayList<Usuario>();
@@ -288,7 +304,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (login == null || "".equals(login)) {
@@ -320,13 +336,13 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (login == null || "".equals(login)) {
 			throw new Exception("Login inv�lido");
 		}
-		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		if (getUsuarios().contains(procuraUsuarioLogin(login))) {
 		}
 		if (ehAmigo(idSessao, login)) {
 			throw new Exception("Os usu�rios j� s�o amigos");
@@ -336,8 +352,10 @@ public class Sistema {
 			throw new Exception("Requisi��o de amizade inexistente");
 		}
 		procuraUsuarioIdSessao(idSessao).removeRequisicaodeAmigo(login);
-		procuraUsuarioIdSessao(idSessao).amigos.add(procuraUsuarioLogin(login));
-		procuraUsuarioLogin(login).amigos.add(procuraUsuarioIdSessao(idSessao));
+		procuraUsuarioIdSessao(idSessao).getAmigos().add(
+				procuraUsuarioLogin(login));
+		procuraUsuarioLogin(login).getAmigos().add(
+				procuraUsuarioIdSessao(idSessao));
 	}
 
 	/**
@@ -355,26 +373,26 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (login == null || "".equals(login)) {
 			throw new Exception("Login inv�lido");
 		}
-		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		if (getUsuarios().contains(procuraUsuarioLogin(login))) {
 		}
 		if (!ehAmigo(idSessao, login)) {
 			throw new Exception("Amizade inexistente");
 		}
 
-		if ((procuraUsuarioLogin(login).amigos.contains(procuraUsuarioIdSessao(
-				idSessao).getLogin()))) {
+		if ((procuraUsuarioLogin(login).getAmigos()
+				.contains(procuraUsuarioIdSessao(idSessao).getLogin()))) {
 			throw new Exception("Amizade inexistente");
 		}
-		procuraUsuarioIdSessao(idSessao).amigos
-				.remove(procuraUsuarioLogin(login));
-		procuraUsuarioLogin(login).amigos
-				.remove(procuraUsuarioIdSessao(idSessao));
+		procuraUsuarioIdSessao(idSessao).getAmigos().remove(
+				procuraUsuarioLogin(login));
+		procuraUsuarioLogin(login).getAmigos().remove(
+				procuraUsuarioIdSessao(idSessao));
 	}
 
 	/**
@@ -393,18 +411,18 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (login == null || "".equals(login)) {
 			throw new Exception("Login inv�lido");
 		}
-		if (usuarios.contains(procuraUsuarioLogin(login))) {
+		if (getUsuarios().contains(procuraUsuarioLogin(login))) {
 		}
 		boolean var = false;
 		try {
-			if (procuraUsuarioIdSessao(idSessao).amigos
-					.contains(procuraUsuarioLogin(login))) {
+			if (procuraUsuarioIdSessao(idSessao).getAmigos().contains(
+					procuraUsuarioLogin(login))) {
 				var = true;
 			}
 		} catch (Exception erro) {
@@ -426,7 +444,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		return procuraUsuarioIdSessao(idSessao).getRequisicoesDeAmizade();
@@ -453,14 +471,18 @@ public class Sistema {
 				&& !"livro".equalsIgnoreCase(categoria)) {
 			throw new Exception("Categoria inexistente");
 		}
-		for (String id : idsUsuarios) {
+		for (String id : getIdsUsuarios()) {
 			if ((id.equals(idUsuario))) {
 				String idItem = "" + gerarID();
-				idsItens.add(idItem);
-				procuraUsuarioIdSessao(idUsuario).itens.add(new Item(idUsuario,
-						idItem, nome, descricao, categoria));
-				itens.add(new Item(idUsuario, idItem, nome, descricao,
-						categoria));
+				getIdsItens().add(idItem);
+				procuraUsuarioIdSessao(idUsuario).getItens()
+						.add(
+								new Item(idUsuario, idItem, nome, descricao,
+										categoria));
+				getItens()
+						.add(
+								new Item(idUsuario, idItem, nome, descricao,
+										categoria));
 				return idItem;
 			}
 		}
@@ -487,7 +509,7 @@ public class Sistema {
 				&& (!atributo.equalsIgnoreCase("categoria"))
 				&& (!atributo.equalsIgnoreCase("descricao")))
 			throw new Exception("Atributo inexistente");
-		for (Item item : itens) {
+		for (Item item : getItens()) {
 			if (item.getIdItem().equalsIgnoreCase(idItem)) {
 				if (atributo.equalsIgnoreCase("nome"))
 					return item.getNome();
@@ -515,7 +537,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		for (Item item : itens) {
@@ -551,7 +573,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (!ehAmigo(idSessao, login)) {
@@ -577,7 +599,7 @@ public class Sistema {
 			throw new Exception("Sess�o inv�lida");
 		if (tipo == null || "".equals(tipo))
 			throw new Exception("Tipo inv�lido");
-		if (!(idsUsuarios.contains(idSessao)))
+		if (!(getIdsUsuarios().contains(idSessao)))
 			throw new Exception("Sess�o inexistente");
 
 		if (!"emprestador".equalsIgnoreCase(tipo)
@@ -665,14 +687,14 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (idItem == null || "".equals(idItem)) {
 			throw new Exception("Identificador do item � inv�lido");
 		}
 
-		if (!(idsItens.contains(idItem))) {
+		if (!(getIdsItens().contains(idItem))) {
 			throw new Exception("Item inexistente");
 		}
 		if (duracao <= 0) {
@@ -681,7 +703,7 @@ public class Sistema {
 
 		String idRequisicaoEmprestimo = "" + gerarID();
 
-		for (Item item : itens) {
+		for (Item item : getItens()) {
 			if (item.getIdItem().equals(idItem)) {
 				Usuario emprestador = procuraUsuarioIdSessao(item
 						.getIdUsuario());
@@ -695,10 +717,11 @@ public class Sistema {
 								emprestimo)) {
 							throw new Exception("Requisi��o j� solicitada");
 						}
-						beneficiado.emprestimosSolicitados.add(emprestimo);
-						emprestador.emprestimosRequisitados.add(emprestimo);
-						emprestimos.add(emprestimo);
-						idsEmprestimos.add(idRequisicaoEmprestimo);
+						beneficiado.getEmprestimosSolicitados().add(emprestimo);
+						emprestador.getEmprestimosRequisitados()
+								.add(emprestimo);
+						getEmprestimos().add(emprestimo);
+						getIdsEmprestimos().add(idRequisicaoEmprestimo);
 						this.enviarMensagem(idSessao, emprestador.getLogin(),
 								"Empr�stimo do item " + item.getNome() + " a "
 										+ beneficiado.getNome(), beneficiado
@@ -733,14 +756,14 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (idRequisicaoEmprestimo == null || "".equals(idRequisicaoEmprestimo)) {
 			throw new Exception(
 					"Identificador da requisi��o de empr�stimo � inv�lido");
 		}
-		if (!idsEmprestimos.contains(idRequisicaoEmprestimo)) {
+		if (!getIdsEmprestimos().contains(idRequisicaoEmprestimo)) {
 			throw new Exception("Requisi��o de empr�stimo inexistente");
 		}
 		if (!procurarEmprestimo(idRequisicaoEmprestimo).getEmprestador()
@@ -774,17 +797,17 @@ public class Sistema {
 					listaEmprestimosRequisitados.get(i).getItem().setStatus(
 							Status.EMPRESTADO);
 
-					beneficiado.emprestimosAndamento
-							.add(listaEmprestimosRequisitados.get(i));
+					beneficiado.getEmprestimosAndamento().add(
+							listaEmprestimosRequisitados.get(i));
 
-					emprestador.emprestimosAndamento
-							.add(listaEmprestimosRequisitados.get(i));
+					emprestador.getEmprestimosAndamento().add(
+							listaEmprestimosRequisitados.get(i));
 
-					beneficiado.emprestimosSolicitados
-							.remove(listaEmprestimosRequisitados.get(i));
+					beneficiado.getEmprestimosSolicitados().remove(
+							listaEmprestimosRequisitados.get(i));
 
-					emprestador.emprestimosRequisitados
-							.remove(listaEmprestimosRequisitados.get(i));
+					emprestador.getEmprestimosRequisitados().remove(
+							listaEmprestimosRequisitados.get(i));
 				}
 			}
 		}
@@ -807,7 +830,7 @@ public class Sistema {
 			throw new Exception("Sess�o inv�lida");
 		}
 
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 
@@ -847,7 +870,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (idEmprestimo == null || "".equals(idEmprestimo)) {
@@ -875,7 +898,8 @@ public class Sistema {
 				if (emprestimoDevolvido.equals(devolverEmprestimo)) {
 					emprestimoDevolvido.getItem().setStatus(Status.DISPONIVEL);
 					emprestimoDevolvido.setSituacao(Situacao.COMPLETADO);
-					emprestador.emprestimosCompletados.add(emprestimoDevolvido);
+					emprestador.getEmprestimosCompletados().add(
+							emprestimoDevolvido);
 				}
 
 			}
@@ -895,16 +919,14 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (idItem == null || "".equals(idItem)) {
 			throw new Exception("Identificador do item � inv�lido");
 		}
 		Usuario usuario = procuraUsuarioIdSessao(idSessao);
-
 		Item item = procurarItens(idItem);
-
 		if (!(item.getIdUsuario().equals(idSessao))) {
 			throw new Exception(
 					"O usu�rio n�o tem permiss�o para apagar este item");
@@ -912,9 +934,9 @@ public class Sistema {
 		if (procurarItens(idItem) != null) {
 
 			if (!item.getStatus().equals(Status.EMPRESTADO)) {
-				itens.remove(item);
-				idsItens.remove(idItem);
-				usuario.itens.remove(item);
+				getItens().remove(item);
+				getIdsItens().remove(idItem);
+				usuario.getItens().remove(item);
 			} else {
 				throw new Exception(
 						"O usu�rio n�o pode apagar este item enquanto estiver emprestado");
@@ -932,7 +954,7 @@ public class Sistema {
 	 */
 
 	public Emprestimo procurarEmprestimo(String idEmprestimo) throws Exception {
-		for (Emprestimo empTemp : emprestimos) {
+		for (Emprestimo empTemp : getEmprestimos()) {
 			if (empTemp.getIdRequisicaoEmprestimo().equals(idEmprestimo)) {
 				return empTemp;
 			}
@@ -958,7 +980,7 @@ public class Sistema {
 		if (idSessao == null || "".equals(idSessao)) {
 			throw new Exception("Sess�o inv�lida");
 		}
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if (chave == null || "".equals(chave)) {
@@ -988,21 +1010,28 @@ public class Sistema {
 		}
 
 		List<Item> listaItensPesquisadosGlobal = new ArrayList<Item>();
-		List<Item> listaItensPesquisadosAmigos = new ArrayList<Item>();
-		Usuario usuario = procuraUsuarioIdSessao(idSessao);
 		String stringPesquisada = "";
 
 		listaItensPesquisadosGlobal = procurarItens(chave, atributo);
+		if (criterioOrdenacao.equals("dataCriacao")
+				&& tipoOrdenacao.equals("crescente")) {
+			for (Item item : listaItensPesquisadosGlobal) {
 
-		for (int i = 0; i < listaItensPesquisadosGlobal.size(); i++) {
-			if (ehAmigo(idSessao, procuraUsuarioIdSessao(
-					listaItensPesquisadosGlobal.get(i).getIdUsuario())
-					.getLogin())) {
-				// listaItensPesquisadosAmigos.add(listaItensPesquisadosGlobal
-				// .get(i));
-				stringPesquisada += listaItensPesquisadosGlobal.get(i)
-						.getNome()
-						+ ", ";
+				if (ehAmigo(idSessao, procuraUsuarioIdSessao(
+						item.getIdUsuario()).getLogin())) {
+					stringPesquisada += item.getNome() + "; ";
+				}
+			}
+		} else if (criterioOrdenacao.equals("dataCriacao")
+				&& tipoOrdenacao.equals("decrescente")) {
+			for (int i = listaItensPesquisadosGlobal.size() - 1; i >= 0; i--) {
+				if (ehAmigo(idSessao, procuraUsuarioIdSessao(
+						listaItensPesquisadosGlobal.get(i).getIdUsuario())
+						.getLogin())) {
+					stringPesquisada += listaItensPesquisadosGlobal.get(i)
+							.getNome()
+							+ "; ";
+				}
 			}
 		}
 
@@ -1024,20 +1053,23 @@ public class Sistema {
 
 	public List<Item> procurarItens(String chave, String atributo) {
 		List<Item> listaArmazenaItens = new ArrayList<Item>();
-		for (int i = 0; i < itens.size(); i++) {
+		for (int i = 0; i < getItens().size(); i++) {
 			if (atributo.equals("nome")) {
-				if (itens.get(i).getNome().contains(chave)) {
-					listaArmazenaItens.add(itens.get(i));
+				if (getItens().get(i).getNome()
+						.matches("(?i).*" + chave + ".*")) {
+					listaArmazenaItens.add(getItens().get(i));
 				}
 			}
 			if (atributo.equals("descricao")) {
-				if (itens.get(i).getDescricao().contains(chave)) {
-					listaArmazenaItens.add(itens.get(i));
+				if (getItens().get(i).getDescricao().matches(
+						"(?i).*" + chave + ".*")) {
+					listaArmazenaItens.add(getItens().get(i));
 				}
 			}
 			if (atributo.equals("categoria")) {
-				if (itens.get(i).getCategoria().contains(chave)) {
-					listaArmazenaItens.add(itens.get(i));
+				if (getItens().get(i).getCategoria().matches(
+						"(?i).*" + chave + ".*")) {
+					listaArmazenaItens.add(getItens().get(i));
 				}
 			}
 		}
@@ -1054,10 +1086,10 @@ public class Sistema {
 	 */
 
 	public Item procurarItens(String idItem) throws Exception {
-		if (idsItens.contains(idItem)) {
-			for (int i = 0; i < itens.size(); i++) {
-				if (itens.get(i).getIdItem().equals(idItem)) {
-					return itens.get(i);
+		if (getIdsItens().contains(idItem)) {
+			for (Item item : getItens()) {
+				if (item.getIdItem().equals(idItem)) {
+					return item;
 				}
 			}
 		}
@@ -1078,7 +1110,7 @@ public class Sistema {
 			throws Exception {
 		if ("".equalsIgnoreCase(idSessao) || idSessao == null)
 			throw new Exception("Sess�o inv�lida");
-		if (!(idsUsuarios.contains(idSessao))) {
+		if (!(getIdsUsuarios().contains(idSessao))) {
 			throw new Exception("Sess�o inexistente");
 		}
 		if ("".equalsIgnoreCase(categoria) || categoria == null)
@@ -1088,15 +1120,11 @@ public class Sistema {
 				&& !"livro".equalsIgnoreCase(categoria)) {
 			throw new Exception("Categoria inexistente");
 		}
-		// RANKING, MAIOR E MENOR NÃO ESTÃO SENDO USADAS
 		String ranking = "";
-		String maior = "", menor = "";
 		List<String> reputacao = new ArrayList<String>();
-		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getReputacao() < usuarios.get(i + 1)
+		for (int i = 0; i < getUsuarios().size(); i++) {
+			if (getUsuarios().get(i).getReputacao() < getUsuarios().get(i + 1)
 					.getReputacao()) {
-				maior = usuarios.get(i + 1).getLogin();
-				menor = usuarios.get(i).getLogin();
 			}
 		}
 		Collections.sort(reputacao);
@@ -1105,7 +1133,7 @@ public class Sistema {
 	}
 
 	public Usuario getUsuarioLogin(String login) {
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getLogin().equals(login)) {
 				return usuario;
 			}
@@ -1114,7 +1142,7 @@ public class Sistema {
 	}
 
 	public Usuario getUsuarioId(String id) {
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : getUsuarios()) {
 			if (usuario.getIdSessao().equals(id)) {
 				return usuario;
 			}
@@ -1133,8 +1161,7 @@ public class Sistema {
 		if (topico == null || "".equals(topico)) {
 			throw new Exception("Identificador do t�pico � inv�lido");
 		}
-		System.out.println(topico);
-		if (!idsTopicos.contains(topico)) {
+		if (!getIdsTopicos().contains(topico)) {
 			throw new Exception("T�pico inexistente");
 		}
 
@@ -1197,7 +1224,7 @@ public class Sistema {
 
 		getUsuarioId(idSessao).addMensagemOffTopic(mensagem);
 		getUsuarioLogin(destinatario).addMensagemOffTopic(mensagem);
-		idsTopicos.add(mensagem.getIdTopico());
+		getIdsTopicos().add(mensagem.getIdTopico());
 		return mensagem.getIdTopico();
 	}
 
@@ -1241,11 +1268,11 @@ public class Sistema {
 		if (getUsuarioLogin(destinatario) == null) {
 			throw new Exception("Destinat�rio inexistente");
 		}
-		if (!idsEmprestimos.contains(idEmprestimo)) {
+		if (!getIdsEmprestimos().contains(idEmprestimo)) {
 			throw new Exception("Requisi��o de empr�stimo inexistente");
 		}
 
-		for (Emprestimo emprestimo : emprestimos) {
+		for (Emprestimo emprestimo : getEmprestimos()) {
 			if (emprestimo.getIdRequisicaoEmprestimo().equals(idEmprestimo)) {
 				if (!(emprestimo.getEnvolvidos()
 						.contains(getUsuarioId(idSessao).getLogin()))) {
@@ -1259,7 +1286,7 @@ public class Sistema {
 				destinatario, assunto, mensagemEscrita, destinatario);
 		getUsuarioId(idSessao).addMensagemNegociacao(mensagem);
 		getUsuarioLogin(destinatario).addMensagemNegociacao(mensagem);
-		idsTopicos.add(mensagem.getIdTopico());
+		getIdsTopicos().add(mensagem.getIdTopico());
 		return mensagem.getIdTopico();
 	}
 
@@ -1269,6 +1296,74 @@ public class Sistema {
 
 	public void encerrarSistema() throws Throwable {
 		this.finalize();
+	}
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setIdsUsuarios(List<String> idsUsuarios) {
+		this.idsUsuarios = idsUsuarios;
+	}
+
+	public List<String> getIdsUsuarios() {
+		return idsUsuarios;
+	}
+
+	public void setIds(Map<Usuario, String> ids) {
+		this.ids = ids;
+	}
+
+	public Map<Usuario, String> getIds() {
+		return ids;
+	}
+
+	public void setIdsEmprestimos(List<String> idsEmprestimos) {
+		this.idsEmprestimos = idsEmprestimos;
+	}
+
+	public List<String> getIdsEmprestimos() {
+		return idsEmprestimos;
+	}
+
+	public void setEmprestimos(List<Emprestimo> emprestimos) {
+		this.emprestimos = emprestimos;
+	}
+
+	public List<Emprestimo> getEmprestimos() {
+		return emprestimos;
+	}
+
+	public void setItens(List<Item> itens) {
+		this.itens = itens;
+	}
+
+	public List<Item> getItens() {
+		return itens;
+	}
+
+	public void setIdsItens(List<String> idsItens) {
+		this.idsItens = idsItens;
+	}
+
+	public List<String> getIdsItens() {
+		return idsItens;
+	}
+
+	public void setIdsTopicos(List<String> idsTopicos) {
+		this.idsTopicos = idsTopicos;
+	}
+
+	public void setAbrirSessaoDefault(String abrirSessaoDefault) {
+		this.abrirSessaoDefault = abrirSessaoDefault;
+	}
+
+	public String getAbrirSessaoDefault() {
+		return abrirSessaoDefault;
 	}
 
 }
