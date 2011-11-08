@@ -60,7 +60,7 @@ public class Usuario {
 
 		if (!idsTopicos.contains(idTopico)) {
 			throw new Exception(
-					"O usuï¿½rio nï¿½o tem permissï¿½o para ler as mensagens deste tï¿½pico");
+					"O usuário não tem permissão para ler as mensagens deste tópico");
 		}
 
 		ArrayList<String> mensagensEncontradas = new ArrayList<String>();
@@ -140,7 +140,7 @@ public class Usuario {
 	 */
 	public String getRequisicoesDeAmizade() {
 		if (RequisicoesDeAmizade.size() == 0) {
-			return "Nï¿½o hï¿½ requisiï¿½ï¿½es";
+			return "Não há requisições";
 		}
 		String requisicoesDeAmizade = "";
 		for (String requisicoes : RequisicoesDeAmizade) {
@@ -162,7 +162,7 @@ public class Usuario {
 	public void setNome(String novoNome) throws Exception {
 		if (!(nome.equals(novoNome)))
 			this.nome = novoNome;
-		throw new Exception("O NOVO NOME Nï¿½O PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O novo nome não pode ser igual ao anterior");
 	}
 
 	public String getEndereco() {
@@ -172,7 +172,7 @@ public class Usuario {
 	public void setEndereco(String novoEndereco) throws Exception {
 		if (!(endereco.equals(novoEndereco)))
 			this.endereco = novoEndereco;
-		throw new Exception("O NOVO ENDEREï¿½O Nï¿½O PODE SER IGUAL AO ANTERIOR.");
+		throw new Exception("O novo endereço não pode ser igual ao anterior");
 	}
 
 	public String getLogin() {
@@ -201,7 +201,7 @@ public class Usuario {
 			if (amigo.getLogin().equals(login))
 				return amigo;
 		}
-		throw new Exception("USUï¿½RIO Nï¿½O ENCONTRADO.");
+		throw new Exception("Usuário não encontrado");
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class Usuario {
 			if (objetoAux.equals(objeto))
 				getItens().remove(objeto);
 		}
-		throw new Exception("OBJETO Nï¿½O ENCONTRADO.");
+		throw new Exception("Objeto não encontrado");
 	}
 
 	public int getReputacao() throws Exception {
@@ -244,7 +244,7 @@ public class Usuario {
 	 */
 	public ArrayList<String> lerTopicos(String tipo) throws Exception {
 		if (tipo == null || "".equals(tipo)) {
-			throw new Exception("Tipo invï¿½lido");
+			throw new Exception("Tipo inválido");
 		}
 		if (!tipo.equals("todos") && !tipo.equals("offtopic")
 				&& !tipo.equals("negociacao")) {

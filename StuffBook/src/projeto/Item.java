@@ -31,7 +31,7 @@ public class Item {
 	 * @param nome
 	 *            O nome do item
 	 * @param descricao
-	 *            A descriï¿½ï¿½o do item
+	 *            A descrição do item
 	 * @param categoria
 	 *            A categoria do item
 	 * @throws Exception
@@ -99,12 +99,12 @@ public class Item {
 	 */
 	public String getStatusString() {
 		if (status.equals(Status.DISPONIVEL))
-			return "DisponÃ­vel";
+			return "Disponível";
 		if (status.equals(Status.EMPRESTADO))
 			return "Emprestado";
 		if (status.equals(Status.DEVOLVIDO))
 			return "Devolvido";
-		return "IndisponÃ­vel";
+		return "Indisponível";
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class Item {
 	}
 
 	/**
-	 * Metodo que muda a descriï¿½ï¿½o do item
+	 * Metodo que muda a descrição do item
 	 * 
 	 * @param novaDescricao
 	 */
