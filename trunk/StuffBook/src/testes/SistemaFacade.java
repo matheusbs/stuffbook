@@ -112,20 +112,20 @@ public class SistemaFacade {
 
 	public String enviarMensagem(String idSessao, String destinatario, String assunto, String mensagemEscrita) throws Exception {
 		if(idSessao == null || "".equals(idSessao)){
-            throw new Exception("Sessï¿½o invï¿½lida");
+            throw new Exception("Sessão inválida");
         }
         if(sis.getUsuarioId(idSessao) == null){
-            throw new Exception("Sessï¿½o inexistente");
+            throw new Exception("Sessão inexistente");
         }
 		return sis.enviarMensagem(idSessao, destinatario, assunto, mensagemEscrita);
 	}
 	
 	public String enviarMensagem(String idSessao, String destinatario, String assunto, String mensagemEscrita, String idEmprestimo) throws Exception {
 		if(idSessao == null || "".equals(idSessao)){
-            throw new Exception("Sessï¿½o invï¿½lida");
+            throw new Exception("Sessão inválida");
         }
         if(sis.getUsuarioId(idSessao) == null){
-            throw new Exception("Sessï¿½o inexistente");
+            throw new Exception("Sessão inexistente");
         }
 		return sis.enviarMensagem(idSessao, destinatario, assunto, mensagemEscrita, idEmprestimo);
 	}

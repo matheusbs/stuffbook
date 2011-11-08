@@ -3,7 +3,8 @@ package projeto;
 /**
  * Classe que cria as mensagens
  * 
- * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar
+ *         Souza
  * @version 1.01
  */
 
@@ -16,11 +17,11 @@ public class Mensagem {
 			String mensagem) throws Exception {
 
 		ManipuladorStrings.trataVazio(destinatario, new Exception(
-				"Destinatï¿½rio invï¿½lido"));
+				"Destinatário inválido"));
 		ManipuladorStrings.trataVazio(assunto,
-				new Exception("Assunto invï¿½lido"));
+				new Exception("Assunto inválido"));
 		ManipuladorStrings.trataVazio(mensagem, new Exception(
-				"Mensagem invï¿½lida"));
+				"Mensagem inválida"));
 		this.loginRemetente = loginRemetente;
 		this.tipo = "offtopic";
 		this.idTopico = tipo + loginDestinatario;
@@ -97,9 +98,9 @@ public class Mensagem {
 	public String msgPadrao(Item item, Usuario usuarioRequisitante) {
 		String formato = "";
 
-		formato = "Assunto: Emprï¿½stimo do item " + item.getNome() + " a "
+		formato = "Assunto: Empréstimo do item " + item.getNome() + " a "
 				+ usuarioRequisitante.getNome() + "," + "Mensagem: "
-				+ usuarioRequisitante.getNome() + "solicitou o emprï¿½stimo do "
+				+ usuarioRequisitante.getNome() + "solicitou o empréstimo do "
 				+ item.getNome() + ".";
 		return formato;
 	}
@@ -115,9 +116,9 @@ public class Mensagem {
 	public String msgDevolucaoItem(Item item, Usuario usuario) {
 		String formato = "";
 
-		formato = "Assunto: Emprï¿½stimo do item " + item.getNome() + " a "
+		formato = "Assunto: Empréstimo do item " + item.getNome() + " a "
 				+ usuario.getNome() + ";" + "Mensagem: " + usuario.getNome()
-				+ "solicitou a devoluï¿½ï¿½o do " + item.getNome() + ".";
+				+ "solicitou a devolução do " + item.getNome() + ".";
 		return formato;
 	}
 
@@ -130,7 +131,7 @@ public class Mensagem {
 	 * @return mensagem de solicitacao de item
 	 */
 	public String msgSolicitacaoItem(Item item, Usuario usuario) {
-		String formato = usuario.getNome() + " solicitou o emprï¿½stimo do item "
+		String formato = usuario.getNome() + " solicitou o empréstimo do item "
 				+ item.getNome() + ";" + mensagem;
 		return formato;
 	}
@@ -147,8 +148,8 @@ public class Mensagem {
 		String formato = "";
 
 		formato = "Assunto: O item " + item.getNome() + " do "
-				+ usuarioInteressado.getNome() + "estï¿½ disponÃ­vel;"
-				+ "Mensagem: Agora vocÃª pode requisitar o emprï¿½stimo do "
+				+ usuarioInteressado.getNome() + "está disponível;"
+				+ "Mensagem: Agora você pode requisitar o empréstimo do "
 				+ item.getNome() + ".";
 		return formato;
 	}

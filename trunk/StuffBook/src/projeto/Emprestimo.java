@@ -3,7 +3,8 @@ package projeto;
 /**
  * Classe que cria os emprestimos de item
  * 
- * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar Souza
+ * @author Paulo Souto, Matheus Batista, Rodolfo Moraes,Aislan Jefferson,Joeumar
+ *         Souza
  * @version 1.01
  */
 
@@ -69,8 +70,8 @@ public class Emprestimo {
 		if (situacao.equals(Situacao.COMPLETADO))
 			return "Completado";
 		if (situacao.equals(Situacao.ATRASADO))
-			return "Emprï¿½stimo atrasado.";
-		return "Emprï¿½stimo finalizado.";
+			return "Empréstimo atrasado.";
+		return "Empréstimo finalizado.";
 
 	}
 

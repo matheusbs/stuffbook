@@ -81,14 +81,14 @@ public class ManipuladorStrings {
 	private static void trataOrdenacao(String ordenacao) throws Exception {
 		if (!(ordenacao.equals("crescente"))
 				&& !(ordenacao.equals("decrescente"))) {
-			throw new Exception("Tipo de ordenaï¿½ï¿½o inexistente");
+			throw new Exception("Tipo de ordenação inexistente");
 		}
 	}
 
 	private static void trataCriterio(String criterio) throws Exception {
 		if (!(criterio.equals("reputacao"))
 				&& !(criterio.equals("dataCriacao"))) {
-			throw new Exception("Critï¿½rio de ordenaï¿½ï¿½o inexistente");
+			throw new Exception("Critério de ordenação inexistente");
 		}
 	}
 
