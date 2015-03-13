@@ -1,0 +1,1 @@
+Projeto feito para a Disciplina Sistema de Informação 1, da  UFCG. Trata-se de uma rede social que consiste no controle de trocas e emprestimos de itens entre seus usuarios.
